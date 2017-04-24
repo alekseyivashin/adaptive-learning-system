@@ -1,15 +1,16 @@
 package ru.ifmo.alekseyivashin.services;
 
-import ru.ifmo.alekseyivashin.models.User;
+import org.springframework.stereotype.Service;
+import ru.ifmo.alekseyivashin.messages.Message;
 
 /**
  * Created on : 20.04.2017
  * Author     : aleksey
  */
 
+@Service
 public interface AuthService {
 
-    public void signUp(User user);
-    public void signIn(User user);
-    public void signOut(User user);
+    public Message signUp(String name, String password);
+    public Message signIn(String name, String password);
 }
