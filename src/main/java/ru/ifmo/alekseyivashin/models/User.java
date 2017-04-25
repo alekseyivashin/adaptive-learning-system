@@ -25,11 +25,11 @@ public class User implements Serializable {
     private int id;
 
     @NotNull
-    @Size(max = 50)
+    @Size(min = 3, max = 50)
     private String name;
 
     @NotNull
-    @Size(max = 200)
+    @Size(min = 5, max = 200)
     private String password;
 
     public User(String name, String password) {

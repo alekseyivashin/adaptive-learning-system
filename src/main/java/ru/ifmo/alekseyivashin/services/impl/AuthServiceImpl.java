@@ -32,25 +32,25 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public Message signUp(String name, String password) {
-        if (userRepository.findUserByName(name) != null) {
+    public Message signUp(User user) {
+        if (userRepository.findUserByName(user.getName()) != null) {
             return messageFactory.getErrorMessage("User with this name already exists");
         } else {
-            User user = new User();
-            user.setName(name);
-            user.setPassword(crypter.encrypt(password));
+            user.setPassword(crypter.encrypt(user.getPassword()));
             userRepository.save(user);
             return messageFactory.getSuccessMessage();
         }
     }
 
     @Override
-    public Message signIn(String name, String password) {
-        User user = userRepository.findUserByName(name);
-        if (user == null) {
+    public Message signIn(User user) {
+        user.setPassword(crypter.encrypt(user.getPassword()));
+
+        User existingUser = userRepository.findUserByName(user.getName());
+        if (existingUser == null) {
             return messageFactory.getErrorMessage("Name is incorrect");
         } else {
-            if (!crypter.decrypt(user.getPassword()).equals(password)) {
+            if (!user.getPassword().equals(existingUser.getPassword())) {
                 return messageFactory.getErrorMessage("Password is incorrect");
             } else {
                 return messageFactory.getSuccessMessage();

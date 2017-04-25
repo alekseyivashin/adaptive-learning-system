@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head lang="en">
+<head lang="ru">
 
-    <title>Spring Framework Guru</title>
+    <title>Главная</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
-<h1>Hello</h1>
 
-<h2>ID: </h2>
-<h4 th:text="${user.id}"></h4>
-
-<h2>Имя пользователя: </h2>
-<h4 th:text="${user.name}"></h4>
-
-<h2>Пароль: </h2>
-<h4 th:text="${user.password}"></h4>
+<div th:switch="${session.user}">
+    <div th:case="null">
+        <a th:href="@{/user/signup}">Регистрация</a>
+        <a th:href="@{/user/signin}">Авторизация</a>
+    </div>
+    <div th:case="*">
+        <p th:text="${'Здравствуйте, ' + session.user.getName()}"></p>
+        <a th:href="@{/user/signout}">Выход</a>
+    </div>
+</div>
 </body>
 </html>
