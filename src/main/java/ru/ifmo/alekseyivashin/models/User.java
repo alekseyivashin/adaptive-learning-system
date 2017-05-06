@@ -3,13 +3,11 @@ package ru.ifmo.alekseyivashin.models;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Set;
 
 /**
  * Creator: aleks
@@ -18,6 +16,7 @@ import java.io.Serializable;
 @Entity
 @Data
 @NoArgsConstructor
+@Table(name = "users")
 public class User implements Serializable {
 
     @Id
@@ -31,6 +30,15 @@ public class User implements Serializable {
     @NotNull
     @Size(min = 5, max = 200)
     private String password;
+
+    @ManyToMany
+    @JoinTable(name = "users_keywords",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "keyword_id"))
+    private Set<Keyword> keywords;
+
+    @OneToMany(mappedBy = "user")
+    private Set<UserCourse> userCourses;
 
     public User(String name, String password) {
         this.name = name;
