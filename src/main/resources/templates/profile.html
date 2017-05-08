@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Profile</title>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<h1>Прогресс курсов</h1>
+<div th:each="userCourse : ${userCoursesInProgress}">
+    <p th:text="${userCourse.getCourse().getName()}"></p>
+    <span th:text="${userCourse.getPassValue * 100} %"></span>
+</div>
+<h1>Завершенные курсы</h1>
+<div th:each="userCourse : ${userFinishedCourses}">
+    <p th:text="${userCourse.getCourse().getName()}"></p>
+</div>
+</body>
+</html>

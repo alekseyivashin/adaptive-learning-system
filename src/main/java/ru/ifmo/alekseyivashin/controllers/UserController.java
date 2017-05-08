@@ -1,6 +1,7 @@
 package ru.ifmo.alekseyivashin.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,6 +12,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import ru.ifmo.alekseyivashin.messages.Message;
 import ru.ifmo.alekseyivashin.models.User;
+import ru.ifmo.alekseyivashin.repositories.CourseRepository;
+import ru.ifmo.alekseyivashin.repositories.UserCourseRepository;
 import ru.ifmo.alekseyivashin.services.AuthService;
 
 import javax.servlet.http.HttpSession;
@@ -24,13 +27,16 @@ import javax.validation.Valid;
 @Controller
 @RequestMapping("/user")
 @SessionAttributes("user")
-public class AuthController {
+public class UserController {
 
     private final AuthService authService;
+    private final UserCourseRepository userCourseRepository;
+
 
     @Autowired
-    public AuthController(AuthService authService) {
+    public UserController(AuthService authService, UserCourseRepository userCourseRepository) {
         this.authService = authService;
+        this.userCourseRepository = userCourseRepository;
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
@@ -81,5 +87,16 @@ public class AuthController {
     String signout(SessionStatus sessionStatus) {
         sessionStatus.setComplete();
         return "redirect:/";
+    }
+
+    @RequestMapping(value = "/profile", method = RequestMethod.GET)
+    String profile(Model model, HttpSession session) {
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/";
+        }
+        model.addAttribute("userCoursesInProgress", userCourseRepository.getUserCoursesInProgress(user.getId()));
+        model.addAttribute("userFinishedCourses", userCourseRepository.getFinishedUserCourses(user.getId()));
+        return "profile";
     }
 }

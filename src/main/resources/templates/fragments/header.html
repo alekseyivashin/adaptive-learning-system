@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head lang="ru">
+    <title>Главная</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div th:fragment="header">
+    <nav th:switch="${session.user}">
+        <div th:case="null">
+            <a th:href="@{/user/signup}">Регистрация</a>
+            <a th:href="@{/user/signin}">Авторизация</a>
+        </div>
+        <div th:case="*">
+            <p th:text="${'Здравствуйте, ' + session.user.getName()}"></p>
+            <a th:href="@{user/profile}">Профиль</a>
+            <a th:href="@{/user/signout}">Выход</a>
+        </div>
+    </nav>
+</div>
+</body>
+</html>
