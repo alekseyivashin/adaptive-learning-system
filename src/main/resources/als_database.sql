@@ -28,7 +28,7 @@ CREATE TABLE `courses` (
   `level` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -37,6 +37,7 @@ CREATE TABLE `courses` (
 
 LOCK TABLES `courses` WRITE;
 /*!40000 ALTER TABLE `courses` DISABLE KEYS */;
+INSERT INTO `courses` (`id`, `name`, `level`) VALUES (2,'Введение в JavaScript',1),(5,'Введение в HTML и CSS',1),(6,'HTML5',2),(7,'Python.Начало',1),(8,'Python.Продолжение',2),(9,'Основы jQuery',2);
 /*!40000 ALTER TABLE `courses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -56,7 +57,7 @@ CREATE TABLE `courses_keywords` (
   KEY `courses_keywords_fk1` (`keyword_id`),
   CONSTRAINT `courses_keywords_fk0` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`),
   CONSTRAINT `courses_keywords_fk1` FOREIGN KEY (`keyword_id`) REFERENCES `keywords` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -65,6 +66,7 @@ CREATE TABLE `courses_keywords` (
 
 LOCK TABLES `courses_keywords` WRITE;
 /*!40000 ALTER TABLE `courses_keywords` DISABLE KEYS */;
+INSERT INTO `courses_keywords` (`id`, `course_id`, `keyword_id`) VALUES (1,2,1),(2,2,5),(3,2,7),(4,5,2),(5,5,3),(6,5,5),(7,5,7),(8,6,2),(9,6,4),(10,6,3),(11,6,5),(12,6,7),(13,7,8),(14,7,6),(15,7,7),(16,8,8),(17,8,6),(18,8,7),(19,9,1),(20,9,9),(21,9,5),(22,9,7);
 /*!40000 ALTER TABLE `courses_keywords` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -80,7 +82,7 @@ CREATE TABLE `keywords` (
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -89,6 +91,7 @@ CREATE TABLE `keywords` (
 
 LOCK TABLES `keywords` WRITE;
 /*!40000 ALTER TABLE `keywords` DISABLE KEYS */;
+INSERT INTO `keywords` (`id`, `name`) VALUES (6,'back-end'),(3,'css'),(5,'front-end'),(2,'html'),(4,'html5'),(1,'javascript'),(9,'jquery'),(8,'python'),(7,'web');
 /*!40000 ALTER TABLE `keywords` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -106,7 +109,7 @@ CREATE TABLE `learning_contents` (
   PRIMARY KEY (`id`),
   KEY `learning_contents_fk0` (`theme_id`),
   CONSTRAINT `learning_contents_fk0` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -133,7 +136,7 @@ CREATE TABLE `questions` (
   PRIMARY KEY (`id`),
   KEY `questions_fk0` (`theme_id`),
   CONSTRAINT `questions_fk0` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -159,7 +162,7 @@ CREATE TABLE `tests` (
   PRIMARY KEY (`id`),
   KEY `tests_fk0` (`learning_content_id`),
   CONSTRAINT `tests_fk0` FOREIGN KEY (`learning_content_id`) REFERENCES `learning_contents` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -188,7 +191,7 @@ CREATE TABLE `tests_questions` (
   KEY `tests_questions_fk1` (`test_id`),
   CONSTRAINT `tests_questions_fk0` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`),
   CONSTRAINT `tests_questions_fk1` FOREIGN KEY (`test_id`) REFERENCES `tests` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -215,7 +218,7 @@ CREATE TABLE `themes` (
   UNIQUE KEY `name` (`name`),
   KEY `themes_fk0` (`course_id`),
   CONSTRAINT `themes_fk0` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -240,7 +243,7 @@ CREATE TABLE `users` (
   `password` varchar(200) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -249,7 +252,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` (`id`, `name`, `password`) VALUES (1,'aleks','aEiLP1r7VjU=');
+INSERT INTO `users` (`id`, `name`, `password`) VALUES (1,'aleks','aEiLP1r7VjU='),(2,'Maria','MRjVZjTLY2Y='),(3,'Tom','ZcUjGxW+Res='),(4,'Pamela','fRawB5Cy2qo='),(5,'Hulk','dYFPC2Ij6jox7dFQwZpCiA==');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -275,7 +278,7 @@ CREATE TABLE `users_courses` (
   KEY `users_courses_fk1` (`course_id`),
   CONSTRAINT `users_courses_fk0` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `users_courses_fk1` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -284,6 +287,7 @@ CREATE TABLE `users_courses` (
 
 LOCK TABLES `users_courses` WRITE;
 /*!40000 ALTER TABLE `users_courses` DISABLE KEYS */;
+INSERT INTO `users_courses` (`id`, `user_id`, `course_id`, `start_date`, `end_date`, `start_score`, `end_score`, `rating`, `pass_value`) VALUES (1,1,9,'2017-05-06','2017-05-07',0.15,0.54,7,1),(2,1,6,'2017-05-07',NULL,0.43,NULL,NULL,0.38),(3,2,2,'2017-05-01','2017-05-04',0.67,0.99,10,1),(4,2,7,'2017-05-04','2017-05-07',0.09,0.86,8,1),(5,2,5,'2017-05-05',NULL,0.61,NULL,NULL,0.75),(6,3,8,'2017-05-02','2017-05-07',0.35,0.55,2,1),(7,3,2,'2017-05-05',NULL,0.8,NULL,NULL,0.22),(8,4,7,'2017-05-02','2017-05-08',0.71,0.97,1,1),(9,4,5,'2017-05-04','2017-05-08',0.79,0.96,5,1),(10,5,6,'2017-05-04',NULL,0.06,NULL,NULL,0.39),(11,5,8,'2017-05-01',NULL,0.13,NULL,NULL,0.96);
 /*!40000 ALTER TABLE `users_courses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -303,7 +307,7 @@ CREATE TABLE `users_keywords` (
   KEY `users_keywords_fk1` (`keyword_id`),
   CONSTRAINT `users_keywords_fk0` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `users_keywords_fk1` FOREIGN KEY (`keyword_id`) REFERENCES `keywords` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -312,6 +316,7 @@ CREATE TABLE `users_keywords` (
 
 LOCK TABLES `users_keywords` WRITE;
 /*!40000 ALTER TABLE `users_keywords` DISABLE KEYS */;
+INSERT INTO `users_keywords` (`id`, `user_id`, `keyword_id`) VALUES (1,1,8),(2,1,6),(3,2,2),(4,2,3),(5,2,5),(6,2,7),(7,3,3),(8,3,5),(9,3,7),(10,4,1),(11,4,2),(12,4,5),(13,4,7),(14,5,6);
 /*!40000 ALTER TABLE `users_keywords` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -324,4 +329,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-08 18:15:10
+-- Dump completed on 2017-05-10  0:20:00

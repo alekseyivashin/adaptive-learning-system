@@ -1,6 +1,8 @@
 package ru.ifmo.alekseyivashin.models;
 
+import com.fasterxml.jackson.annotation.*;
 import lombok.Data;
+import lombok.Getter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -13,8 +15,8 @@ import java.util.Set;
  * Date:    06.05.17
  */
 
-@Data
 @Entity
+@Data
 @Table(name = "keywords")
 public class Keyword implements Serializable {
 
@@ -26,9 +28,4 @@ public class Keyword implements Serializable {
     @Size(min = 3, max = 50)
     private String name;
 
-    @OneToMany(mappedBy = "keywords")
-    private Set<User> users;
-
-    @OneToMany(mappedBy = "keywords")
-    private Set<Course> courses;
 }

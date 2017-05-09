@@ -1,6 +1,6 @@
 package ru.ifmo.alekseyivashin.models;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -14,7 +14,6 @@ import java.util.Set;
  * Date:    06.05.17
  */
 
-@Data
 @Entity
 @Table(name = "courses")
 public class Course {
@@ -43,4 +42,65 @@ public class Course {
 
     @OneToMany(mappedBy = "course")
     private Set<Theme> themes;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
+    public Set<Keyword> getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(Set<Keyword> keywords) {
+        this.keywords = keywords;
+    }
+
+    @JsonIgnore
+    public Set<UserCourse> getCourseUsers() {
+        return courseUsers;
+    }
+
+    public void setCourseUsers(Set<UserCourse> courseUsers) {
+        this.courseUsers = courseUsers;
+    }
+
+    public Set<Theme> getThemes() {
+        return themes;
+    }
+
+    public void setThemes(Set<Theme> themes) {
+        this.themes = themes;
+    }
+
+    @Override
+    public String toString() {
+        return "Course{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", level=" + level +
+                ", keywords=" + keywords +
+                ", courseUsers=" + courseUsers +
+                ", themes=" + themes +
+                '}';
+    }
 }
