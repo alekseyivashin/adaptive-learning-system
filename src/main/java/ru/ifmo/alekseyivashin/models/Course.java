@@ -28,7 +28,7 @@ public class Course {
 
     @NotNull
     @Min(1)
-    @Max(5)
+    @Max(2)
     private int level;
 
     @ManyToMany

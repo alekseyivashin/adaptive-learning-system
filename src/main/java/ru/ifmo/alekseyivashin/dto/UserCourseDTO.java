@@ -1,73 +1,37 @@
-package ru.ifmo.alekseyivashin.models;
+package ru.ifmo.alekseyivashin.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.util.Date;
 
 /**
- * Creator: aleks
- * Date:    06.05.17
+ * Created on : 10.05.2017
+ * Author     : aliv0816
  */
 
-@Entity
-@Table(name = "users_courses")
-public class UserCourse implements Serializable {
+public class UserCourseDTO {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @ManyToOne
-    @JoinColumn(name = "course_id")
-    private Course course;
-
-    @NotNull
+    private Integer userId;
+    private Integer courseId;
     private Date startDate;
-
     private Date endDate;
-
     private Float startScore;
-
     private Float endScore;
-
-    @Min(1)
-    @Max(5)
     private Integer rating;
-
     private Float progress;
 
-    public int getId() {
-        return id;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    @JsonIgnore
-    public User getUser() {
-        return user;
+    public Integer getCourseId() {
+        return courseId;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Course getCourse() {
-        return course;
-    }
-
-    public void setCourse(Course course) {
-        this.course = course;
+    public void setCourseId(Integer courseId) {
+        this.courseId = courseId;
     }
 
     public Date getStartDate() {
@@ -120,10 +84,9 @@ public class UserCourse implements Serializable {
 
     @Override
     public String toString() {
-        return "UserCourse{" +
-                "id=" + id +
-                ", user=" + user +
-                ", course=" + course +
+        return "UserCourseDTO{" +
+                "userId=" + userId +
+                ", courseId=" + courseId +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", startScore=" + startScore +
