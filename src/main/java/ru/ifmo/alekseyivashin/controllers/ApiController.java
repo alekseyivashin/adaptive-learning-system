@@ -48,8 +48,8 @@ public class ApiController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/users", method = RequestMethod.GET, produces = "application/json")
-    List<UserDTO> getAllUsers() throws JsonProcessingException {
+    @RequestMapping(value = "/all", method = RequestMethod.GET, produces = "application/json")
+    String getAll() throws JsonProcessingException {
         List<User> users = (List<User>) userRepository.findAll();
         List<UserDTO> userDTOs = users.stream().map(converterService::userToDTO).collect(Collectors.toList());
 
@@ -62,10 +62,10 @@ public class ApiController {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode rootNode = mapper.createObjectNode();
 
-        rootNode.putArray("users").addAll((ArrayNode) mapper.valueToTree(users));
+        rootNode.putArray("users").addAll((ArrayNode) mapper.valueToTree(userDTOs));
+        rootNode.putArray("courses").addAll((ArrayNode) mapper.valueToTree(courseDTOs));
+        rootNode.putArray("userCourses").addAll((ArrayNode) mapper.valueToTree(userCourseDTOs));
 
-        System.out.println(mapper.writeValueAsString(rootNode));
-
-        return null;
+        return mapper.writeValueAsString(rootNode);
     }
 }

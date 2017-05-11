@@ -26,13 +26,13 @@ public interface UserCourseRepository extends CrudRepository<UserCourse, Integer
             value = "SELECT *\n" +
                     "FROM users_courses\n" +
                     "WHERE user_id = :id\n" +
-                    "AND pass_value <> 1")
+                    "AND progress <> 1")
     List<Course> getUserCoursesInProgress(@Param("id") int userId);
 
     @Query(nativeQuery = true,
             value = "SELECT *\n" +
                     "FROM users_courses\n" +
                     "WHERE user_id = :id\n" +
-                    "AND pass_value = 1")
+                    "AND progress = 1")
     List<Course> getFinishedUserCourses(@Param("id") int userId);
 }

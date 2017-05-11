@@ -20,7 +20,7 @@ public class Course {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    private Integer id;
 
     @NotNull
     @Size(min = 3, max = 50)
@@ -29,7 +29,11 @@ public class Course {
     @NotNull
     @Min(1)
     @Max(2)
-    private int level;
+    private Integer level;
+
+    private Float rating;
+
+    private Integer userCount;
 
     @ManyToMany
     @JoinTable(name = "courses_keywords",
@@ -67,6 +71,22 @@ public class Course {
         this.level = level;
     }
 
+    public Float getRating() {
+        return rating;
+    }
+
+    public void setRating(Float rating) {
+        this.rating = rating;
+    }
+
+    public Integer getUserCount() {
+        return userCount;
+    }
+
+    public void setUserCount(Integer userCount) {
+        this.userCount = userCount;
+    }
+
     public Set<Keyword> getKeywords() {
         return keywords;
     }
@@ -98,6 +118,8 @@ public class Course {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", level=" + level +
+                ", rating=" + rating +
+                ", userCount=" + userCount +
                 ", keywords=" + keywords +
                 ", courseUsers=" + courseUsers +
                 ", themes=" + themes +

@@ -26,6 +26,8 @@ CREATE TABLE `courses` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `level` int(11) NOT NULL,
+  `rating` float DEFAULT NULL,
+  `user_count` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
@@ -37,7 +39,7 @@ CREATE TABLE `courses` (
 
 LOCK TABLES `courses` WRITE;
 /*!40000 ALTER TABLE `courses` DISABLE KEYS */;
-INSERT INTO `courses` (`id`, `name`, `level`) VALUES (2,'Введение в JavaScript',1),(5,'Введение в HTML и CSS',1),(6,'HTML5',2),(7,'Python.Начало',1),(8,'Python.Продолжение',2),(9,'Основы jQuery',2);
+INSERT INTO `courses` (`id`, `name`, `level`, `rating`, `user_count`) VALUES (2,'Введение в JavaScript',1,3.1,2),(5,'Введение в HTML и CSS',1,4.9,1),(6,'HTML5',2,1.7,3),(7,'Python.Начало',1,3.5,5),(8,'Python.Продолжение',2,4.1,1),(9,'Основы jQuery',2,2.8,0);
 /*!40000 ALTER TABLE `courses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -272,7 +274,7 @@ CREATE TABLE `users_courses` (
   `start_score` float DEFAULT NULL,
   `end_score` float DEFAULT NULL,
   `rating` int(11) DEFAULT NULL,
-  `pass_value` float DEFAULT NULL,
+  `progress` float DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `users_courses_fk0` (`user_id`),
   KEY `users_courses_fk1` (`course_id`),
@@ -287,7 +289,7 @@ CREATE TABLE `users_courses` (
 
 LOCK TABLES `users_courses` WRITE;
 /*!40000 ALTER TABLE `users_courses` DISABLE KEYS */;
-INSERT INTO `users_courses` (`id`, `user_id`, `course_id`, `start_date`, `end_date`, `start_score`, `end_score`, `rating`, `pass_value`) VALUES (1,1,9,'2017-05-06','2017-05-07',0.15,0.54,7,1),(2,1,6,'2017-05-07',NULL,0.43,NULL,NULL,0.38),(3,2,2,'2017-05-01','2017-05-04',0.67,0.99,10,1),(4,2,7,'2017-05-04','2017-05-07',0.09,0.86,8,1),(5,2,5,'2017-05-05',NULL,0.61,NULL,NULL,0.75),(6,3,8,'2017-05-02','2017-05-07',0.35,0.55,2,1),(7,3,2,'2017-05-05',NULL,0.8,NULL,NULL,0.22),(8,4,7,'2017-05-02','2017-05-08',0.71,0.97,1,1),(9,4,5,'2017-05-04','2017-05-08',0.79,0.96,5,1),(10,5,6,'2017-05-04',NULL,0.06,NULL,NULL,0.39),(11,5,8,'2017-05-01',NULL,0.13,NULL,NULL,0.96);
+INSERT INTO `users_courses` (`id`, `user_id`, `course_id`, `start_date`, `end_date`, `start_score`, `end_score`, `rating`, `progress`) VALUES (1,1,9,'2017-05-06','2017-05-07',0.15,0.54,1,1),(2,1,6,'2017-05-07',NULL,0.43,NULL,NULL,0.38),(3,2,2,'2017-05-01','2017-05-04',0.67,0.99,5,1),(4,2,7,'2017-05-04','2017-05-07',0.09,0.86,4,1),(5,2,5,'2017-05-05',NULL,0.61,NULL,NULL,0.75),(6,3,8,'2017-05-02','2017-05-07',0.35,0.55,2,1),(7,3,2,'2017-05-05',NULL,0.8,NULL,NULL,0.22),(8,4,7,'2017-05-02','2017-05-08',0.71,0.97,1,1),(9,4,5,'2017-05-04','2017-05-08',0.79,0.96,5,1),(10,5,6,'2017-05-04',NULL,0.06,NULL,NULL,0.39),(11,5,8,'2017-05-01',NULL,0.13,NULL,NULL,0.96);
 /*!40000 ALTER TABLE `users_courses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -307,7 +309,7 @@ CREATE TABLE `users_keywords` (
   KEY `users_keywords_fk1` (`keyword_id`),
   CONSTRAINT `users_keywords_fk0` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `users_keywords_fk1` FOREIGN KEY (`keyword_id`) REFERENCES `keywords` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -316,7 +318,7 @@ CREATE TABLE `users_keywords` (
 
 LOCK TABLES `users_keywords` WRITE;
 /*!40000 ALTER TABLE `users_keywords` DISABLE KEYS */;
-INSERT INTO `users_keywords` (`id`, `user_id`, `keyword_id`) VALUES (1,1,8),(2,1,6),(3,2,2),(4,2,3),(5,2,5),(6,2,7),(7,3,3),(8,3,5),(9,3,7),(10,4,1),(11,4,2),(12,4,5),(13,4,7),(14,5,6);
+INSERT INTO `users_keywords` (`id`, `user_id`, `keyword_id`) VALUES (3,2,2),(4,2,3),(5,2,5),(6,2,7),(7,3,3),(8,3,5),(9,3,7),(10,4,1),(11,4,2),(12,4,5),(13,4,7);
 /*!40000 ALTER TABLE `users_keywords` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -329,4 +331,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-10  0:20:00
+-- Dump completed on 2017-05-11  9:42:34
