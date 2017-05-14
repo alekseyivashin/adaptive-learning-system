@@ -8,7 +8,6 @@ import lombok.Data;
  * Author     : aliv0816
  */
 
-@Data
 @AllArgsConstructor
 public class Message {
     private Status status;
@@ -17,5 +16,21 @@ public class Message {
     public enum Status {
         ERROR,
         SUCCESS
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }
