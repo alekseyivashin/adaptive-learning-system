@@ -14,6 +14,7 @@ import ru.ifmo.alekseyivashin.messages.Message;
 import ru.ifmo.alekseyivashin.models.User;
 import ru.ifmo.alekseyivashin.repositories.CourseRepository;
 import ru.ifmo.alekseyivashin.repositories.UserCourseRepository;
+import ru.ifmo.alekseyivashin.repositories.UserRepository;
 import ru.ifmo.alekseyivashin.services.AuthService;
 
 import javax.servlet.http.HttpSession;
@@ -26,17 +27,19 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/user")
-@SessionAttributes("user")
+//@SessionAttributes("user")
 public class UserController {
 
     private final AuthService authService;
     private final UserCourseRepository userCourseRepository;
+    private final UserRepository userRepository;
 
 
     @Autowired
-    public UserController(AuthService authService, UserCourseRepository userCourseRepository) {
+    public UserController(AuthService authService, UserCourseRepository userCourseRepository, UserRepository userRepository) {
         this.authService = authService;
         this.userCourseRepository = userCourseRepository;
+        this.userRepository = userRepository;
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
@@ -73,7 +76,7 @@ public class UserController {
         if (!bindingResult.hasErrors()) {
             Message message = authService.signIn(user);
             if (!message.getStatus().equals(Message.Status.ERROR)) {
-                session.setAttribute("user", user);
+                session.setAttribute("user", userRepository.findUserByName(user.getName()));
                 return "redirect:/";
             } else {
                 model.addAttribute("error", message.getMessage());
@@ -84,8 +87,8 @@ public class UserController {
     }
 
     @RequestMapping(value = "/signout", method = RequestMethod.GET)
-    String signout(SessionStatus sessionStatus) {
-        sessionStatus.setComplete();
+    String signout(HttpSession session) {
+        session.removeAttribute("user");
         return "redirect:/";
     }
 

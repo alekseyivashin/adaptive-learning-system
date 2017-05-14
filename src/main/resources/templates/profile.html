@@ -8,7 +8,7 @@
 <h1>Прогресс курсов</h1>
 <div th:each="userCourse : ${userCoursesInProgress}">
     <p th:text="${userCourse.getCourse().getName()}"></p>
-    <span th:text="${userCourse.getPassValue * 100} %"></span>
+    <span th:text="${userCourse.getProgress() * 100} + '%'"></span>
 </div>
 <h1>Завершенные курсы</h1>
 <div th:each="userCourse : ${userFinishedCourses}">
