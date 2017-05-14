@@ -1,22 +1,43 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head lang="ru">
-
     <title>Форма регистрации</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" th:href="@{../styles/bootstrap.min.css}" href="../static/styles/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{../styles/sign.css}" href="../static/styles/sign.css"/>
 </head>
 <body>
-<h1>Авторизация</h1>
-<h4 th:if="${error != null}" th:text="${error}"></h4>
+<div th:replace="fragments/header :: header"></div>
 
-<form action="#" th:action="@{/user/signin}" th:object="${user}" method="post">
-    <label for="name-field">Имя</label>
-    <input type="text" id="name-field" th:field="*{name}"/>
-    <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</p>
-    <label for="password-field">Пароль</label>
-    <input type="password" id="password-field" th:field="*{password}"/>
-    <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</p>
-    <input type="submit" value="Авторизация"/>
-</form>
+<main>
+    <div class="signin-container">
+        <h4 th:if="${error != null}" th:text="${error}"></h4>
+        <form action="#" th:action="@{/user/signin}" th:object="${user}" method="post" class="form-horizontal">
+            <legend class="name">Авторизация</legend>
+            <fieldset>
+                <div class="form-group">
+                    <label for="inputEmail" class="col-lg-2 control-label">Name</label>
+                    <div class="col-lg-10">
+                        <input type="text" class="form-control" id="inputEmail" placeholder="Name" th:field="*{name}"/>
+                        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword" class="col-lg-2 control-label">Password</label>
+                    <div class="col-lg-10">
+                        <input type="password" class="form-control" id="inputPassword" placeholder="Password"
+                               th:field="*{password}"/>
+                        <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-2">
+                        <button type="submit" class="btn btn-primary">Войти</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</main>
 </body>
 </html>

@@ -4,15 +4,26 @@
 
     <title>Главная</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" th:href="@{../styles/bootstrap.min.css}" href="../static/styles/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{../styles/index.css}" href="../static/styles/index.css"/>
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
 <h4 th:if="${error != null}" th:text="${error}"></h4>
 <main>
-    <h1>Список курсов</h1>
-    <ul th:each="course : ${courses}">
-        <li th:text="${course.getName()}"></li>
-    </ul>
+    <div class="couses-container">
+        <h2 class="courses-title">Курсы</h2>
+        <ul class="list-group courses-list">
+            <li th:each="course : ${courses}">
+                <a href="#" class="list-group-item">
+                    <h4 class="list-group-item-heading" th:text="${course.getName()}"></h4>
+                    <span class="badge">Учеников: 14</span>
+                    <p class="list-group-item-text course-description">Краткое описние курса. Думаю, оно всё равно нужно
+                        Краткое описние курса. Думаю, оно всё равно нужно</p>
+                </a>
+            </li>
+        </ul>
+    </div>
 </main>
 </body>
 </html>
