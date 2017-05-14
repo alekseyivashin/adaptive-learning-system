@@ -31,4 +31,7 @@ public class LearningContent {
 
     @OneToMany(mappedBy = "learningContent")
     private Set<Test> tests;
+
+    @OneToMany(mappedBy = "learningContent")
+    private Set<Question> questions;
 }

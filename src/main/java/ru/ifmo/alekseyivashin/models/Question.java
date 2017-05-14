@@ -14,7 +14,6 @@ import java.util.Set;
  * Date:    06.05.17
  */
 
-@Data
 @Entity
 @Table(name = "questions")
 public class Question {
@@ -23,19 +22,69 @@ public class Question {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @NotNull
-    @Size(min = 3, max = 200)
-    private String content;
-
-    @NotNull
-    @Min(1)
-    @Max(5)
-    private int level;
-
     @ManyToOne
     @JoinColumn(name = "theme_id")
     private Theme theme;
 
+    @ManyToOne
+    @JoinColumn(name = "learning_content_id")
+    private LearningContent learningContent;
+
+    @NotNull
+    @Size(min = 3, max = 200)
+    private String content;
+
     @OneToMany(mappedBy = "question")
-    private Set<TestQuestion> questionTests;
+    private Set<Answer> answers;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Theme getTheme() {
+        return theme;
+    }
+
+    public void setTheme(Theme theme) {
+        this.theme = theme;
+    }
+
+    public LearningContent getLearningContent() {
+        return learningContent;
+    }
+
+    public void setLearningContent(LearningContent learningContent) {
+        this.learningContent = learningContent;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public Set<Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(Set<Answer> answers) {
+        this.answers = answers;
+    }
+
+    @Override
+    public String toString() {
+        return "Question{" +
+                "id=" + id +
+                ", theme=" + theme +
+                ", learningContent=" + learningContent +
+                ", content='" + content + '\'' +
+                ", answers=" + answers +
+                '}';
+    }
 }

@@ -16,7 +16,6 @@ import java.util.Set;
  */
 
 @Entity
-@Data
 @Table(name = "keywords")
 public class Keyword implements Serializable {
 
@@ -28,4 +27,27 @@ public class Keyword implements Serializable {
     @Size(min = 3, max = 50)
     private String name;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Keyword{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

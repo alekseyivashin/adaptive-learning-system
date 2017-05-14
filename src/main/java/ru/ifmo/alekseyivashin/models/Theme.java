@@ -12,7 +12,6 @@ import java.util.Set;
  * Date:    06.05.17
  */
 
-@Data
 @Entity
 @Table(name = "themes")
 public class Theme {
@@ -34,4 +33,55 @@ public class Theme {
 
     @OneToMany(mappedBy = "theme")
     private Set<Question> questions;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Course getCourse() {
+        return course;
+    }
+
+    public void setCourse(Course course) {
+        this.course = course;
+    }
+
+    public Set<LearningContent> getLearningContents() {
+        return learningContents;
+    }
+
+    public void setLearningContents(Set<LearningContent> learningContents) {
+        this.learningContents = learningContents;
+    }
+
+    public Set<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(Set<Question> questions) {
+        this.questions = questions;
+    }
+
+    @Override
+    public String toString() {
+        return "Theme{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", course=" + course +
+                ", learningContents=" + learningContents +
+                ", questions=" + questions +
+                '}';
+    }
 }

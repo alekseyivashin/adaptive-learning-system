@@ -26,6 +26,8 @@ public class Course {
     @Size(min = 3, max = 50)
     private String name;
 
+    private String description;
+
     @NotNull
     @Min(1)
     @Max(2)
@@ -47,6 +49,9 @@ public class Course {
     @OneToMany(mappedBy = "course")
     private Set<Theme> themes;
 
+    @OneToMany(mappedBy = "course")
+    private Set<Test> tests;
+
     public int getId() {
         return id;
     }
@@ -61,6 +66,14 @@ public class Course {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getLevel() {
@@ -112,17 +125,27 @@ public class Course {
         this.themes = themes;
     }
 
+    public Set<Test> getTests() {
+        return tests;
+    }
+
+    public void setTests(Set<Test> tests) {
+        this.tests = tests;
+    }
+
     @Override
     public String toString() {
         return "Course{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
                 ", level=" + level +
                 ", rating=" + rating +
                 ", userCount=" + userCount +
                 ", keywords=" + keywords +
                 ", courseUsers=" + courseUsers +
                 ", themes=" + themes +
+                ", tests=" + tests +
                 '}';
     }
 }
