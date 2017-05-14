@@ -1,0 +1,37 @@
+main {
+  margin: 100px auto auto;
+  width: 1200px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  color: #2c3e50; }
+
+.couses-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+  padding: 0 15px 15px 15px;
+  width: 700px;
+  border: 1px solid #ecf0f1;
+  border-radius: 5px;
+  background-color: rgba(236, 240, 241, 0.5); }
+
+.courses-title {
+  margin-right: auto;
+  margin-bottom: 20px; }
+
+.courses-list {
+  width: 95%; }
+  .courses-list li {
+    list-style: none;
+    margin-bottom: 10px; }
+    .courses-list li .list-group-item-heading {
+      color: #2c3e50; }
+    .courses-list li p.course-description {
+      white-space: nowrap;
+      overflow: hidden;
+      padding-right: 15px;
+      text-overflow: ellipsis; }
+
+/*# sourceMappingURL=index.css.map */

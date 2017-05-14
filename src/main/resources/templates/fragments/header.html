@@ -3,20 +3,29 @@
 <head lang="ru">
     <title>Главная</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" th:href="@{../styles/bootstrap.min.css}" href="../../static/styles/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{../styles/header.css}" href="../../static/styles/header.css"/>
 </head>
 <body>
-<div th:fragment="header">
-    <nav th:switch="${session.user}">
-        <div th:case="null">
-            <a th:href="@{/user/signup}">Регистрация</a>
-            <a th:href="@{/user/signin}">Авторизация</a>
+<header th:fragment="header">
+    <nav class="navbar navbar-default navbar-fixed-top" th:switch="${session.user}">
+        <a class="navbar-brand">Panda Koala INC</a>
+        <div class="container-fluid" th:case="null">
+            <ul class="nav navbar-nav">
+                <li><a th:href="@{/}">Главная</a></li>
+                <li><a th:href="@{/user/signup}">Регистрация</a></li>
+                <li><a th:href="@{/user/signin}">Авторизация</a></li>
+            </ul>
         </div>
-        <div th:case="*">
-            <p th:text="${'Здравствуйте, ' + session.user.getName()}"></p>
-            <a th:href="@{user/profile}">Профиль</a>
-            <a th:href="@{/user/signout}">Выход</a>
+        <div class="container-fluid" th:case="*">
+            <ul class="nav navbar-nav">
+                <li><a th:href="@{/}">Главная</a></li>
+                <!--<li><a th:text="${session.user.getName()}"></a></li>-->
+                <li><a th:href="@{user/profile}" th:text="${session.user.getName()}"></a></li>
+                <li><a th:href="@{/user/signout}">Выход</a></li>
+            </ul>
         </div>
     </nav>
-</div>
+</header>
 </body>
 </html>

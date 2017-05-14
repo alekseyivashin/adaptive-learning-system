@@ -1,0 +1,79 @@
+main
+  margin: 100px auto auto
+  width: 1200px
+  display: flex
+  flex-direction: row
+  justify-content: center
+
+h3, ul ,li
+  margin: 0
+  padding: 0
+
+li
+  list-style: none
+
+.profile
+  width: 700px
+
+.nav-tabs
+  font-size: 16px
+
+.courses, .recommendations
+  margin: 0
+  padding: 15px
+  border: 1px solid #ecf0f1
+  border-top: none
+  color: #2c3e50
+
+  &__process
+    border-bottom: 1px solid #ecf0f1
+
+  &__finished__list, &__process__list
+    margin-top: 20px
+
+    &__item
+      position: relative
+      padding-left: 30px
+      padding-bottom: 20px
+
+      &::before
+        content: ""
+        position: absolute
+        top: 5px
+        left: 0
+        width: 15px
+        height: 15px
+        border-radius: 50%
+        border: solid 2px #fff
+        box-shadow: 0 0 0 1px #dce2e6
+        background: #18bc9c
+
+      &::after
+        content: ""
+        z-index: 2
+        background: #18bc9c
+        position: absolute
+        top: 17.5px
+        left: 4.5px
+        bottom: -18px
+        width: 7px
+        border: solid 2px #fff
+        border-top: none
+        border-bottom: none
+        box-shadow: 2px 0 0 -1px #dce2e6, -2px 0 0 -1px #dce2e6
+
+      &:last-child::after
+        display: none
+
+  &__process__list__item::before, &__process__list__item::after
+    background: #2c3e50
+
+
+.progress
+  width: 60%
+  height: 15px
+
+.recommendations__list__item
+  margin-bottom: 20px
+
+
