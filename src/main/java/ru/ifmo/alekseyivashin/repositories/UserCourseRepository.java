@@ -19,7 +19,13 @@ public interface UserCourseRepository extends CrudRepository<UserCourse, Integer
             value = "SELECT *\n" +
                     "FROM users_courses\n" +
                     "WHERE user_id = :id")
-    List<UserCourse> getUserCourses(@Param("id") int userId);
+    List<UserCourse> getUserCoursesByUserId(@Param("id") int userId);
+
+    @Query(nativeQuery = true,
+            value = "SELECT *\n" +
+                    "FROM users_courses\n" +
+                    "WHERE user_id = :user_id AND course_id = :course_id")
+    UserCourse getUserCourse(@Param("user_id") int userId, @Param("course_id") int courseId);
 
     @Query(nativeQuery = true,
             value = "SELECT *\n" +

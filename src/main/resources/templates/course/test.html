@@ -3,47 +3,20 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Test</title>
-    <link rel="stylesheet" th:href="@{../styles/bootstrap.min.css}" href="../../static/styles/bootstrap.min.css"/>
-    <link rel="stylesheet" th:href="@{../styles/test.css}" href="../../static/styles/test.css"/>
+    <link rel="stylesheet" th:href="@{/styles/bootstrap.min.css}" href="../../static/styles/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/styles/test.css}" href="../../static/styles/test.css"/>
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
 <main>
     <div class="test-container">
         <h2>Тестирование</h2>
-        <section class="question">
-            <h4 class="question__title">Вопрос 1</h4>
-            <p class="question__text">Здесь располагется текст вопроса. Он может быть длиннным или не очень,
-                это вообще неважно, потому что я у тебя умничка и никогда не задаю высоту чего-то. Так что пиши вопросы,
-                не стесняйся!</p>
+        <section class="question" th:each="question : ${test.getQuestions()}">
+            <h4 class="question__title" th:text="'Вопрос ' + ${questionStat.index + 1}"></h4>
+            <p class="question__text" th:text="${question.getContent()}"></p>
             <div class="answers">
-                <label>
-                    <input type="checkbox" name="answer1" value="a1" class="answers__item"/>Питер, я люблю тебя!<Br/>
-                </label>
-                <label>
-                    <input type="checkbox" name="answer1" value="a1" class="answers__item"/>Москва тоже хорошо<Br/>
-                </label>
-                <label>
-                    <input type="checkbox" name="answer1" value="a1" class="answers__item"/>Но малая Родина - она
-                    одна!<Br/>
-                </label>
-            </div>
-        </section>
-        <section class="question">
-            <h4 class="question__title">Вопрос 2</h4>
-            <p class="question__text">Здесь располагается текст вопроса. Он может быть длиннным или не очень,
-                это вообще неважно, потому что я у тебя умничка и никогда не задаю высоту чего-то. Так что пиши вопросы,
-                не стесняйся!</p>
-            <div class="answers">
-                <label>
-                    <input type="checkbox" name="answer1" value="a1" class="answers__item"/>Питер, я люблю тебя!<Br/>
-                </label>
-                <label>
-                    <input type="checkbox" name="answer1" value="a1" class="answers__item"/>Москва тоже хорошо<Br/>
-                </label>
-                <label>
-                    <input type="checkbox" name="answer1" value="a1" class="answers__item"/>Но малая Родина - она
-                    одна!<Br/>
+                <label th:each="answer : ${question.getAnswers()}">
+                    <input type="checkbox" name="answer1" value="a1" class="answers__item" th:text="${answer.getContent()}"/><Br/>
                 </label>
             </div>
         </section>

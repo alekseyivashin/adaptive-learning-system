@@ -3,6 +3,7 @@ package ru.ifmo.alekseyivashin.models;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -33,7 +34,7 @@ public class Test {
     @JoinTable(name = "tests_questions",
             joinColumns = @JoinColumn(name = "test_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "question_id", referencedColumnName = "id"))
-    private Set<Question> questions;
+    private List<Question> questions;
 
     public int getId() {
         return id;
@@ -67,11 +68,11 @@ public class Test {
         this.learningContent = learningContent;
     }
 
-    public Set<Question> getQuestions() {
+    public List<Question> getQuestions() {
         return questions;
     }
 
-    public void setQuestions(Set<Question> questions) {
+    public void setQuestions(List<Question> questions) {
         this.questions = questions;
     }
 
