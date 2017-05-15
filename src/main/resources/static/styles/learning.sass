@@ -1,0 +1,66 @@
+main
+  margin: 100px auto auto
+  width: 1200px
+  display: flex
+  flex-direction: row
+  justify-content: center
+  color: #2c3e50
+
+h2
+  margin: 0
+
+.learning-container
+  width: 700px
+  padding: 0 10px 10px
+  border: 1px solid #ecf0f1
+  border-radius: 5px
+
+.learning-num
+  color: #18bc9c
+  font-size: 45px
+
+.learning-name
+  //display: inline-block
+  padding-left: 30px
+  margin-bottom: 25px
+
+.learning-text
+  display: block
+  padding-left: 40px
+  padding-right: 50px
+  font-size: 16px
+  margin-bottom: 30px
+
+.learning-name, .learning-text
+  position: relative
+
+  &::before
+    content: ""
+    position: absolute
+    top: 5px
+    left: 0
+    width: 15px
+    height: 15px
+    border-radius: 50%
+    border: solid 2px #fff
+    box-shadow: 0 0 0 1px #dce2e6
+    background: #18bc9c
+
+.learning-name
+
+  &::after
+    content: ""
+    z-index: 2
+    background: #18bc9c
+    position: absolute
+    top: 17px
+    left: 4px
+    bottom: -32.5px
+    width: 7px
+    border: solid 2px #fff
+    border-top: none
+    border-bottom: none
+    box-shadow: 2px 0 0 -1px #dce2e6, -2px 0 0 -1px #dce2e6
+
+.next-course
+  margin-left: 40px

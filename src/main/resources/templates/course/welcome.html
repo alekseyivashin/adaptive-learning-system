@@ -1,10 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8"/>
+    <title>Курс</title>
+    <link rel="stylesheet" th:href="@{../styles/bootstrap.min.css}" href="../../static/styles/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{../styles/welcome.css}" href="../../static/styles/welcome.css"/>
 </head>
 <body>
-
+<div th:replace="fragments/header :: header"></div>
+<main>
+    <div class="welcome-container">
+        <h2 class="welcome-title">Приветствуем Вас на курсе <Br/> Название курса!</h2>
+        <p class="course-description">Здесь будет приведено описание курса. Не слишком длинное, но и не слишком короткое. Что-то около 5-6 строк.
+            Писать это всё не хочется, но нужно( Диплом это боль</p>
+        <a href="#" class="btn btn-primary toCourse">Перейти к курсу</a>
+    </div>
+</main>
 </body>
 </html>

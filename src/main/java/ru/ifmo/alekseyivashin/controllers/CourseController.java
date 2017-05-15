@@ -44,4 +44,19 @@ public class CourseController {
     String welcomePage() {
         return "course/welcome";
     }
+
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    String testPage() {
+        return "course/test";
+    }
+
+    @RequestMapping(value = "/learning", method = RequestMethod.GET)
+    String learningPage() {
+        return "course/learning";
+    }
+
+    @RequestMapping(value = "/final", method = RequestMethod.GET)
+    String finalPage() {
+        return "course/final";
+    }
 }

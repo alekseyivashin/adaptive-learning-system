@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Обучение</title>
+    <link rel="stylesheet" th:href="@{../styles/bootstrap.min.css}" href="../../static/styles/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{../styles/learning.css}" href="../../static/styles/learning.css"/>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<main>
+    <div class="learning-container">
+        <span class="learning-num">#3</span>
+        <h2 class="learning-name">Тема лекции</h2>
+        <p class="learning-text">Содержимое лекции <Br/>
+            Через час отсюда в чистый переулок<Br/>
+            вытечет по человеку ваш обрюзгший жир,<Br/>
+            а я вам открыл столько стихов шкатулок,<Br/>
+            я - бесценных слов мот и транжир.<Br/>
+            Вот вы, мужчина, у вас в усах капуста<Br/>
+            Где-то недокушанных, недоеденных щей;<Br/>
+            вот вы, женщина, на вас белила густо,<Br/>
+            вы смотрите устрицей из раковин вещей...<Br/>
+        </p>
+        <a href="#" class="btn btn-primary next-course">Далее</a>
+    </div>
+</main>
+</body>
+</html>

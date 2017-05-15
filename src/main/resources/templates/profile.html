@@ -19,7 +19,9 @@
                 <h2 class="courses-title">Прогресс курсов</h2>
                 <ul class="courses__process__list">
                     <li th:each="userCourse : ${userCoursesInProgress}" class="courses__process__list__item">
-                        <h4 th:text="${userCourse.getCourse().getName()}"></h4>
+                        <a class="courseName" href="">
+                            <h4 th:text="${userCourse.getCourse().getName()}"></h4>
+                        </a>
                         <span th:text="${userCourse.getProgress() * 100} + '%'"></span>
                         <div class="progress">
                             <div class="progress-bar progress-bar-success" style="width: 40%"></div>
@@ -31,7 +33,9 @@
                 <h2 class="courses-title">Пройденные курсы</h2>
                 <ul class="courses__finished__list">
                     <li class="courses__finished__list__item" th:each="userCourse : ${userFinishedCourses}">
-                        <h4 th:text="${userCourse.getCourse().getName()}"></h4>
+                        <a class="courseName" href="">
+                            <h4 th:text="${userCourse.getCourse().getName()}"></h4>
+                        </a>
                         <p class="list-group-item-text">Оценка 4.5</p>
                     </li>
                 </ul>

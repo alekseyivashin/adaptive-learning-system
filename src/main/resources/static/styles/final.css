@@ -1,0 +1,31 @@
+main {
+  margin: auto;
+  width: 1200px;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center; }
+
+.final-container {
+  width: 700px;
+  padding: 15px;
+  border: 1px solid #ecf0f1;
+  border-radius: 5px; }
+
+.final-title {
+  color: #18bc9c; }
+
+label {
+  margin-right: 25px; }
+
+.select-list {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: baseline; }
+
+button {
+  margin-top: 10px; }
+
+/*# sourceMappingURL=final.css.map */
