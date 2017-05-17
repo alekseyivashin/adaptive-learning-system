@@ -19,12 +19,14 @@
                 <h2 class="courses-title">Прогресс курсов</h2>
                 <ul class="courses__process__list">
                     <li th:each="userCourse : ${userCoursesInProgress}" class="courses__process__list__item">
-                        <a class="courseName" href="">
+                        <a class="courseName" th:href="@{/course/} + ${userCourse.getCourse().getId()} + @{/welcome}">
                             <h4 th:text="${userCourse.getCourse().getName()}"></h4>
                         </a>
                         <span th:text="${userCourse.getProgress() * 100} + '%'"></span>
                         <div class="progress">
-                            <div class="progress-bar progress-bar-success" style="width: 40%"></div>
+                            <div class="progress-bar progress-bar-success"
+                                 th:style="'width:' + ${userCourse.getProgress() * 100} + '%'" aria-valuemin="0"
+                                 aria-valuemax="100" th:attr="aria-valuenow=${userCourse.getProgress() * 100}"></div>
                         </div>
                     </li>
                 </ul>
@@ -33,10 +35,11 @@
                 <h2 class="courses-title">Пройденные курсы</h2>
                 <ul class="courses__finished__list">
                     <li class="courses__finished__list__item" th:each="userCourse : ${userFinishedCourses}">
-                        <a class="courseName" href="">
+                        <a class="courseName" th:href="@{/course/} + ${userCourse.getCourse().getId()} + @{/welcome}">
                             <h4 th:text="${userCourse.getCourse().getName()}"></h4>
                         </a>
-                        <p class="list-group-item-text">Оценка 4.5</p>
+                        <p class="list-group-item-text"
+                           th:text="'Оценка ' + ${userCourse.getEndScore()} + ' / 100'"></p>
                     </li>
                 </ul>
             </div>

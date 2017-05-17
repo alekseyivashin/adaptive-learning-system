@@ -10,9 +10,16 @@
 <div th:replace="fragments/header :: header"></div>
 <main>
     <div class="welcome-container">
+        <div class="alert alert-dismissible alert-success" th:if="${progressMessage != null}">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong th:text="${progressMessage}"></strong>
+        </div>
+
         <h2 class="welcome-title" th:text="'Приветствуем Вас на курсе ' + ${course.getName()}"></h2>
         <p class="course-description" th:text="${course.getDescription()}"></p>
-        <a th:href="@{/course/} + ${course.getId()} + @{/test/(type='start')}" class="btn btn-primary toCourse">Перейти к курсу</a>
+
+        <a th:href="@{/course/} + ${course.getId()} + @{/check}" class="btn btn-primary toCourse"
+           th:if="${progressMessage == null}">Перейти к курсу</a>
     </div>
 </main>
 </body>

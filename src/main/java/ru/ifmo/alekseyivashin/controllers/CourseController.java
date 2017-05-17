@@ -7,11 +7,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.ifmo.alekseyivashin.models.*;
 import ru.ifmo.alekseyivashin.repositories.*;
+import ru.ifmo.alekseyivashin.services.CourseService;
 
 import javax.servlet.http.HttpSession;
-import java.util.Date;
 import java.util.stream.Collectors;
 
 /**
@@ -29,49 +30,47 @@ public class CourseController {
     private final QuestionRepository questionRepository;
     private final UserCourseRepository userCourseRepository;
     private final CourseRepository courseRepository;
+    private final CourseService courseService;
 
 
     @Autowired
-    public CourseController(TestRepository testRepository, AnswerRepository answerRepository, QuestionRepository questionRepository, UserCourseRepository userCourseRepository, CourseRepository courseRepository) {
+    public CourseController(TestRepository testRepository, AnswerRepository answerRepository, QuestionRepository questionRepository, UserCourseRepository userCourseRepository, CourseRepository courseRepository, CourseService courseService) {
         this.testRepository = testRepository;
         this.answerRepository = answerRepository;
         this.questionRepository = questionRepository;
         this.userCourseRepository = userCourseRepository;
         this.courseRepository = courseRepository;
-    }
-
-    @RequestMapping(value = "/{courseId}", method = RequestMethod.GET)
-    String chooseCoursePage(HttpSession session,
-                            @PathVariable int courseId) {
-        User user = (User) session.getAttribute("user");
-        Course course = courseRepository.findOne(courseId);
-
-        if (user == null) {
-            return "redirect:/";
-        }
-
-        UserCourse userCourse = userCourseRepository.getUserCourse(user.getId(), course.getId());
-        if (userCourse == null) {
-            userCourse = new UserCourse();
-            userCourse.setUser(user);
-            userCourse.setCourse(course);
-            userCourse.setStartDate(new Date());
-            userCourse.setProgress(0f);
-            userCourseRepository.save(userCourse);
-            return "redirect:/course/{courseId}/welcome";
-        } else {
-            if (userCourse.getStartScore() == null) {
-                return "redirect:/course/{courseId}/test/?type=start";
-            }
-        }
-        return "redirect:/";
+        this.courseService = courseService;
     }
 
     @RequestMapping(value = "{courseId}/welcome", method = RequestMethod.GET)
     String welcomePage(@PathVariable int courseId,
+                       HttpSession session,
                        Model model) {
+        User user = (User) session.getAttribute("user");
+        Course course = courseRepository.findOne(courseId);
+        UserCourse userCourse = userCourseRepository.getUserCourse(user.getId(), course.getId());
+        if (user == null) {
+            return "redirect:/";
+        }
+        if (userCourse != null && userCourse.getProgress() == 1) {
+            model.addAttribute("progressMessage", "Вы уже прошли данный курс!");
+        }
         model.addAttribute("course", courseRepository.findOne(courseId));
         return "course/welcome";
+    }
+
+    @RequestMapping(value = "/{courseId}/check", method = RequestMethod.GET)
+    String chooseCoursePage(HttpSession session,
+                            @PathVariable int courseId,
+                            RedirectAttributes redirectAttributes) {
+        User user = (User) session.getAttribute("user");
+        Course course = courseRepository.findOne(courseId);
+        UserCourse userCourse = userCourseRepository.getUserCourse(user.getId(), course.getId());
+        if (userCourse == null) {
+            courseService.createAndSaveUserCourseObject(user, course);
+        }
+        return "redirect:/course/{courseId}/test?type=start";
     }
 
     @RequestMapping(value = "{courseId}/test", params = {"type"}, method = RequestMethod.GET)
@@ -80,11 +79,7 @@ public class CourseController {
                     Model model) {
         Course course = courseRepository.findOne(courseId);
         if (type.equals("start")) {
-            Test startTest = course.getTests()
-                    .stream()
-                    .filter(test -> test.getType().equals(TestType.START))
-                    .collect(Collectors.toList())
-                    .get(0);
+            Test startTest = courseService.getTestByType(course, TestType.START);
             model.addAttribute("test", startTest);
         }
         return "course/test";
