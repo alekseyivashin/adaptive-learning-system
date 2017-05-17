@@ -47,6 +47,7 @@ public class ConverterServiceImpl implements ConverterService {
         userCourseDTO.setStartDate(userCourse.getStartDate());
         userCourseDTO.setEndDate(userCourse.getEndDate());
         userCourseDTO.setStartScore(userCourse.getStartScore());
+        userCourseDTO.setEndScore(userCourse.getEndScore());
         userCourseDTO.setRating(userCourse.getRating());
         userCourseDTO.setProgress(userCourse.getProgress());
         return userCourseDTO;
