@@ -20,7 +20,7 @@
         <div class="container-fluid" th:case="*">
             <ul class="nav navbar-nav">
                 <li><a th:href="@{/}">Главная</a></li>
-                <li><a th:href="@{user/profile}" th:text="${session.user.getName()}"></a></li>
+                <li><a th:href="@{/user/profile}" th:text="${session.user.getName()}"></a></li>
                 <li><a th:href="@{/user/signout}" class="exit">Выход</a></li>
             </ul>
         </div>
