@@ -49,10 +49,10 @@ public class CourseController {
                        Model model) {
         User user = (User) session.getAttribute("user");
         Course course = courseRepository.findOne(courseId);
-        UserCourse userCourse = userCourseRepository.getUserCourse(user.getId(), course.getId());
         if (user == null) {
             return "redirect:/";
         }
+        UserCourse userCourse = userCourseRepository.getUserCourse(user.getId(), course.getId());
         if (userCourse != null && userCourse.getProgress() == 1) {
             model.addAttribute("progressMessage", "Вы уже прошли данный курс!");
         }

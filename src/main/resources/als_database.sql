@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.18, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.18, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: als_database
 -- ------------------------------------------------------
--- Server version	5.7.18-0ubuntu0.16.04.1
+-- Server version	5.7.18-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -317,7 +317,7 @@ CREATE TABLE `users_courses` (
   KEY `users_courses_fk1` (`course_id`),
   CONSTRAINT `users_courses_fk0` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `users_courses_fk1` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -326,7 +326,7 @@ CREATE TABLE `users_courses` (
 
 LOCK TABLES `users_courses` WRITE;
 /*!40000 ALTER TABLE `users_courses` DISABLE KEYS */;
-INSERT INTO `users_courses` (`id`, `user_id`, `course_id`, `start_date`, `end_date`, `start_score`, `end_score`, `rating`, `progress`) VALUES (1,1,9,'2017-05-06','2017-05-07',15,54.6,1,1),(2,1,6,'2017-05-07',NULL,43.7,NULL,NULL,0.68),(3,2,2,'2017-05-01','2017-05-04',34.8,99.1,5,1),(4,2,7,'2017-05-04','2017-05-07',9.9,86,4,1),(5,2,5,'2017-05-05',NULL,61.2,NULL,NULL,0.75),(6,3,8,'2017-05-02','2017-05-07',35.9,55.2,2,1),(7,3,2,'2017-05-05',NULL,80.1,NULL,NULL,0.22),(8,4,7,'2017-05-02','2017-05-08',71.3,97.8,1,1),(9,4,5,'2017-05-04','2017-05-08',79,96.4,5,1),(10,5,6,'2017-05-04',NULL,6.4,NULL,NULL,0.39),(11,5,8,'2017-05-01',NULL,13.2,NULL,NULL,0.96);
+INSERT INTO `users_courses` (`id`, `user_id`, `course_id`, `start_date`, `end_date`, `start_score`, `end_score`, `rating`, `progress`) VALUES (1,1,5,'2017-05-06','2017-05-07',15,70,3,1),(2,1,6,'2017-05-07','2017-05-17',43.7,90,4,1),(3,1,7,'2017-05-01','2017-05-04',34.8,99.1,5,1),(4,1,8,'2017-05-04','2017-05-07',9.9,50,2,1),(5,2,2,'2017-05-05','2017-05-17',61.2,81,3,1),(6,2,5,'2017-05-02','2017-05-07',35.9,55.2,5,1),(7,2,6,'2017-05-05','2017-05-17',80.1,34,2,1),(8,2,7,'2017-05-02','2017-05-08',71.3,97.8,2,1),(9,2,8,'2017-05-04','2017-05-08',79,96.4,5,1),(10,3,2,'2017-05-04','2017-05-17',6.4,69,5,1),(11,3,5,'2017-05-01','2017-05-17',13.2,76,3,1),(12,3,7,'2017-05-17','2017-05-17',33,45,4,1),(13,3,8,'2017-05-17','2017-05-17',28,100,3,1),(14,4,2,'2017-05-04','2017-05-17',60,80,5,1),(15,4,5,'2017-05-05','2017-05-17',67,99,5,1),(16,4,6,'2017-05-02','2017-05-17',12,56,5,1),(17,4,8,'2017-05-19','2017-05-17',44,74,4,1),(18,5,2,'2017-05-03','2017-05-17',23,87,2,1),(19,5,5,'2017-05-06','2017-05-17',34,45,3,1),(20,5,7,'2017-05-04','2017-05-17',1,94,2,1),(21,5,8,'2017-05-07','2017-05-17',55,78,2,1),(22,2,9,'2017-05-04','2017-05-17',33,NULL,NULL,0.45);
 /*!40000 ALTER TABLE `users_courses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -368,4 +368,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-17 13:28:07
+-- Dump completed on 2017-05-18 11:33:01
