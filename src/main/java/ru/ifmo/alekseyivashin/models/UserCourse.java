@@ -8,6 +8,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Creator: aleks
@@ -44,6 +45,9 @@ public class UserCourse implements Serializable {
     private Integer rating;
 
     private Float progress;
+
+    @OneToMany(mappedBy = "userCourse")
+    private List<UserTheme> userThemes;
 
     public int getId() {
         return id;
@@ -118,18 +122,11 @@ public class UserCourse implements Serializable {
         this.progress = progress;
     }
 
-    @Override
-    public String toString() {
-        return "UserCourse{" +
-                "id=" + id +
-                ", user=" + user +
-                ", course=" + course +
-                ", startDate=" + startDate +
-                ", endDate=" + endDate +
-                ", startScore=" + startScore +
-                ", endScore=" + endScore +
-                ", rating=" + rating +
-                ", progress=" + progress +
-                '}';
+    public List<UserTheme> getUserThemes() {
+        return userThemes;
+    }
+
+    public void setUserThemes(List<UserTheme> userThemes) {
+        this.userThemes = userThemes;
     }
 }

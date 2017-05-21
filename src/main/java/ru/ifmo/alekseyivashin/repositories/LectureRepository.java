@@ -2,7 +2,7 @@ package ru.ifmo.alekseyivashin.repositories;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
-import ru.ifmo.alekseyivashin.models.LearningContent;
+import ru.ifmo.alekseyivashin.models.Lecture;
 
 /**
  * Creator: aleks
@@ -10,5 +10,5 @@ import ru.ifmo.alekseyivashin.models.LearningContent;
  */
 
 @Service
-public interface LearningContentRepository extends CrudRepository<LearningContent, Integer> {
+public interface LectureRepository extends CrudRepository<Lecture, Integer> {
 }

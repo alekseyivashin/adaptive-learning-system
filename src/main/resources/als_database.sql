@@ -127,29 +127,31 @@ INSERT INTO `keywords` (`id`, `name`) VALUES (6,'back-end'),(3,'css'),(5,'front-
 UNLOCK TABLES;
 
 --
--- Table structure for table `learning_contents`
+-- Table structure for table `lecture`
 --
 
-DROP TABLE IF EXISTS `learning_contents`;
+DROP TABLE IF EXISTS `lecture`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `learning_contents` (
+CREATE TABLE `lecture` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `theme_id` int(11) NOT NULL,
   `content` varchar(4000) NOT NULL,
+  `level` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `learning_contents_fk0` (`theme_id`),
   CONSTRAINT `learning_contents_fk0` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `learning_contents`
+-- Dumping data for table `lecture`
 --
 
-LOCK TABLES `learning_contents` WRITE;
-/*!40000 ALTER TABLE `learning_contents` DISABLE KEYS */;
-/*!40000 ALTER TABLE `learning_contents` ENABLE KEYS */;
+LOCK TABLES `lecture` WRITE;
+/*!40000 ALTER TABLE `lecture` DISABLE KEYS */;
+INSERT INTO `lecture` (`id`, `theme_id`, `content`, `level`) VALUES (1,1,'Лекция 1-1',1100),(2,1,'Лекция 1-2',1460),(3,1,'Лекция 1-3',1910),(4,2,'Лекция 2-1',1220),(5,2,'Лекция 2-2',1390),(6,2,'Лекция 2-3',2000),(7,3,'Лекция 3-1',1180),(8,3,'Лекция 3-2',1560),(9,3,'Лекция 3-3',1840),(10,4,'Лекция 4-1',1430),(11,4,'Лекция 4-2',2010),(12,4,'Лекция 4-3',2250),(13,5,'Лекция 5-1',1370),(14,5,'Лекция 5-2',1540),(15,5,'Лекция 5-3',2390),(16,6,'Лекция 6-1',1650),(17,6,'Лекция 6-2',1780),(18,6,'Лекция 6-3',1930),(19,7,'Лекция 7-1',1740),(20,7,'Лекция 7-2',2030),(21,7,'Лекция 7-3',2500),(22,8,'Лекция 8-1',2000),(23,8,'Лекция 8-2',2370),(24,8,'Лекция 8-3',2620);
+/*!40000 ALTER TABLE `lecture` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -161,14 +163,12 @@ DROP TABLE IF EXISTS `questions`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `questions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `theme_id` int(11) NOT NULL,
-  `learning_content_id` int(11) DEFAULT NULL,
+  `lecture_id` int(11) DEFAULT NULL,
+  `level` int(11) DEFAULT NULL,
   `content` varchar(200) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `questions_fk0` (`learning_content_id`),
-  KEY `questions_fk1` (`theme_id`),
-  CONSTRAINT `questions_fk0` FOREIGN KEY (`learning_content_id`) REFERENCES `learning_contents` (`id`),
-  CONSTRAINT `questions_fk1` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`id`)
+  KEY `questions_fk0` (`lecture_id`),
+  CONSTRAINT `questions_fk0` FOREIGN KEY (`lecture_id`) REFERENCES `lecture` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -178,7 +178,7 @@ CREATE TABLE `questions` (
 
 LOCK TABLES `questions` WRITE;
 /*!40000 ALTER TABLE `questions` DISABLE KEYS */;
-INSERT INTO `questions` (`id`, `theme_id`, `learning_content_id`, `content`) VALUES (2,1,NULL,'Какие версии Python являются несовместимыми по операциям ввода и вывода?'),(3,1,NULL,'Каким образом можно получить 3 степень числа 5?'),(4,1,NULL,'Для добавления элемента 4 в конец списка a=[1,2,3] можно использовать:'),(5,2,NULL,'Для передачи в функцию кортежей и списков используется запись:'),(6,2,NULL,'Для передачи в функцию словарей используется запись:'),(7,2,NULL,'\nКаково основное отличие функций, описываемых с помощью def и lambda?'),(8,3,NULL,'Метод rmdir используется для:'),(9,3,NULL,'При повторной операции чтения read() из файла с текстом ‘абвгдеёжзик’  будет получено:'),(10,3,NULL,'Для шифрования методом sha256 строка должна быть:'),(11,4,NULL,'Каким образом возможно описать класс:'),(12,4,NULL,'Дан класс \nclass A(object):\n	def __init__(self,x):\n	         self.x=x\n__init__ это'),(13,4,NULL,'Дан класс и его экземпляр\nclass A(object):\n	def __init__(self,x):\n	          self.x=x\na=A()\nчто выдаст\nA.__dict__'),(14,5,NULL,'Каким образом возможно создать итерируемый объект – итератор для списка:'),(15,5,NULL,'После того, как итератор дойдет до конца данных он:'),(16,5,NULL,'Итератор enumerate создает:'),(17,6,NULL,'Каким образом возможно проверить версию API по работе с БД SQLite:'),(18,6,NULL,'Можно ли использовать for к результатам запросов:'),(19,6,NULL,'Для преобразования данных JSON в данные Python используется метод:'),(20,7,NULL,'В каком формате выводится содержимое страниц, загруженных с использованием urllib.request.urlopen:'),(21,7,NULL,'Для получения url адреса из составляющих можно использовать:'),(22,7,NULL,'При создании сервера, используя модуль http.server и описании класса, унаследованного от BaseHTTPRequestHandler, в методе send_header прописываются:'),(23,8,NULL,'Для установки Django требуемой версии (1.9) с использованием pip нужно записать:');
+INSERT INTO `questions` (`id`, `lecture_id`, `level`, `content`) VALUES (2,1,1100,'Какие версии Python являются несовместимыми по операциям ввода и вывода?'),(3,2,1460,'Каким образом можно получить 3 степень числа 5?'),(4,3,1910,'Для добавления элемента 4 в конец списка a=[1,2,3] можно использовать:'),(5,4,1220,'Для передачи в функцию кортежей и списков используется запись:'),(6,5,1390,'Для передачи в функцию словарей используется запись:'),(7,6,2000,'\nКаково основное отличие функций, описываемых с помощью def и lambda?'),(8,7,1180,'Метод rmdir используется для:'),(9,8,1560,'При повторной операции чтения read() из файла с текстом ‘абвгдеёжзик’  будет получено:'),(10,9,1840,'Для шифрования методом sha256 строка должна быть:'),(11,10,1430,'Каким образом возможно описать класс:'),(12,11,2010,'Дан класс \nclass A(object):\n	def __init__(self,x):\n	         self.x=x\n__init__ это'),(13,12,2250,'Дан класс и его экземпляр\nclass A(object):\n	def __init__(self,x):\n	          self.x=x\na=A()\nчто выдаст\nA.__dict__'),(14,13,1370,'Каким образом возможно создать итерируемый объект – итератор для списка:'),(15,14,1540,'После того, как итератор дойдет до конца данных он:'),(16,15,2390,'Итератор enumerate создает:'),(17,16,1650,'Каким образом возможно проверить версию API по работе с БД SQLite:'),(18,17,1780,'Можно ли использовать for к результатам запросов:'),(19,18,1930,'Для преобразования данных JSON в данные Python используется метод:'),(20,19,1740,'В каком формате выводится содержимое страниц, загруженных с использованием urllib.request.urlopen:'),(21,20,2030,'Для получения url адреса из составляющих можно использовать:'),(22,21,2500,'При создании сервера, используя модуль http.server и описании класса, унаследованного от BaseHTTPRequestHandler, в методе send_header прописываются:'),(23,22,2000,'Для установки Django требуемой версии (1.9) с использованием pip нужно записать:');
 /*!40000 ALTER TABLE `questions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -193,11 +193,11 @@ CREATE TABLE `tests` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type` varchar(255) DEFAULT NULL,
   `course_id` int(11) NOT NULL,
-  `learning_content_id` int(11) DEFAULT NULL,
+  `lecture_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `tests_fk0` (`learning_content_id`),
+  KEY `tests_fk0` (`lecture_id`),
   KEY `tests_fk1` (`course_id`),
-  CONSTRAINT `tests_fk0` FOREIGN KEY (`learning_content_id`) REFERENCES `learning_contents` (`id`),
+  CONSTRAINT `tests_fk0` FOREIGN KEY (`lecture_id`) REFERENCES `lecture` (`id`),
   CONSTRAINT `tests_fk1` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -208,7 +208,7 @@ CREATE TABLE `tests` (
 
 LOCK TABLES `tests` WRITE;
 /*!40000 ALTER TABLE `tests` DISABLE KEYS */;
-INSERT INTO `tests` (`id`, `type`, `course_id`, `learning_content_id`) VALUES (1,'START',7,NULL);
+INSERT INTO `tests` (`id`, `type`, `course_id`, `lecture_id`) VALUES (1,'START',7,NULL);
 /*!40000 ALTER TABLE `tests` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -267,6 +267,36 @@ LOCK TABLES `themes` WRITE;
 /*!40000 ALTER TABLE `themes` DISABLE KEYS */;
 INSERT INTO `themes` (`id`, `course_id`, `name`) VALUES (1,7,'Структуры данных'),(2,7,'Функциональное программирование'),(3,7,'Основы системного программирования'),(4,7,'Объектно-ориентированное программирование 1'),(5,7,'Объектно-ориентирвоанное программирование 2'),(6,7,'Использование Python для работы с базой данных'),(7,7,'Основы взаимодействия в Интернет'),(8,7,'Использование библиотек Django для создания блога');
 /*!40000 ALTER TABLE `themes` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_themes`
+--
+
+DROP TABLE IF EXISTS `user_themes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_themes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_course_id` int(11) DEFAULT NULL,
+  `theme_id` int(11) DEFAULT NULL,
+  `user_level` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_themes_id_uindex` (`id`),
+  KEY `user_themes_fk0` (`user_course_id`),
+  KEY `user_themes_fk1` (`theme_id`),
+  CONSTRAINT `user_themes_fk0` FOREIGN KEY (`user_course_id`) REFERENCES `users_courses` (`id`),
+  CONSTRAINT `user_themes_fk1` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_themes`
+--
+
+LOCK TABLES `user_themes` WRITE;
+/*!40000 ALTER TABLE `user_themes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_themes` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -368,4 +398,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-18 22:57:11
+-- Dump completed on 2017-05-21 20:14:04

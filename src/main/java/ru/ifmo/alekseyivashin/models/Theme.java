@@ -1,10 +1,9 @@
 package ru.ifmo.alekseyivashin.models;
 
-import lombok.Data;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -29,10 +28,10 @@ public class Theme {
     private Course course;
 
     @OneToMany(mappedBy = "theme")
-    private Set<LearningContent> learningContents;
+    private Set<Lecture> lectures;
 
     @OneToMany(mappedBy = "theme")
-    private Set<Question> questions;
+    private List<UserTheme> userThemes;
 
     public int getId() {
         return id;
@@ -58,30 +57,20 @@ public class Theme {
         this.course = course;
     }
 
-    public Set<LearningContent> getLearningContents() {
-        return learningContents;
+    public Set<Lecture> getLectures() {
+        return lectures;
     }
 
-    public void setLearningContents(Set<LearningContent> learningContents) {
-        this.learningContents = learningContents;
+    public void setLectures(Set<Lecture> lectures) {
+        this.lectures = lectures;
     }
 
-    public Set<Question> getQuestions() {
-        return questions;
+    public List<UserTheme> getUserThemes() {
+        return userThemes;
     }
 
-    public void setQuestions(Set<Question> questions) {
-        this.questions = questions;
+    public void setUserThemes(List<UserTheme> userThemes) {
+        this.userThemes = userThemes;
     }
 
-    @Override
-    public String toString() {
-        return "Theme{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", course=" + course +
-                ", learningContents=" + learningContents +
-                ", questions=" + questions +
-                '}';
-    }
 }

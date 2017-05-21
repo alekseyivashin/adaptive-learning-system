@@ -1,10 +1,7 @@
 package ru.ifmo.alekseyivashin.models;
 
-import lombok.Data;
-
 import javax.persistence.*;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Creator: aleks
@@ -27,8 +24,8 @@ public class Test {
     private Course course;
 
     @ManyToOne
-    @JoinColumn(name = "learning_content_id")
-    private LearningContent learningContent;
+    @JoinColumn(name = "lecture_id")
+    private Lecture lecture;
 
     @ManyToMany
     @JoinTable(name = "tests_questions",
@@ -60,12 +57,12 @@ public class Test {
         this.course = course;
     }
 
-    public LearningContent getLearningContent() {
-        return learningContent;
+    public Lecture getLecture() {
+        return lecture;
     }
 
-    public void setLearningContent(LearningContent learningContent) {
-        this.learningContent = learningContent;
+    public void setLecture(Lecture lecture) {
+        this.lecture = lecture;
     }
 
     public List<Question> getQuestions() {
@@ -76,14 +73,4 @@ public class Test {
         this.questions = questions;
     }
 
-    @Override
-    public String toString() {
-        return "Test{" +
-                "id=" + id +
-                ", type=" + type +
-                ", course=" + course +
-                ", learningContent=" + learningContent +
-                ", questions=" + questions +
-                '}';
-    }
 }

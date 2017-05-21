@@ -59,13 +59,4 @@ public class Answer {
         this.correct = correct;
     }
 
-    @Override
-    public String toString() {
-        return "Answer{" +
-                "id=" + id +
-                ", question=" + question +
-                ", content='" + content + '\'' +
-                ", correct=" + correct +
-                '}';
-    }
 }

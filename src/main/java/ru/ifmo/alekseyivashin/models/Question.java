@@ -1,10 +1,6 @@
 package ru.ifmo.alekseyivashin.models;
 
-import lombok.Data;
-
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Set;
@@ -27,12 +23,14 @@ public class Question {
     private Theme theme;
 
     @ManyToOne
-    @JoinColumn(name = "learning_content_id")
-    private LearningContent learningContent;
+    @JoinColumn(name = "lecture_id")
+    private Lecture lecture;
 
     @NotNull
     @Size(min = 3, max = 200)
     private String content;
+
+    private int level;
 
     @OneToMany(mappedBy = "question")
     private Set<Answer> answers;
@@ -53,12 +51,12 @@ public class Question {
         this.theme = theme;
     }
 
-    public LearningContent getLearningContent() {
-        return learningContent;
+    public Lecture getLecture() {
+        return lecture;
     }
 
-    public void setLearningContent(LearningContent learningContent) {
-        this.learningContent = learningContent;
+    public void setLecture(Lecture lecture) {
+        this.lecture = lecture;
     }
 
     public String getContent() {
@@ -69,6 +67,14 @@ public class Question {
         this.content = content;
     }
 
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
     public Set<Answer> getAnswers() {
         return answers;
     }
@@ -77,14 +83,4 @@ public class Question {
         this.answers = answers;
     }
 
-    @Override
-    public String toString() {
-        return "Question{" +
-                "id=" + id +
-                ", theme=" + theme +
-                ", learningContent=" + learningContent +
-                ", content='" + content + '\'' +
-                ", answers=" + answers +
-                '}';
-    }
 }

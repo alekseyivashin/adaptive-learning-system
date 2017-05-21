@@ -132,20 +132,4 @@ public class Course {
     public void setTests(Set<Test> tests) {
         this.tests = tests;
     }
-
-    @Override
-    public String toString() {
-        return "Course{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", level=" + level +
-                ", rating=" + rating +
-                ", userCount=" + userCount +
-                ", keywords=" + keywords +
-                ", courseUsers=" + courseUsers +
-                ", themes=" + themes +
-                ", tests=" + tests +
-                '}';
-    }
 }

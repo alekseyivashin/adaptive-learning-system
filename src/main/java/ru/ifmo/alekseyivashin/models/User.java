@@ -75,14 +75,4 @@ public class User implements Serializable {
         this.userCourses = userCourses;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", keywords=" + keywords +
-                ", userCourses=" + userCourses +
-                '}';
-    }
 }
