@@ -1,7 +1,8 @@
 package ru.ifmo.alekseyivashin.services;
 
 import org.springframework.stereotype.Service;
-import ru.ifmo.alekseyivashin.models.*;
+import ru.ifmo.alekseyivashin.models.Course;
+import ru.ifmo.alekseyivashin.models.User;
 
 /**
  * Creator: aleks
@@ -11,5 +12,4 @@ import ru.ifmo.alekseyivashin.models.*;
 @Service
 public interface CourseService {
     void createAndSaveUserCourseObject(User user, Course course);
-    Test getTestByType(Course course, TestType testType);
 }

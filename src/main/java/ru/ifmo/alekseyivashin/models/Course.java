@@ -49,9 +49,6 @@ public class Course {
     @OneToMany(mappedBy = "course")
     private Set<Theme> themes;
 
-    @OneToMany(mappedBy = "course")
-    private Set<Test> tests;
-
     public int getId() {
         return id;
     }
@@ -125,11 +122,4 @@ public class Course {
         this.themes = themes;
     }
 
-    public Set<Test> getTests() {
-        return tests;
-    }
-
-    public void setTests(Set<Test> tests) {
-        this.tests = tests;
-    }
 }

@@ -49,6 +49,9 @@ public class UserCourse implements Serializable {
     @OneToMany(mappedBy = "userCourse")
     private List<UserTheme> userThemes;
 
+    @OneToMany(mappedBy = "userCourse")
+    private List<Test> tests;
+
     public int getId() {
         return id;
     }
@@ -128,5 +131,13 @@ public class UserCourse implements Serializable {
 
     public void setUserThemes(List<UserTheme> userThemes) {
         this.userThemes = userThemes;
+    }
+
+    public List<Test> getTests() {
+        return tests;
+    }
+
+    public void setTests(List<Test> tests) {
+        this.tests = tests;
     }
 }

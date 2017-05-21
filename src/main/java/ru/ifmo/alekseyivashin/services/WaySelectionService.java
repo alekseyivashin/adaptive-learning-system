@@ -1,6 +1,8 @@
 package ru.ifmo.alekseyivashin.services;
 
 import org.springframework.stereotype.Service;
+import ru.ifmo.alekseyivashin.models.Test;
+import ru.ifmo.alekseyivashin.models.UserCourse;
 
 /**
  * Creator: aleks
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
  */
 
 @Service
-public interface WayChoiceService {
-    String 
+public interface WaySelectionService {
+    String selectWay(UserCourse userCourse);
+    Test selectTest(UserCourse userCourse, String type);
 }

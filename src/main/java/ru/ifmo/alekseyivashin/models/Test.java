@@ -20,8 +20,8 @@ public class Test {
     private TestType type;
 
     @ManyToOne
-    @JoinColumn(name = "course_id")
-    private Course course;
+    @JoinColumn(name = "user_course_id")
+    private UserCourse userCourse;
 
     @ManyToOne
     @JoinColumn(name = "lecture_id")
@@ -49,12 +49,12 @@ public class Test {
         this.type = type;
     }
 
-    public Course getCourse() {
-        return course;
+    public UserCourse getUserCourse() {
+        return userCourse;
     }
 
-    public void setCourse(Course course) {
-        this.course = course;
+    public void setUserCourse(UserCourse userCourse) {
+        this.userCourse = userCourse;
     }
 
     public Lecture getLecture() {

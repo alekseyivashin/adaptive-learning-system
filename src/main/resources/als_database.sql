@@ -127,31 +127,31 @@ INSERT INTO `keywords` (`id`, `name`) VALUES (6,'back-end'),(3,'css'),(5,'front-
 UNLOCK TABLES;
 
 --
--- Table structure for table `lecture`
+-- Table structure for table `lectures`
 --
 
-DROP TABLE IF EXISTS `lecture`;
+DROP TABLE IF EXISTS `lectures`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `lecture` (
+CREATE TABLE `lectures` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `theme_id` int(11) NOT NULL,
   `content` varchar(4000) NOT NULL,
   `level` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `learning_contents_fk0` (`theme_id`),
-  CONSTRAINT `learning_contents_fk0` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`id`)
+  CONSTRAINT `theme_fk0` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `lecture`
+-- Dumping data for table `lectures`
 --
 
-LOCK TABLES `lecture` WRITE;
-/*!40000 ALTER TABLE `lecture` DISABLE KEYS */;
-INSERT INTO `lecture` (`id`, `theme_id`, `content`, `level`) VALUES (1,1,'Лекция 1-1',1100),(2,1,'Лекция 1-2',1460),(3,1,'Лекция 1-3',1910),(4,2,'Лекция 2-1',1220),(5,2,'Лекция 2-2',1390),(6,2,'Лекция 2-3',2000),(7,3,'Лекция 3-1',1180),(8,3,'Лекция 3-2',1560),(9,3,'Лекция 3-3',1840),(10,4,'Лекция 4-1',1430),(11,4,'Лекция 4-2',2010),(12,4,'Лекция 4-3',2250),(13,5,'Лекция 5-1',1370),(14,5,'Лекция 5-2',1540),(15,5,'Лекция 5-3',2390),(16,6,'Лекция 6-1',1650),(17,6,'Лекция 6-2',1780),(18,6,'Лекция 6-3',1930),(19,7,'Лекция 7-1',1740),(20,7,'Лекция 7-2',2030),(21,7,'Лекция 7-3',2500),(22,8,'Лекция 8-1',2000),(23,8,'Лекция 8-2',2370),(24,8,'Лекция 8-3',2620);
-/*!40000 ALTER TABLE `lecture` ENABLE KEYS */;
+LOCK TABLES `lectures` WRITE;
+/*!40000 ALTER TABLE `lectures` DISABLE KEYS */;
+INSERT INTO `lectures` (`id`, `theme_id`, `content`, `level`) VALUES (1,1,'Лекция 1-1',1100),(2,1,'Лекция 1-2',1460),(3,1,'Лекция 1-3',1910),(4,2,'Лекция 2-1',1220),(5,2,'Лекция 2-2',1390),(6,2,'Лекция 2-3',2000),(7,3,'Лекция 3-1',1180),(8,3,'Лекция 3-2',1560),(9,3,'Лекция 3-3',1840),(10,4,'Лекция 4-1',1430),(11,4,'Лекция 4-2',2010),(12,4,'Лекция 4-3',2250),(13,5,'Лекция 5-1',1370),(14,5,'Лекция 5-2',1540),(15,5,'Лекция 5-3',2390),(16,6,'Лекция 6-1',1650),(17,6,'Лекция 6-2',1780),(18,6,'Лекция 6-3',1930),(19,7,'Лекция 7-1',1740),(20,7,'Лекция 7-2',2030),(21,7,'Лекция 7-3',2500),(22,8,'Лекция 8-1',2000),(23,8,'Лекция 8-2',2370),(24,8,'Лекция 8-3',2620);
+/*!40000 ALTER TABLE `lectures` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -168,7 +168,7 @@ CREATE TABLE `questions` (
   `content` varchar(200) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `questions_fk0` (`lecture_id`),
-  CONSTRAINT `questions_fk0` FOREIGN KEY (`lecture_id`) REFERENCES `lecture` (`id`)
+  CONSTRAINT `questions_fk0` FOREIGN KEY (`lecture_id`) REFERENCES `lectures` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -192,14 +192,14 @@ DROP TABLE IF EXISTS `tests`;
 CREATE TABLE `tests` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `type` varchar(255) DEFAULT NULL,
-  `course_id` int(11) NOT NULL,
+  `user_course_id` int(11) DEFAULT NULL,
   `lecture_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `tests_fk0` (`lecture_id`),
-  KEY `tests_fk1` (`course_id`),
-  CONSTRAINT `tests_fk0` FOREIGN KEY (`lecture_id`) REFERENCES `lecture` (`id`),
-  CONSTRAINT `tests_fk1` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  KEY `tests_fk1` (`user_course_id`),
+  CONSTRAINT `tests_fk0` FOREIGN KEY (`lecture_id`) REFERENCES `lectures` (`id`),
+  CONSTRAINT `tests_fk1` FOREIGN KEY (`user_course_id`) REFERENCES `users_courses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -208,7 +208,7 @@ CREATE TABLE `tests` (
 
 LOCK TABLES `tests` WRITE;
 /*!40000 ALTER TABLE `tests` DISABLE KEYS */;
-INSERT INTO `tests` (`id`, `type`, `course_id`, `lecture_id`) VALUES (1,'START',7,NULL);
+INSERT INTO `tests` (`id`, `type`, `user_course_id`, `lecture_id`) VALUES (3,'START',29,NULL);
 /*!40000 ALTER TABLE `tests` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -227,8 +227,8 @@ CREATE TABLE `tests_questions` (
   KEY `tests_questions_fk0` (`question_id`),
   KEY `tests_questions_fk1` (`test_id`),
   CONSTRAINT `tests_questions_fk0` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`),
-  CONSTRAINT `tests_questions_fk1` FOREIGN KEY (`test_id`) REFERENCES `tests` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+  CONSTRAINT `tests_questions_fk1` FOREIGN KEY (`test_id`) REFERENCES `tests` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=55 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -237,7 +237,7 @@ CREATE TABLE `tests_questions` (
 
 LOCK TABLES `tests_questions` WRITE;
 /*!40000 ALTER TABLE `tests_questions` DISABLE KEYS */;
-INSERT INTO `tests_questions` (`id`, `question_id`, `test_id`) VALUES (2,3,1),(4,5,1),(6,7,1),(8,9,1),(10,11,1),(12,13,1),(14,15,1),(16,17,1),(18,19,1),(20,21,1),(22,23,1);
+INSERT INTO `tests_questions` (`id`, `question_id`, `test_id`) VALUES (47,11,3),(48,2,3),(49,5,3),(50,20,3),(51,23,3),(52,8,3),(53,17,3),(54,14,3);
 /*!40000 ALTER TABLE `tests_questions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -347,7 +347,7 @@ CREATE TABLE `users_courses` (
   KEY `users_courses_fk1` (`course_id`),
   CONSTRAINT `users_courses_fk0` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `users_courses_fk1` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -356,7 +356,7 @@ CREATE TABLE `users_courses` (
 
 LOCK TABLES `users_courses` WRITE;
 /*!40000 ALTER TABLE `users_courses` DISABLE KEYS */;
-INSERT INTO `users_courses` (`id`, `user_id`, `course_id`, `start_date`, `end_date`, `start_score`, `end_score`, `rating`, `progress`) VALUES (1,1,5,'2017-05-06','2017-05-07',15,70,3,1),(2,1,6,'2017-05-07','2017-05-17',43.7,90,4,1),(3,1,7,'2017-05-01','2017-05-04',34.8,99.1,5,1),(4,1,8,'2017-05-04','2017-05-07',9.9,50,2,1),(5,2,2,'2017-05-05','2017-05-17',61.2,81,3,1),(6,2,5,'2017-05-02','2017-05-07',35.9,55.2,5,1),(7,2,6,'2017-05-05','2017-05-17',80.1,34,2,1),(8,2,7,'2017-05-02','2017-05-08',71.3,97.8,2,1),(9,2,8,'2017-05-04','2017-05-08',79,96.4,5,1),(10,3,2,'2017-05-04','2017-05-17',6.4,69,5,1),(11,3,5,'2017-05-01','2017-05-17',13.2,76,3,1),(12,3,7,'2017-05-17','2017-05-17',33,45,4,1),(13,3,8,'2017-05-17','2017-05-17',28,100,3,1),(14,4,2,'2017-05-04','2017-05-17',60,80,5,1),(15,4,5,'2017-05-05','2017-05-17',67,99,5,1),(16,4,6,'2017-05-02','2017-05-17',12,56,5,1),(17,4,8,'2017-05-19','2017-05-17',44,74,4,1),(18,5,2,'2017-05-03','2017-05-17',23,87,2,1),(19,5,5,'2017-05-06','2017-05-17',34,45,3,1),(20,5,7,'2017-05-04','2017-05-17',1,94,2,1),(21,5,8,'2017-05-07','2017-05-17',55,78,2,1),(22,2,9,'2017-05-04','2017-05-17',33,NULL,NULL,0.45),(23,4,7,'2017-05-18',NULL,NULL,NULL,NULL,0);
+INSERT INTO `users_courses` (`id`, `user_id`, `course_id`, `start_date`, `end_date`, `start_score`, `end_score`, `rating`, `progress`) VALUES (1,1,5,'2017-05-06','2017-05-07',15,70,3,1),(2,1,6,'2017-05-07','2017-05-17',43.7,90,4,1),(3,1,7,'2017-05-01','2017-05-04',34.8,99.1,5,1),(4,1,8,'2017-05-04','2017-05-07',9.9,50,2,1),(5,2,2,'2017-05-05','2017-05-17',61.2,81,3,1),(6,2,5,'2017-05-02','2017-05-07',35.9,55.2,5,1),(7,2,6,'2017-05-05','2017-05-17',80.1,34,2,1),(8,2,7,'2017-05-02','2017-05-08',71.3,97.8,2,1),(9,2,8,'2017-05-04','2017-05-08',79,96.4,5,1),(10,3,2,'2017-05-04','2017-05-17',6.4,69,5,1),(11,3,5,'2017-05-01','2017-05-17',13.2,76,3,1),(12,3,7,'2017-05-17','2017-05-17',33,45,4,1),(13,3,8,'2017-05-17','2017-05-17',28,100,3,1),(14,4,2,'2017-05-04','2017-05-17',60,80,5,1),(15,4,5,'2017-05-05','2017-05-17',67,99,5,1),(16,4,6,'2017-05-02','2017-05-17',12,56,5,1),(17,4,8,'2017-05-19','2017-05-17',44,74,4,1),(18,5,2,'2017-05-03','2017-05-17',23,87,2,1),(19,5,5,'2017-05-06','2017-05-17',34,45,3,1),(20,5,7,'2017-05-04','2017-05-17',1,94,2,1),(21,5,8,'2017-05-07','2017-05-17',55,78,2,1),(22,2,9,'2017-05-04','2017-05-17',33,NULL,NULL,0.45),(29,4,7,'2017-05-21',NULL,NULL,NULL,NULL,0);
 /*!40000 ALTER TABLE `users_courses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -398,4 +398,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-21 20:14:04
+-- Dump completed on 2017-05-21 22:21:19

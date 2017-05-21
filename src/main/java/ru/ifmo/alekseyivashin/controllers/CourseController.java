@@ -1,6 +1,7 @@
 package ru.ifmo.alekseyivashin.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,9 +12,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import ru.ifmo.alekseyivashin.models.*;
 import ru.ifmo.alekseyivashin.repositories.*;
 import ru.ifmo.alekseyivashin.services.CourseService;
+import ru.ifmo.alekseyivashin.services.WaySelectionService;
 
 import javax.servlet.http.HttpSession;
-import java.util.stream.Collectors;
 
 /**
  * Creator: aleks
@@ -24,23 +25,18 @@ import java.util.stream.Collectors;
 @RequestMapping("/course")
 public class CourseController {
 
-
-    private final TestRepository testRepository;
-    private final AnswerRepository answerRepository;
-    private final QuestionRepository questionRepository;
     private final UserCourseRepository userCourseRepository;
     private final CourseRepository courseRepository;
     private final CourseService courseService;
+    private final WaySelectionService waySelectionService;
 
 
     @Autowired
-    public CourseController(TestRepository testRepository, AnswerRepository answerRepository, QuestionRepository questionRepository, UserCourseRepository userCourseRepository, CourseRepository courseRepository, CourseService courseService) {
-        this.testRepository = testRepository;
-        this.answerRepository = answerRepository;
-        this.questionRepository = questionRepository;
+    public CourseController(UserCourseRepository userCourseRepository, CourseRepository courseRepository, CourseService courseService, WaySelectionService waySelectionService) {
         this.userCourseRepository = userCourseRepository;
         this.courseRepository = courseRepository;
         this.courseService = courseService;
+        this.waySelectionService = waySelectionService;
     }
 
     @RequestMapping(value = "{courseId}/welcome", method = RequestMethod.GET)
@@ -52,7 +48,7 @@ public class CourseController {
         if (user == null) {
             return "redirect:/";
         }
-        UserCourse userCourse = userCourseRepository.getUserCourse(user.getId(), course.getId());
+        UserCourse userCourse = userCourseRepository.findByUserAndCourse(user, course);
         if (userCourse != null && userCourse.getProgress() == 1) {
             model.addAttribute("progressMessage", "Вы уже прошли данный курс!");
         }
@@ -60,28 +56,30 @@ public class CourseController {
         return "course/welcome";
     }
 
-    @RequestMapping(value = "/{courseId}/check", method = RequestMethod.GET)
+    @RequestMapping(value = "/{courseId}/select", method = RequestMethod.GET)
     String chooseCoursePage(HttpSession session,
                             @PathVariable int courseId,
                             RedirectAttributes redirectAttributes) {
         User user = (User) session.getAttribute("user");
         Course course = courseRepository.findOne(courseId);
-        UserCourse userCourse = userCourseRepository.getUserCourse(user.getId(), course.getId());
-        if (userCourse == null) {
+        if (userCourseRepository.findByUserAndCourse(user, course) == null) {
             courseService.createAndSaveUserCourseObject(user, course);
         }
-        return "redirect:/course/{courseId}/test?type=start";
+        UserCourse userCourse = userCourseRepository.findByUserAndCourse(user, course);
+        return waySelectionService.selectWay(userCourse);
     }
 
     @RequestMapping(value = "{courseId}/test", params = {"type"}, method = RequestMethod.GET)
-    String testPage(@PathVariable int courseId,
+    String testPage(HttpSession session,
+                    @PathVariable int courseId,
                     @RequestParam String type,
                     Model model) {
+        User user = (User) session.getAttribute("user");
         Course course = courseRepository.findOne(courseId);
-        if (type.equals("start")) {
-            Test startTest = courseService.getTestByType(course, TestType.START);
-            model.addAttribute("test", startTest);
-        }
+        UserCourse userCourse = userCourseRepository.findByUserAndCourse(user, course);
+
+        Test test = waySelectionService.selectTest(userCourse, type);
+        model.addAttribute("test", test);
         return "course/test";
     }
 

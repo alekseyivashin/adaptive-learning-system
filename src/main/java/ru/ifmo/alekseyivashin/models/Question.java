@@ -19,10 +19,6 @@ public class Question {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "theme_id")
-    private Theme theme;
-
-    @ManyToOne
     @JoinColumn(name = "lecture_id")
     private Lecture lecture;
 
@@ -41,14 +37,6 @@ public class Question {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public Theme getTheme() {
-        return theme;
-    }
-
-    public void setTheme(Theme theme) {
-        this.theme = theme;
     }
 
     public Lecture getLecture() {

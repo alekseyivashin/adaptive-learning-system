@@ -13,7 +13,7 @@ import java.util.Set;
  */
 
 @Entity
-@Table(name = "learning_contents")
+@Table(name = "lectures")
 public class Lecture {
 
     @Id
@@ -27,6 +27,8 @@ public class Lecture {
     @ManyToOne
     @JoinColumn(name = "theme_id")
     private Theme theme;
+
+    private Integer level;
 
     @OneToMany(mappedBy = "lecture")
     private Set<Test> tests;
@@ -56,6 +58,14 @@ public class Lecture {
 
     public void setTheme(Theme theme) {
         this.theme = theme;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
     }
 
     public Set<Test> getTests() {

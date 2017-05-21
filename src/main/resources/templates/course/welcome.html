@@ -17,7 +17,7 @@
         <h2 class="welcome-title" th:text="'Приветствуем Вас на курсе ' + ${course.getName()}"></h2>
         <p class="course-description" th:text="${course.getDescription()}"></p>
 
-        <a th:href="@{/course/} + ${course.getId()} + @{/check}" class="btn btn-primary toCourse"
+        <a th:href="@{/course/} + ${course.getId()} + @{/select}" class="btn btn-primary toCourse"
            th:if="${progressMessage == null}">Перейти к курсу</a>
     </div>
 </main>
