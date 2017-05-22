@@ -9,19 +9,24 @@
 <body>
 <div th:replace="fragments/header :: header"></div>
 <main>
-    <div class="test-container">
+    <form th:action="@{/course/} + ${test.getUserCourse().getCourse().getId()} + @{/test}" method="post"
+          th:object="${test}" class="test-container">
+        <input type="hidden" th:field="*{type}" th:value="${test.type}"/>
         <h2>Тестирование</h2>
         <section class="question" th:each="question : ${test.getQuestions()}">
             <h4 class="question__title" th:text="'Вопрос ' + ${questionStat.index + 1}"></h4>
             <p class="question__text" th:text="${question.getContent()}"></p>
             <div class="answers">
                 <label th:each="answer : ${question.getAnswers()}">
-                    <input type="checkbox" name="answer1" value="a1" class="answers__item" th:text="${answer.getContent()}"/><Br/>
+                    <input type="checkbox"
+                           th:field="*{questions[__${questionStat.index}__].answers[__${answerStat.index}__].correct}"
+                           class="answers__item"
+                           th:text="${answer.getContent()}"/><Br/>
                 </label>
             </div>
         </section>
         <button type="submit" class="btn btn-primary submit-button">Дать ответ</button>
-    </div>
+    </form>
 </main>
 </body>
 </html>

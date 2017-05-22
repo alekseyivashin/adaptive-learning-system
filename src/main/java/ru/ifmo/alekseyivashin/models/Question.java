@@ -3,6 +3,7 @@ package ru.ifmo.alekseyivashin.models;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -29,7 +30,7 @@ public class Question {
     private int level;
 
     @OneToMany(mappedBy = "question")
-    private Set<Answer> answers;
+    private List<Answer> answers;
 
     public int getId() {
         return id;
@@ -63,11 +64,11 @@ public class Question {
         this.level = level;
     }
 
-    public Set<Answer> getAnswers() {
+    public List<Answer> getAnswers() {
         return answers;
     }
 
-    public void setAnswers(Set<Answer> answers) {
+    public void setAnswers(List<Answer> answers) {
         this.answers = answers;
     }
 

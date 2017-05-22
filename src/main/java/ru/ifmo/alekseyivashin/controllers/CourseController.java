@@ -4,14 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import ru.ifmo.alekseyivashin.models.*;
-import ru.ifmo.alekseyivashin.repositories.*;
+import ru.ifmo.alekseyivashin.models.Course;
+import ru.ifmo.alekseyivashin.models.Test;
+import ru.ifmo.alekseyivashin.models.User;
+import ru.ifmo.alekseyivashin.models.UserCourse;
+import ru.ifmo.alekseyivashin.repositories.CourseRepository;
+import ru.ifmo.alekseyivashin.repositories.UserCourseRepository;
 import ru.ifmo.alekseyivashin.services.CourseService;
+import ru.ifmo.alekseyivashin.services.TestService;
 import ru.ifmo.alekseyivashin.services.WaySelectionService;
 
 import javax.servlet.http.HttpSession;
@@ -29,14 +31,16 @@ public class CourseController {
     private final CourseRepository courseRepository;
     private final CourseService courseService;
     private final WaySelectionService waySelectionService;
+    private final TestService testService;
 
 
     @Autowired
-    public CourseController(UserCourseRepository userCourseRepository, CourseRepository courseRepository, CourseService courseService, WaySelectionService waySelectionService) {
+    public CourseController(UserCourseRepository userCourseRepository, CourseRepository courseRepository, CourseService courseService, WaySelectionService waySelectionService, TestService testService) {
         this.userCourseRepository = userCourseRepository;
         this.courseRepository = courseRepository;
         this.courseService = courseService;
         this.waySelectionService = waySelectionService;
+        this.testService = testService;
     }
 
     @RequestMapping(value = "{courseId}/welcome", method = RequestMethod.GET)
@@ -79,8 +83,21 @@ public class CourseController {
         UserCourse userCourse = userCourseRepository.findByUserAndCourse(user, course);
 
         Test test = waySelectionService.selectTest(userCourse, type);
+        test.getQuestions().forEach(question -> question.getAnswers().forEach(answer -> answer.setCorrect(false)));
         model.addAttribute("test", test);
         return "course/test";
+    }
+
+    @RequestMapping(value = "{courseId}/test", method = RequestMethod.POST)
+    String testSubmit(HttpSession session,
+                      @ModelAttribute("test") Test userTest,
+                      @PathVariable int courseId) {
+        User user = (User) session.getAttribute("user");
+        Course course = courseRepository.findOne(courseId);
+        UserCourse userCourse = userCourseRepository.findByUserAndCourse(user, course);
+
+        testService.checkTest(userCourse, userTest);
+        return "";
     }
 
     @RequestMapping(value = "/learning", method = RequestMethod.GET)

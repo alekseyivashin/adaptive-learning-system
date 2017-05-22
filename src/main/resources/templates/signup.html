@@ -17,14 +17,14 @@
             <legend class="name">Регистрация</legend>
             <fieldset>
                 <div class="form-group">
-                    <label for="inputEmail" class="col-lg-2 control-label">Name</label>
+                    <label for="name-field" class="col-lg-2 control-label">Name</label>
                     <div class="col-lg-10">
                         <input type="text" class="form-control" id="name-field" th:field="*{name}" placeholder="Name"/>
                         <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</p>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="inputPassword" class="col-lg-2 control-label">Password</label>
+                    <label for="password-field" class="col-lg-2 control-label">Password</label>
                     <div class="col-lg-10">
                         <input type="password" class="form-control" id="password-field" th:field="*{password}"
                                placeholder="Password"

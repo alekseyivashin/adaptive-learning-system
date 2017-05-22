@@ -13,4 +13,5 @@ import ru.ifmo.alekseyivashin.models.UserCourse;
 @Service
 public interface TestService {
     void createStartTest(UserCourse userCourse);
+    void checkTest(UserCourse userCourse, Test userTest);
 }

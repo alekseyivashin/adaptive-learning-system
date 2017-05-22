@@ -9,7 +9,6 @@ import ru.ifmo.alekseyivashin.services.TestService;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Creator: aleks
@@ -43,5 +42,22 @@ public class TestServiceImpl implements TestService {
 
         test.setQuestions(questions);
         testRepository.save(test);
+    }
+
+    @Override
+    public void checkTest(UserCourse userCourse, Test userTest) {
+        Test correctTest = testRepository.findByUserCourseAndType(userCourse, userTest.getType());
+        int errorsCount = 0;
+        for (int i = 0; i < correctTest.getQuestions().size(); i++) {
+            Question question = correctTest.getQuestions().get(i);
+            for (int j = 0; j < question.getAnswers().size(); j++) {
+                Answer correctAnswer = question.getAnswers().get(j);
+                Answer userAnswer = userTest.getQuestions().get(i).getAnswers().get(j);
+                if (!correctAnswer.getCorrect().equals(userAnswer.getCorrect())) {
+                    errorsCount++;
+                }
+            }
+        }
+        System.out.println(errorsCount);
     }
 }
