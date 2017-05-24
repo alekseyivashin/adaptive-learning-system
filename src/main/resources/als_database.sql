@@ -68,7 +68,7 @@ CREATE TABLE `courses` (
 
 LOCK TABLES `courses` WRITE;
 /*!40000 ALTER TABLE `courses` DISABLE KEYS */;
-INSERT INTO `courses` (`id`, `name`, `description`, `rating`, `user_count`, `level`) VALUES (2,'Введение в JavaScript','Приветствую Вас на курсе!\nВ этом курсе мы разберем множество классных технологий, станем гуру программирования (нет), а также будем пробовать светоч среди технологий в образовании - адаптивное обучение!\nУдачи, и да прибудет с вами Python! И адаптивное обучение конечно.',3.1,2,1),(5,'Введение в HTML и CSS','Приветствую Вас на курсе!\nВ этом курсе мы разберем множество классных технологий, станем гуру программирования (нет), а также будем пробовать светоч среди технологий в образовании - адаптивное обучение!\nУдачи, и да прибудет с вами Python! И адаптивное обучение конечно.',4.9,1,1),(6,'HTML5','Приветствую Вас на курсе!\nВ этом курсе мы разберем множество классных технологий, станем гуру программирования (нет), а также будем пробовать светоч среди технологий в образовании - адаптивное обучение!\nУдачи, и да прибудет с вами Python! И адаптивное обучение конечно.',1.7,3,2),(7,'Python. Начало','В этом курсе мы разберем множество классных технологий, станем гуру программирования (нет), а также будем пробовать светоч среди технологий в образовании - адаптивное обучение!\nУдачи, и да прибудет с вами Python! И адаптивное обучение конечно.',3.5,10,1),(8,'Python. Продолжение','Приветствую Вас на курсе!\nВ этом курсе мы разберем множество классных технологий, станем гуру программирования (нет), а также будем пробовать светоч среди технологий в образовании - адаптивное обучение!\nУдачи, и да прибудет с вами Python! И адаптивное обучение конечно.',4.1,1,2),(9,'Основы jQuery','Приветствую Вас на курсе!\nВ этом курсе мы разберем множество классных технологий, станем гуру программирования (нет), а также будем пробовать светоч среди технологий в образовании - адаптивное обучение!\nУдачи, и да прибудет с вами Python! И адаптивное обучение конечно.',2.8,0,2);
+INSERT INTO `courses` (`id`, `name`, `description`, `rating`, `user_count`, `level`) VALUES (2,'Введение в JavaScript','Приветствую Вас на курсе!\nВ этом курсе мы разберем множество классных технологий, станем гуру программирования (нет), а также будем пробовать светоч среди технологий в образовании - адаптивное обучение!\nУдачи, и да прибудет с вами Python! И адаптивное обучение конечно.',3.1,2,1),(5,'Введение в HTML и CSS','Приветствую Вас на курсе!\nВ этом курсе мы разберем множество классных технологий, станем гуру программирования (нет), а также будем пробовать светоч среди технологий в образовании - адаптивное обучение!\nУдачи, и да прибудет с вами Python! И адаптивное обучение конечно.',4.9,1,1),(6,'HTML5','Приветствую Вас на курсе!\nВ этом курсе мы разберем множество классных технологий, станем гуру программирования (нет), а также будем пробовать светоч среди технологий в образовании - адаптивное обучение!\nУдачи, и да прибудет с вами Python! И адаптивное обучение конечно.',1.7,3,2),(7,'Python. Начало','В этом курсе мы разберем множество классных технологий, станем гуру программирования (нет), а также будем пробовать светоч среди технологий в образовании - адаптивное обучение!\nУдачи, и да прибудет с вами Python! И адаптивное обучение конечно.',3.5,19,1),(8,'Python. Продолжение','Приветствую Вас на курсе!\nВ этом курсе мы разберем множество классных технологий, станем гуру программирования (нет), а также будем пробовать светоч среди технологий в образовании - адаптивное обучение!\nУдачи, и да прибудет с вами Python! И адаптивное обучение конечно.',4.1,1,2),(9,'Основы jQuery','Приветствую Вас на курсе!\nВ этом курсе мы разберем множество классных технологий, станем гуру программирования (нет), а также будем пробовать светоч среди технологий в образовании - адаптивное обучение!\nУдачи, и да прибудет с вами Python! И адаптивное обучение конечно.',2.8,0,2);
 /*!40000 ALTER TABLE `courses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -199,7 +199,7 @@ CREATE TABLE `tests` (
   KEY `tests_fk1` (`user_course_id`),
   CONSTRAINT `tests_fk0` FOREIGN KEY (`lecture_id`) REFERENCES `lectures` (`id`),
   CONSTRAINT `tests_fk1` FOREIGN KEY (`user_course_id`) REFERENCES `users_courses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -227,7 +227,7 @@ CREATE TABLE `tests_questions` (
   KEY `tests_questions_fk1` (`test_id`),
   CONSTRAINT `tests_questions_fk0` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`),
   CONSTRAINT `tests_questions_fk1` FOREIGN KEY (`test_id`) REFERENCES `tests` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=156 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -285,7 +285,7 @@ CREATE TABLE `user_themes` (
   KEY `user_themes_fk1` (`theme_id`),
   CONSTRAINT `user_themes_fk0` FOREIGN KEY (`user_course_id`) REFERENCES `users_courses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `user_themes_fk1` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -345,7 +345,7 @@ CREATE TABLE `users_courses` (
   KEY `users_courses_fk1` (`course_id`),
   CONSTRAINT `users_courses_fk0` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `users_courses_fk1` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -396,4 +396,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-24 16:43:42
+-- Dump completed on 2017-05-24 21:06:05
