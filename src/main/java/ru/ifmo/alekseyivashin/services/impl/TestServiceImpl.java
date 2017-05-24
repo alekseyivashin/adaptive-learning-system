@@ -7,10 +7,12 @@ import ru.ifmo.alekseyivashin.repositories.TestRepository;
 import ru.ifmo.alekseyivashin.repositories.UserCourseRepository;
 import ru.ifmo.alekseyivashin.repositories.UserThemeRepository;
 import ru.ifmo.alekseyivashin.services.TestService;
+import ru.ifmo.alekseyivashin.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+
 
 /**
  * Creator: aleks
@@ -68,26 +70,24 @@ public class TestServiceImpl implements TestService {
         switch (userTest.getType()) {
             case START:
                 checkStartTest(userCourse, userTest, correctTest);
+                break;
+            case MEDIUM:
+                checkMediumTest(userCourse, userTest, correctTest);
         }
     }
 
     private void checkStartTest(UserCourse userCourse, Test userTest, Test correctTest) {
-        final int K = 40;
         double allQuestionsScore = 0;
         for (int i = 0; i < correctTest.getQuestions().size(); i++) {
             Question question = correctTest.getQuestions().get(i);
-            int correctAnswers = 0;
-            for (int j = 0; j < question.getAnswers().size(); j++) {
-                Answer correctAnswer = question.getAnswers().get(j);
-                Answer userAnswer = userTest.getQuestions().get(i).getAnswers().get(j);
-                if (correctAnswer.getCorrect().equals(userAnswer.getCorrect())) {
-                    correctAnswers++;
-                }
-            }
+            int correctAnswers = getCorrectAnswers(question, userTest, i);
+
             UserTheme userTheme = userThemeRepository.findByUserCourseAndTheme(userCourse, question.getLecture().getTheme());
+
             double E = 1 / (1 + Math.pow(10, (question.getLevel() - userTheme.getUserLevel()) / 400));
             double questionScore = (double) correctAnswers / question.getAnswers().size();
-            double newLevel = userTheme.getUserLevel() + K * (questionScore - E);
+            double newLevel = userTheme.getUserLevel() + Constants.K * (questionScore - E);
+
             userTheme.setUserLevel(newLevel);
             userThemeRepository.save(userTheme);
 
@@ -95,5 +95,33 @@ public class TestServiceImpl implements TestService {
         }
         userCourse.setStartScore((allQuestionsScore / correctTest.getQuestions().size()) * 100);
         userCourseRepository.save(userCourse);
+    }
+
+    private void checkMediumTest(UserCourse userCourse, Test userTest, Test correctTest) {
+        for (int i = 0; i < correctTest.getQuestions().size(); i++) {
+            Question question = correctTest.getQuestions().get(i);
+            int correctAnswers = getCorrectAnswers(question, userTest, i);
+
+            UserTheme userTheme = userThemeRepository.findByUserCourseAndTheme(userCourse, question.getLecture().getTheme());
+
+            double E = 1 / (1 + Math.pow(10, (question.getLevel() - userTheme.getUserLevel()) / 400));
+            double questionScore = (double) correctAnswers / question.getAnswers().size();
+            double newLevel = userTheme.getUserLevel() + Constants.K * (questionScore - E);
+
+            userTheme.setUserLevel(newLevel);
+            userThemeRepository.save(userTheme);
+        }
+    }
+
+    private int getCorrectAnswers(Question question, Test userTest, int questionIndex) {
+        int correctAnswers = 0;
+        for (int j = 0; j < question.getAnswers().size(); j++) {
+            Answer correctAnswer = question.getAnswers().get(j);
+            Answer userAnswer = userTest.getQuestions().get(questionIndex).getAnswers().get(j);
+            if (correctAnswer.getCorrect().equals(userAnswer.getCorrect())) {
+                correctAnswers++;
+            }
+        }
+        return correctAnswers;
     }
 }

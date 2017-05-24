@@ -36,6 +36,9 @@ public class WaySelectionServiceImpl implements WaySelectionService {
             return "redirect:/course/{courseId}/test?type=start&lectureId=null";
         }
         Lecture lecture = selectLecture(userCourse);
+        if (testRepository.findByUserCourseAndTypeAndLecture(userCourse, TestType.MEDIUM, lecture) != null) {
+            return "redirect:/course/{courseId}/test?type=medium&lectureId=" + lecture.getId();
+        }
         return "redirect:/course/{courseId}/lecture/" + lecture.getId();
     }
 
@@ -48,7 +51,9 @@ public class WaySelectionServiceImpl implements WaySelectionService {
                 }
                 return testRepository.findByUserCourseAndTypeAndLecture(userCourse, TestType.START, null);
             case "medium":
-                testService.createMediumTest(userCourse, lecture);
+                if (testRepository.findByUserCourseAndTypeAndLecture(userCourse, TestType.MEDIUM, lecture) == null) {
+                    testService.createMediumTest(userCourse, lecture);
+                }
                 return testRepository.findByUserCourseAndTypeAndLecture(userCourse, TestType.MEDIUM, lecture);
         }
         return null;
