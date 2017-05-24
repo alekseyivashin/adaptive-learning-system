@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.ifmo.alekseyivashin.models.*;
 import ru.ifmo.alekseyivashin.repositories.TestRepository;
+import ru.ifmo.alekseyivashin.repositories.UserCourseRepository;
 import ru.ifmo.alekseyivashin.repositories.UserThemeRepository;
 import ru.ifmo.alekseyivashin.services.TestService;
 
@@ -21,12 +22,14 @@ public class TestServiceImpl implements TestService {
 
     private final TestRepository testRepository;
     private final UserThemeRepository userThemeRepository;
+    private final UserCourseRepository userCourseRepository;
 
 
     @Autowired
-    public TestServiceImpl(TestRepository testRepository, UserThemeRepository userThemeRepository) {
+    public TestServiceImpl(TestRepository testRepository, UserThemeRepository userThemeRepository, UserCourseRepository userCourseRepository) {
         this.testRepository = testRepository;
         this.userThemeRepository = userThemeRepository;
+        this.userCourseRepository = userCourseRepository;
     }
 
     @Override
@@ -49,8 +52,19 @@ public class TestServiceImpl implements TestService {
     }
 
     @Override
+    public void createMediumTest(UserCourse userCourse, Lecture lecture) {
+        Test test = new Test();
+        test.setType(TestType.MEDIUM);
+        test.setLecture(lecture);
+        test.setUserCourse(userCourse);
+        List<Question> questions = new ArrayList<>(lecture.getQuestions());
+        test.setQuestions(questions);
+        testRepository.save(test);
+    }
+
+    @Override
     public void checkTest(UserCourse userCourse, Test userTest) {
-        Test correctTest = testRepository.findByUserCourseAndType(userCourse, userTest.getType());
+        Test correctTest = testRepository.findByUserCourseAndTypeAndLecture(userCourse, userTest.getType(), userTest.getLecture());
         switch (userTest.getType()) {
             case START:
                 checkStartTest(userCourse, userTest, correctTest);
@@ -79,6 +93,7 @@ public class TestServiceImpl implements TestService {
 
             allQuestionsScore += questionScore;
         }
-        userCourse.setStartScore(allQuestionsScore / correctTest.getQuestions().size());
+        userCourse.setStartScore((allQuestionsScore / correctTest.getQuestions().size()) * 100);
+        userCourseRepository.save(userCourse);
     }
 }

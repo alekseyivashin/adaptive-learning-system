@@ -6,11 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import ru.ifmo.alekseyivashin.models.Course;
-import ru.ifmo.alekseyivashin.models.Test;
-import ru.ifmo.alekseyivashin.models.User;
-import ru.ifmo.alekseyivashin.models.UserCourse;
+import ru.ifmo.alekseyivashin.models.*;
 import ru.ifmo.alekseyivashin.repositories.CourseRepository;
+import ru.ifmo.alekseyivashin.repositories.LectureRepository;
 import ru.ifmo.alekseyivashin.repositories.UserCourseRepository;
 import ru.ifmo.alekseyivashin.services.CourseService;
 import ru.ifmo.alekseyivashin.services.TestService;
@@ -27,20 +25,23 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("/course")
 public class CourseController {
 
+
     private final UserCourseRepository userCourseRepository;
     private final CourseRepository courseRepository;
     private final CourseService courseService;
     private final WaySelectionService waySelectionService;
     private final TestService testService;
+    private final LectureRepository lectureRepository;
 
 
     @Autowired
-    public CourseController(UserCourseRepository userCourseRepository, CourseRepository courseRepository, CourseService courseService, WaySelectionService waySelectionService, TestService testService) {
+    public CourseController(UserCourseRepository userCourseRepository, CourseRepository courseRepository, CourseService courseService, WaySelectionService waySelectionService, TestService testService, LectureRepository lectureRepository) {
         this.userCourseRepository = userCourseRepository;
         this.courseRepository = courseRepository;
         this.courseService = courseService;
         this.waySelectionService = waySelectionService;
         this.testService = testService;
+        this.lectureRepository = lectureRepository;
     }
 
     @RequestMapping(value = "{courseId}/welcome", method = RequestMethod.GET)
@@ -73,16 +74,21 @@ public class CourseController {
         return waySelectionService.selectWay(userCourse);
     }
 
-    @RequestMapping(value = "{courseId}/test", params = {"type"}, method = RequestMethod.GET)
+    @RequestMapping(value = "{courseId}/test", params = {"type", "lectureId"}, method = RequestMethod.GET)
     String testPage(HttpSession session,
                     @PathVariable int courseId,
                     @RequestParam String type,
+                    @RequestParam String lectureId,
                     Model model) {
         User user = (User) session.getAttribute("user");
         Course course = courseRepository.findOne(courseId);
         UserCourse userCourse = userCourseRepository.findByUserAndCourse(user, course);
+        Lecture lecture = null;
+        if (!lectureId.equals("null")) {
+            lecture = lectureRepository.findOne(convertToInt(lectureId));
+        }
 
-        Test test = waySelectionService.selectTest(userCourse, type);
+        Test test = waySelectionService.selectTest(userCourse, type, lecture);
         test.getQuestions().forEach(question -> question.getAnswers().forEach(answer -> answer.setCorrect(false)));
         model.addAttribute("test", test);
         return "course/test";
@@ -97,16 +103,30 @@ public class CourseController {
         UserCourse userCourse = userCourseRepository.findByUserAndCourse(user, course);
 
         testService.checkTest(userCourse, userTest);
-        return "redirect:/course/" + courseId + "/select";
+        return "redirect:/course/{courseId}/select";
     }
 
-    @RequestMapping(value = "/learning", method = RequestMethod.GET)
-    String learningPage() {
-        return "course/learning";
+    @RequestMapping(value = "{courseId}/lecture/{lectureId}", method = RequestMethod.GET)
+    String lecturePage(@PathVariable int courseId,
+                        @PathVariable int lectureId,
+                        Model model) {
+        model.addAttribute("lecture", lectureRepository.findOne(lectureId));
+        return "course/lecture";
+    }
+
+    @RequestMapping(value = "{courseId}/lecture/{lectureId}/submit", method = RequestMethod.GET)
+    String lectureSubmit(@PathVariable int courseId,
+                       @PathVariable int lectureId) {
+        return "redirect:/course/{courseId}/test?type=medium&lectureId={lectureId}";
     }
 
     @RequestMapping(value = "/final", method = RequestMethod.GET)
     String finalPage() {
         return "course/final";
+    }
+
+    private Integer convertToInt(String s) {
+        if (s.equals("null") || s.equals("")) return null;
+        return Integer.valueOf(s);
     }
 }

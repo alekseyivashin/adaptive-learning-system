@@ -1,6 +1,7 @@
 package ru.ifmo.alekseyivashin.services;
 
 import org.springframework.stereotype.Service;
+import ru.ifmo.alekseyivashin.models.Lecture;
 import ru.ifmo.alekseyivashin.models.Test;
 import ru.ifmo.alekseyivashin.models.UserCourse;
 
@@ -12,5 +13,5 @@ import ru.ifmo.alekseyivashin.models.UserCourse;
 @Service
 public interface WaySelectionService {
     String selectWay(UserCourse userCourse);
-    Test selectTest(UserCourse userCourse, String type);
+    Test selectTest(UserCourse userCourse, String type, Lecture lecture);
 }

@@ -12,6 +12,7 @@
     <form th:action="@{/course/} + ${test.getUserCourse().getCourse().getId()} + @{/test}" method="post"
           th:object="${test}" class="test-container">
         <input type="hidden" th:field="*{type}" th:value="${test.type}"/>
+        <input type="hidden" th:field="*{lecture}" th:value="${test.lecture}"/>
         <h2>Тестирование</h2>
         <section class="question" th:each="question : ${test.getQuestions()}">
             <h4 class="question__title" th:text="'Вопрос ' + ${questionStat.index + 1}"></h4>

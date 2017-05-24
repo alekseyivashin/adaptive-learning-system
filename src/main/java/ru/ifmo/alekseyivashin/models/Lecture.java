@@ -5,6 +5,7 @@ import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -31,10 +32,10 @@ public class Lecture {
     private Integer level;
 
     @OneToMany(mappedBy = "lecture")
-    private Set<Test> tests;
+    private List<Test> tests;
 
     @OneToMany(mappedBy = "lecture")
-    private Set<Question> questions;
+    private List<Question> questions;
 
     public int getId() {
         return id;
@@ -68,19 +69,19 @@ public class Lecture {
         this.level = level;
     }
 
-    public Set<Test> getTests() {
+    public List<Test> getTests() {
         return tests;
     }
 
-    public void setTests(Set<Test> tests) {
+    public void setTests(List<Test> tests) {
         this.tests = tests;
     }
 
-    public Set<Question> getQuestions() {
+    public List<Question> getQuestions() {
         return questions;
     }
 
-    public void setQuestions(Set<Question> questions) {
+    public void setQuestions(List<Question> questions) {
         this.questions = questions;
     }
 

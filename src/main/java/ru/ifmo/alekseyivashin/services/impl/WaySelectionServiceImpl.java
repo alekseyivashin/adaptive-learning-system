@@ -1,15 +1,14 @@
 package ru.ifmo.alekseyivashin.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import ru.ifmo.alekseyivashin.models.Test;
-import ru.ifmo.alekseyivashin.models.TestType;
-import ru.ifmo.alekseyivashin.models.UserCourse;
+import ru.ifmo.alekseyivashin.models.*;
 import ru.ifmo.alekseyivashin.repositories.TestRepository;
 import ru.ifmo.alekseyivashin.services.CourseService;
 import ru.ifmo.alekseyivashin.services.TestService;
 import ru.ifmo.alekseyivashin.services.WaySelectionService;
+
+import java.util.Comparator;
 
 /**
  * Creator: aleks
@@ -33,18 +32,35 @@ public class WaySelectionServiceImpl implements WaySelectionService {
 
     @Override
     public String selectWay(UserCourse userCourse) {
-        if (testRepository.findByUserCourseAndType(userCourse, TestType.START) == null) {
-            testService.createStartTest(userCourse);
+        if (testRepository.findByUserCourseAndTypeAndLecture(userCourse, TestType.START, null) == null) {
+            return "redirect:/course/{courseId}/test?type=start&lectureId=null";
         }
-        return "redirect:/course/{courseId}/test?type=start";
+        Lecture lecture = selectLecture(userCourse);
+        return "redirect:/course/{courseId}/lecture/" + lecture.getId();
     }
 
     @Override
-    public Test selectTest(UserCourse userCourse, String type) {
+    public Test selectTest(UserCourse userCourse, String type, Lecture lecture) {
         switch (type) {
             case "start":
-                return testRepository.findByUserCourseAndType(userCourse, TestType.START);
+                if (testRepository.findByUserCourseAndTypeAndLecture(userCourse, TestType.START, null) == null) {
+                    testService.createStartTest(userCourse);
+                }
+                return testRepository.findByUserCourseAndTypeAndLecture(userCourse, TestType.START, null);
+            case "medium":
+                testService.createMediumTest(userCourse, lecture);
+                return testRepository.findByUserCourseAndTypeAndLecture(userCourse, TestType.MEDIUM, lecture);
         }
         return null;
+    }
+
+    private Lecture selectLecture(UserCourse userCourse) {
+        // выбор темы с самым минимальным уровнем знаний
+        UserTheme userTheme = userCourse.getUserThemes().stream()
+                .min(Comparator.comparingDouble(UserTheme::getUserLevel)).get();
+        Double userLevel = userTheme.getUserLevel();
+        return userTheme.getTheme().getLectures().stream()
+                .min(Comparator.comparingDouble(lecture -> Math.abs(lecture.getLevel() - userLevel))).get();
+
     }
 }

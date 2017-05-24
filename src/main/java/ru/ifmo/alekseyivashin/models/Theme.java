@@ -28,7 +28,7 @@ public class Theme {
     private Course course;
 
     @OneToMany(mappedBy = "theme")
-    private Set<Lecture> lectures;
+    private List<Lecture> lectures;
 
     @OneToMany(mappedBy = "theme")
     private List<UserTheme> userThemes;
@@ -57,11 +57,11 @@ public class Theme {
         this.course = course;
     }
 
-    public Set<Lecture> getLectures() {
+    public List<Lecture> getLectures() {
         return lectures;
     }
 
-    public void setLectures(Set<Lecture> lectures) {
+    public void setLectures(List<Lecture> lectures) {
         this.lectures = lectures;
     }
 

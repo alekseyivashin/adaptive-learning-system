@@ -13,10 +13,10 @@ public class UserCourseDTO {
     private Integer courseId;
     private Date startDate;
     private Date endDate;
-    private Float startScore;
-    private Float endScore;
+    private Double startScore;
+    private Double endScore;
     private Integer rating;
-    private Float progress;
+    private Double progress;
 
     public Integer getUserId() {
         return userId;
@@ -50,19 +50,19 @@ public class UserCourseDTO {
         this.endDate = endDate;
     }
 
-    public Float getStartScore() {
+    public Double getStartScore() {
         return startScore;
     }
 
-    public void setStartScore(Float startScore) {
+    public void setStartScore(Double startScore) {
         this.startScore = startScore;
     }
 
-    public Float getEndScore() {
+    public Double getEndScore() {
         return endScore;
     }
 
-    public void setEndScore(Float endScore) {
+    public void setEndScore(Double endScore) {
         this.endScore = endScore;
     }
 
@@ -74,11 +74,11 @@ public class UserCourseDTO {
         this.rating = rating;
     }
 
-    public Float getProgress() {
+    public Double getProgress() {
         return progress;
     }
 
-    public void setProgress(Float progress) {
+    public void setProgress(Double progress) {
         this.progress = progress;
     }
 

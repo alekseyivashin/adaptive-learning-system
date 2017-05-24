@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Обучение</title>
+    <link rel="stylesheet" th:href="@{/styles/bootstrap.min.css}" href="../../static/styles/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/styles/learning.css}" href="../../static/styles/learning.css"/>
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<main>
+    <div class="learning-container">
+        <span class="learning-num" th:text="'#' + ${lecture.getId()}"></span>
+        <h2 class="learning-name" th:text="${lecture.getTheme().getName()}"></h2>
+        <p class="learning-text" th:text="${lecture.getContent()}"></p>
+        <a th:href="@{/course/} + ${lecture.getTheme().getCourse().getId()} + @{/lecture/} + ${lecture.getId()} + @{/submit}"
+           class="btn btn-primary next-course">Далее</a>
+    </div>
+</main>
+</body>
+</html>

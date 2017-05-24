@@ -77,7 +77,7 @@ public class UserController {
             Message message = authService.signIn(user);
             if (!message.getStatus().equals(Message.Status.ERROR)) {
                 session.setAttribute("user", userRepository.findUserByName(user.getName()));
-                return "redirect:/";
+                return "redirect:/profile";
             } else {
                 model.addAttribute("error", message.getMessage());
             }
