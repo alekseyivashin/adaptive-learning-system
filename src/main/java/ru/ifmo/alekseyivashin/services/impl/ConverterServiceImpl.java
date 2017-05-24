@@ -2,9 +2,11 @@ package ru.ifmo.alekseyivashin.services.impl;
 
 import org.springframework.stereotype.Component;
 import ru.ifmo.alekseyivashin.dto.CourseDTO;
+import ru.ifmo.alekseyivashin.dto.KeywordDTO;
 import ru.ifmo.alekseyivashin.dto.UserCourseDTO;
 import ru.ifmo.alekseyivashin.dto.UserDTO;
 import ru.ifmo.alekseyivashin.models.Course;
+import ru.ifmo.alekseyivashin.models.Keyword;
 import ru.ifmo.alekseyivashin.models.User;
 import ru.ifmo.alekseyivashin.models.UserCourse;
 import ru.ifmo.alekseyivashin.services.ConverterService;
@@ -51,5 +53,13 @@ public class ConverterServiceImpl implements ConverterService {
         userCourseDTO.setRating(userCourse.getRating());
         userCourseDTO.setProgress(userCourse.getProgress());
         return userCourseDTO;
+    }
+
+    @Override
+    public KeywordDTO keywordToDTO(Keyword keyword) {
+        KeywordDTO keywordDTO = new KeywordDTO();
+        keywordDTO.setId(keyword.getId());
+        keywordDTO.setName(keyword.getName());
+        return keywordDTO;
     }
 }
