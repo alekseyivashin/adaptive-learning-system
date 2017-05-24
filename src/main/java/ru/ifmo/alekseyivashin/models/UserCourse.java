@@ -36,15 +36,15 @@ public class UserCourse implements Serializable {
 
     private Date endDate;
 
-    private Float startScore;
+    private Double startScore;
 
-    private Float endScore;
+    private Double endScore;
 
     @Min(1)
     @Max(5)
     private Integer rating;
 
-    private Float progress;
+    private Double progress;
 
     @OneToMany(mappedBy = "userCourse")
     private List<UserTheme> userThemes;
@@ -93,19 +93,19 @@ public class UserCourse implements Serializable {
         this.endDate = endDate;
     }
 
-    public Float getStartScore() {
+    public Double getStartScore() {
         return startScore;
     }
 
-    public void setStartScore(Float startScore) {
+    public void setStartScore(Double startScore) {
         this.startScore = startScore;
     }
 
-    public Float getEndScore() {
+    public Double getEndScore() {
         return endScore;
     }
 
-    public void setEndScore(Float endScore) {
+    public void setEndScore(Double endScore) {
         this.endScore = endScore;
     }
 
@@ -117,11 +117,11 @@ public class UserCourse implements Serializable {
         this.rating = rating;
     }
 
-    public Float getProgress() {
+    public Double getProgress() {
         return progress;
     }
 
-    public void setProgress(Float progress) {
+    public void setProgress(Double progress) {
         this.progress = progress;
     }
 

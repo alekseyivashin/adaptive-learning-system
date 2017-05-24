@@ -23,7 +23,7 @@ public class UserTheme {
     @JoinColumn(name = "theme_id")
     private Theme theme;
 
-    private Integer userLevel;
+    private Double userLevel;
 
     public int getId() {
         return id;
@@ -49,11 +49,11 @@ public class UserTheme {
         this.theme = theme;
     }
 
-    public Integer getUserLevel() {
+    public Double getUserLevel() {
         return userLevel;
     }
 
-    public void setUserLevel(Integer userLevel) {
+    public void setUserLevel(Double userLevel) {
         this.userLevel = userLevel;
     }
 

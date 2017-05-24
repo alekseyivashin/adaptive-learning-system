@@ -2,6 +2,7 @@ package ru.ifmo.alekseyivashin.dto;
 
 import ru.ifmo.alekseyivashin.models.Keyword;
 
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -16,7 +17,7 @@ public class CourseDTO {
     private Integer level;
     private Float rating;
     private Integer userCount;
-    private Set<Keyword> keywords;
+    private List<Keyword> keywords;
 
     public Integer getId() {
         return id;
@@ -58,11 +59,11 @@ public class CourseDTO {
         this.userCount = userCount;
     }
 
-    public Set<Keyword> getKeywords() {
+    public List<Keyword> getKeywords() {
         return keywords;
     }
 
-    public void setKeywords(Set<Keyword> keywords) {
+    public void setKeywords(List<Keyword> keywords) {
         this.keywords = keywords;
     }
 

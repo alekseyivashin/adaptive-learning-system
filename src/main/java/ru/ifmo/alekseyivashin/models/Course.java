@@ -7,6 +7,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -41,13 +42,13 @@ public class Course {
     @JoinTable(name = "courses_keywords",
             joinColumns = @JoinColumn(name = "course_id"),
             inverseJoinColumns = @JoinColumn(name = "keyword_id"))
-    private Set<Keyword> keywords;
+    private List<Keyword> keywords;
 
     @OneToMany(mappedBy = "course")
-    private Set<UserCourse> courseUsers;
+    private List<UserCourse> courseUsers;
 
     @OneToMany(mappedBy = "course")
-    private Set<Theme> themes;
+    private List<Theme> themes;
 
     public int getId() {
         return id;
@@ -97,29 +98,27 @@ public class Course {
         this.userCount = userCount;
     }
 
-    public Set<Keyword> getKeywords() {
+    public List<Keyword> getKeywords() {
         return keywords;
     }
 
-    public void setKeywords(Set<Keyword> keywords) {
+    public void setKeywords(List<Keyword> keywords) {
         this.keywords = keywords;
     }
 
-    @JsonIgnore
-    public Set<UserCourse> getCourseUsers() {
+    public List<UserCourse> getCourseUsers() {
         return courseUsers;
     }
 
-    public void setCourseUsers(Set<UserCourse> courseUsers) {
+    public void setCourseUsers(List<UserCourse> courseUsers) {
         this.courseUsers = courseUsers;
     }
 
-    public Set<Theme> getThemes() {
+    public List<Theme> getThemes() {
         return themes;
     }
 
-    public void setThemes(Set<Theme> themes) {
+    public void setThemes(List<Theme> themes) {
         this.themes = themes;
     }
-
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.ifmo.alekseyivashin.models.*;
 import ru.ifmo.alekseyivashin.repositories.TestRepository;
+import ru.ifmo.alekseyivashin.repositories.UserThemeRepository;
 import ru.ifmo.alekseyivashin.services.TestService;
 
 import java.util.ArrayList;
@@ -19,10 +20,13 @@ import java.util.List;
 public class TestServiceImpl implements TestService {
 
     private final TestRepository testRepository;
+    private final UserThemeRepository userThemeRepository;
+
 
     @Autowired
-    public TestServiceImpl(TestRepository testRepository) {
+    public TestServiceImpl(TestRepository testRepository, UserThemeRepository userThemeRepository) {
         this.testRepository = testRepository;
+        this.userThemeRepository = userThemeRepository;
     }
 
     @Override
@@ -47,17 +51,34 @@ public class TestServiceImpl implements TestService {
     @Override
     public void checkTest(UserCourse userCourse, Test userTest) {
         Test correctTest = testRepository.findByUserCourseAndType(userCourse, userTest.getType());
-        int errorsCount = 0;
+        switch (userTest.getType()) {
+            case START:
+                checkStartTest(userCourse, userTest, correctTest);
+        }
+    }
+
+    private void checkStartTest(UserCourse userCourse, Test userTest, Test correctTest) {
+        final int K = 40;
+        double allQuestionsScore = 0;
         for (int i = 0; i < correctTest.getQuestions().size(); i++) {
             Question question = correctTest.getQuestions().get(i);
+            int correctAnswers = 0;
             for (int j = 0; j < question.getAnswers().size(); j++) {
                 Answer correctAnswer = question.getAnswers().get(j);
                 Answer userAnswer = userTest.getQuestions().get(i).getAnswers().get(j);
-                if (!correctAnswer.getCorrect().equals(userAnswer.getCorrect())) {
-                    errorsCount++;
+                if (correctAnswer.getCorrect().equals(userAnswer.getCorrect())) {
+                    correctAnswers++;
                 }
             }
+            UserTheme userTheme = userThemeRepository.findByUserCourseAndTheme(userCourse, question.getLecture().getTheme());
+            double E = 1 / (1 + Math.pow(10, (question.getLevel() - userTheme.getUserLevel()) / 400));
+            double questionScore = (double) correctAnswers / question.getAnswers().size();
+            double newLevel = userTheme.getUserLevel() + K * (questionScore - E);
+            userTheme.setUserLevel(newLevel);
+            userThemeRepository.save(userTheme);
+
+            allQuestionsScore += questionScore;
         }
-        System.out.println(errorsCount);
+        userCourse.setStartScore(allQuestionsScore / correctTest.getQuestions().size());
     }
 }

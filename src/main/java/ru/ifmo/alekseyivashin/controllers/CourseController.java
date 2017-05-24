@@ -97,7 +97,7 @@ public class CourseController {
         UserCourse userCourse = userCourseRepository.findByUserAndCourse(user, course);
 
         testService.checkTest(userCourse, userTest);
-        return "";
+        return "redirect:/course/" + courseId + "/select";
     }
 
     @RequestMapping(value = "/learning", method = RequestMethod.GET)
