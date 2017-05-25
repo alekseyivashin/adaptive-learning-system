@@ -6,16 +6,17 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <link rel="stylesheet" th:href="@{../styles/bootstrap.min.css}" href="../static/styles/bootstrap.min.css"/>
     <link rel="stylesheet" th:href="@{../styles/sign.css}" href="../static/styles/sign.css"/>
+    <link rel="stylesheet" th:href="@{../styles/test.css}" href="../static/styles/test.css"/>
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
 
-<main>
+<main class="signUp-main">
     <div class="signin-container">
-        <h4 th:if="${error != null}" th:text="${error}"></h4>
         <form action="#" th:action="@{/user/signup}" th:object="${user}" method="post" class="form-horizontal">
             <legend class="name">Регистрация</legend>
             <fieldset>
+                <h4 th:if="${error != null}" th:text="${error}" class="error-sign"></h4>
                 <div class="form-group">
                     <label for="name-field" class="col-lg-2 control-label">Name</label>
                     <div class="col-lg-10">
@@ -32,9 +33,17 @@
                         <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password error</p>
                     </div>
                 </div>
+                <section class="keywords">
+                    <h4>Выберите интересные для Вас темы</h4>
+                    <div class="answers">
+                        <label>
+                            <input type="checkbox" class="answers__item"/>Привет<Br/>
+                        </label>
+                    </div>
+                </section>
                 <div class="form-group">
                     <div class="col-lg-10 col-lg-offset-2">
-                        <button type="submit" class="btn btn-primary">Регистрация</button>
+                        <button type="submit" class="btn btn-primary signup">Регистрация</button>
                     </div>
                 </div>
             </fieldset>

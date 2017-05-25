@@ -11,10 +11,10 @@
 
 <main>
     <div class="signin-container">
-        <h4 th:if="${error != null}" th:text="${error}"></h4>
         <form action="#" th:action="@{/user/signin}" th:object="${user}" method="post" class="form-horizontal">
             <legend class="name">Авторизация</legend>
             <fieldset>
+                <h4 th:if="${error != null}" th:text="${error}" class="error-sign"></h4>
                 <div class="form-group">
                     <label for="inputEmail" class="col-lg-2 control-label">Name</label>
                     <div class="col-lg-10">
