@@ -199,7 +199,7 @@ CREATE TABLE `tests` (
   KEY `tests_fk1` (`user_course_id`),
   CONSTRAINT `tests_fk0` FOREIGN KEY (`lecture_id`) REFERENCES `lectures` (`id`),
   CONSTRAINT `tests_fk1` FOREIGN KEY (`user_course_id`) REFERENCES `users_courses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -227,7 +227,7 @@ CREATE TABLE `tests_questions` (
   KEY `tests_questions_fk1` (`test_id`),
   CONSTRAINT `tests_questions_fk0` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`),
   CONSTRAINT `tests_questions_fk1` FOREIGN KEY (`test_id`) REFERENCES `tests` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=156 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -285,7 +285,7 @@ CREATE TABLE `user_themes` (
   KEY `user_themes_fk1` (`theme_id`),
   CONSTRAINT `user_themes_fk0` FOREIGN KEY (`user_course_id`) REFERENCES `users_courses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `user_themes_fk1` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=97 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -310,7 +310,7 @@ CREATE TABLE `users` (
   `password` varchar(200) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -345,7 +345,7 @@ CREATE TABLE `users_courses` (
   KEY `users_courses_fk1` (`course_id`),
   CONSTRAINT `users_courses_fk0` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `users_courses_fk1` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=42 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -372,9 +372,9 @@ CREATE TABLE `users_keywords` (
   PRIMARY KEY (`id`),
   KEY `users_keywords_fk0` (`user_id`),
   KEY `users_keywords_fk1` (`keyword_id`),
-  CONSTRAINT `users_keywords_fk0` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `users_keywords_fk1` FOREIGN KEY (`keyword_id`) REFERENCES `keywords` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+  CONSTRAINT `users_keywords_fk0` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `users_keywords_fk1` FOREIGN KEY (`keyword_id`) REFERENCES `keywords` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -396,4 +396,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-05-24 21:06:05
+-- Dump completed on 2017-05-25 22:19:49

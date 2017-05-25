@@ -16,7 +16,9 @@
         <form action="#" th:action="@{/user/signup}" th:object="${user}" method="post" class="form-horizontal">
             <legend class="name">Регистрация</legend>
             <fieldset>
-                <h4 th:if="${error != null}" th:text="${error}" class="error-sign"></h4>
+                <div class="alert alert-dismissible alert-danger" th:if="${error != null}">
+                    <strong th:text="${error}"></strong>
+                </div>
                 <div class="form-group">
                     <label for="name-field" class="col-lg-2 control-label">Name</label>
                     <div class="col-lg-10">
@@ -35,9 +37,12 @@
                 </div>
                 <section class="keywords">
                     <h4>Выберите интересные для Вас темы</h4>
-                    <div class="answers">
+                    <div class="answers" th:each="keyword : ${keywordsList}">
                         <label>
-                            <input type="checkbox" class="answers__item"/>Привет<Br/>
+                            <input type="checkbox" class="answers__item"
+                                   th:value="${keyword.getId()}"
+                                   th:field="*{keywords}"
+                                   th:text="${keyword.getName()}"/><Br/>
                         </label>
                     </div>
                 </section>

@@ -37,6 +37,7 @@ public class AuthServiceImpl implements AuthService {
             return messageFactory.getErrorMessage("User with this name already exists");
         } else {
             user.setPassword(crypter.encrypt(user.getPassword()));
+
             userRepository.save(user);
             return messageFactory.getSuccessMessage();
         }

@@ -2,7 +2,7 @@ package ru.ifmo.alekseyivashin.dto;
 
 import ru.ifmo.alekseyivashin.models.Keyword;
 
-import java.util.Set;
+import java.util.List;
 
 /**
  * Created on : 10.05.2017
@@ -14,7 +14,7 @@ public class UserDTO {
     private Integer id;
     private String name;
     private String password;
-    private Set<Keyword> keywords;
+    private List<Keyword> keywords;
 
     public int getId() {
         return id;
@@ -40,11 +40,11 @@ public class UserDTO {
         this.password = password;
     }
 
-    public Set<Keyword> getKeywords() {
+    public List<Keyword> getKeywords() {
         return keywords;
     }
 
-    public void setKeywords(Set<Keyword> keywords) {
+    public void setKeywords(List<Keyword> keywords) {
         this.keywords = keywords;
     }
 

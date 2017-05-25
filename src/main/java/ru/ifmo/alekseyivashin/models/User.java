@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -30,10 +31,10 @@ public class User implements Serializable {
     @JoinTable(name = "users_keywords",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "keyword_id", referencedColumnName = "id"))
-    private Set<Keyword> keywords;
+    private List<Keyword> keywords;
 
     @OneToMany(mappedBy = "user")
-    private Set<UserCourse> userCourses;
+    private List<UserCourse> userCourses;
 
     public int getId() {
         return id;
@@ -59,19 +60,19 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public Set<Keyword> getKeywords() {
+    public List<Keyword> getKeywords() {
         return keywords;
     }
 
-    public void setKeywords(Set<Keyword> keywords) {
+    public void setKeywords(List<Keyword> keywords) {
         this.keywords = keywords;
     }
 
-    public Set<UserCourse> getUserCourses() {
+    public List<UserCourse> getUserCourses() {
         return userCourses;
     }
 
-    public void setUserCourses(Set<UserCourse> userCourses) {
+    public void setUserCourses(List<UserCourse> userCourses) {
         this.userCourses = userCourses;
     }
 
