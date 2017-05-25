@@ -16,9 +16,7 @@
         <form action="#" th:action="@{/user/signup}" th:object="${user}" method="post" class="form-horizontal">
             <legend class="name">Регистрация</legend>
             <fieldset>
-                <div class="alert alert-dismissible alert-danger" th:if="${error != null}">
-                    <strong th:text="${error}"></strong>
-                </div>
+                <h4 th:if="${error != null}" th:text="${error}" class="error-sign"></h4>
                 <div class="form-group">
                     <label for="name-field" class="col-lg-2 control-label">Name</label>
                     <div class="col-lg-10">
