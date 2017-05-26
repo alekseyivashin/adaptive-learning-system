@@ -38,8 +38,8 @@
                         <a class="courseName" th:href="@{/course/} + ${userCourse.getCourse().getId()} + @{/welcome}">
                             <h4 th:text="${userCourse.getCourse().getName()}"></h4>
                         </a>
-                        <p class="list-group-item-text"
-                           th:text="'Оценка ' + ${T(Math).round(userCourse.getEndScore())} + ' / 100'"></p>
+                        <!--<p class="list-group-item-text"-->
+                           <!--th:text="'Оценка ' + ${T(Math).round(userCourse.getEndScore())} + ' / 100'"></p>-->
                     </li>
                 </ul>
             </div>

@@ -10,4 +10,6 @@ public class Constants {
     public static final int BORDER_SCORE = 1030;
 
     public static final int START_SCORE = 1000;
+
+    public static final String NODE_URL = "http://localhost:3000/data";
 }
