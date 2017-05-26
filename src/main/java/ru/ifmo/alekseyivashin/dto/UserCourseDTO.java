@@ -9,7 +9,6 @@ import java.util.Date;
 
 public class UserCourseDTO {
 
-    private Integer userId;
     private Integer courseId;
     private Date startDate;
     private Date endDate;
@@ -17,14 +16,6 @@ public class UserCourseDTO {
     private Double endScore;
     private Integer rating;
     private Double progress;
-
-    public Integer getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Integer userId) {
-        this.userId = userId;
-    }
 
     public Integer getCourseId() {
         return courseId;
@@ -85,8 +76,7 @@ public class UserCourseDTO {
     @Override
     public String toString() {
         return "UserCourseDTO{" +
-                "userId=" + userId +
-                ", courseId=" + courseId +
+                "courseId=" + courseId +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 ", startScore=" + startScore +

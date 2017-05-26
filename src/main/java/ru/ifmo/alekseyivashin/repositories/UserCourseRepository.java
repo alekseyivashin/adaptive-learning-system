@@ -20,6 +20,8 @@ public interface UserCourseRepository extends CrudRepository<UserCourse, Integer
 
     UserCourse findByUserAndCourse(User user, Course course);
 
+    List<UserCourse> findAllByUser(User user);
+
     @Query(nativeQuery = true,
             value = "SELECT *\n" +
                     "FROM users_courses\n" +

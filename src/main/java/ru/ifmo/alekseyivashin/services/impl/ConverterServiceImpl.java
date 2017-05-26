@@ -1,15 +1,18 @@
 package ru.ifmo.alekseyivashin.services.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import ru.ifmo.alekseyivashin.dto.CourseDTO;
-import ru.ifmo.alekseyivashin.dto.KeywordDTO;
-import ru.ifmo.alekseyivashin.dto.UserCourseDTO;
-import ru.ifmo.alekseyivashin.dto.UserDTO;
+import ru.ifmo.alekseyivashin.dto.*;
 import ru.ifmo.alekseyivashin.models.Course;
 import ru.ifmo.alekseyivashin.models.Keyword;
 import ru.ifmo.alekseyivashin.models.User;
 import ru.ifmo.alekseyivashin.models.UserCourse;
+import ru.ifmo.alekseyivashin.repositories.UserCourseRepository;
 import ru.ifmo.alekseyivashin.services.ConverterService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created on : 10.05.2017
@@ -18,6 +21,13 @@ import ru.ifmo.alekseyivashin.services.ConverterService;
 
 @Component
 public class ConverterServiceImpl implements ConverterService {
+
+    private final UserCourseRepository userCourseRepository;
+
+    @Autowired
+    public ConverterServiceImpl(UserCourseRepository userCourseRepository) {
+        this.userCourseRepository = userCourseRepository;
+    }
 
     @Override
     public UserDTO userToDTO(User user) {
@@ -42,17 +52,23 @@ public class ConverterServiceImpl implements ConverterService {
     }
 
     @Override
-    public UserCourseDTO userCourseToDTO(UserCourse userCourse) {
-        UserCourseDTO userCourseDTO = new UserCourseDTO();
-        userCourseDTO.setUserId(userCourse.getUser().getId());
-        userCourseDTO.setCourseId(userCourse.getCourse().getId());
-        userCourseDTO.setStartDate(userCourse.getStartDate());
-        userCourseDTO.setEndDate(userCourse.getEndDate());
-        userCourseDTO.setStartScore(userCourse.getStartScore());
-        userCourseDTO.setEndScore(userCourse.getEndScore());
-        userCourseDTO.setRating(userCourse.getRating());
-        userCourseDTO.setProgress(userCourse.getProgress());
-        return userCourseDTO;
+    public UserCourseParentDTO userCourseToDTO(User user) {
+        UserCourseParentDTO dto = new UserCourseParentDTO();
+        dto.setUserId(user.getId());
+        List<UserCourseDTO> courseDTOs = new ArrayList<>();
+        userCourseRepository.findAllByUser(user).forEach(userCourse -> {
+            UserCourseDTO userCourseDTO = new UserCourseDTO();
+            userCourseDTO.setCourseId(userCourse.getCourse().getId());
+            userCourseDTO.setStartDate(userCourse.getStartDate());
+            userCourseDTO.setEndDate(userCourse.getEndDate());
+            userCourseDTO.setStartScore(userCourse.getStartScore());
+            userCourseDTO.setEndScore(userCourse.getEndScore());
+            userCourseDTO.setRating(userCourse.getRating());
+            userCourseDTO.setProgress(userCourse.getProgress());
+            courseDTOs.add(userCourseDTO);
+        });
+        dto.setCourses(courseDTOs);
+        return dto;
     }
 
     @Override

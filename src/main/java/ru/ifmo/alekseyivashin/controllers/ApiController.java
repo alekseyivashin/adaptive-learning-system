@@ -10,10 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import ru.ifmo.alekseyivashin.dto.CourseDTO;
-import ru.ifmo.alekseyivashin.dto.KeywordDTO;
-import ru.ifmo.alekseyivashin.dto.UserCourseDTO;
-import ru.ifmo.alekseyivashin.dto.UserDTO;
+import ru.ifmo.alekseyivashin.dto.*;
 import ru.ifmo.alekseyivashin.models.Course;
 import ru.ifmo.alekseyivashin.models.Keyword;
 import ru.ifmo.alekseyivashin.models.User;
@@ -65,8 +62,7 @@ public class ApiController {
         List<Course> courses = (List<Course>) courseRepository.findAll();
         List<CourseDTO> courseDTOs = courses.stream().map(converterService::courseToDTO).collect(Collectors.toList());
 
-        List<UserCourse> userCourses = (List<UserCourse>) userCourseRepository.findAll();
-        List<UserCourseDTO> userCourseDTOs = userCourses.stream().map(converterService::userCourseToDTO).collect(Collectors.toList());
+        List<UserCourseParentDTO> userCourseDTOs = users.stream().map(converterService::userCourseToDTO).collect(Collectors.toList());
 
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode rootNode = mapper.createObjectNode();
