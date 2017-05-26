@@ -11,6 +11,7 @@ import ru.ifmo.alekseyivashin.repositories.CourseRepository;
 import ru.ifmo.alekseyivashin.repositories.UserCourseRepository;
 import ru.ifmo.alekseyivashin.repositories.UserThemeRepository;
 import ru.ifmo.alekseyivashin.services.CourseService;
+import ru.ifmo.alekseyivashin.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -52,7 +53,7 @@ public class CourseServiceImpl implements CourseService {
             UserTheme userTheme = new UserTheme();
             userTheme.setTheme(theme);
             userTheme.setUserCourse(userCourse);
-            userTheme.setUserLevel((double) 1000);
+            userTheme.setUserLevel((double) Constants.START_SCORE);
             userThemeRepository.save(userTheme);
         });
 

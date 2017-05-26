@@ -22,7 +22,7 @@
                         <a class="courseName" th:href="@{/course/} + ${userCourse.getCourse().getId()} + @{/welcome}">
                             <h4 th:text="${userCourse.getCourse().getName()}"></h4>
                         </a>
-                        <span th:text="${userCourse.getProgress() * 100} + '%'"></span>
+                        <span th:text="${userCourse.getProgress() * 100} + ' %'"></span>
                         <div class="progress">
                             <div class="progress-bar progress-bar-success"
                                  th:style="'width:' + ${userCourse.getProgress() * 100} + '%'" aria-valuemin="0"

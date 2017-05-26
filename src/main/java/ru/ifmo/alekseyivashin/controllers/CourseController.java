@@ -1,7 +1,6 @@
 package ru.ifmo.alekseyivashin.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +14,7 @@ import ru.ifmo.alekseyivashin.services.TestService;
 import ru.ifmo.alekseyivashin.services.WaySelectionService;
 
 import javax.servlet.http.HttpSession;
+import java.util.Date;
 
 /**
  * Creator: aleks
@@ -108,21 +108,36 @@ public class CourseController {
 
     @RequestMapping(value = "{courseId}/lecture/{lectureId}", method = RequestMethod.GET)
     String lecturePage(@PathVariable int courseId,
-                        @PathVariable int lectureId,
-                        Model model) {
+                       @PathVariable int lectureId,
+                       Model model) {
         model.addAttribute("lecture", lectureRepository.findOne(lectureId));
         return "course/lecture";
     }
 
     @RequestMapping(value = "{courseId}/lecture/{lectureId}/submit", method = RequestMethod.GET)
     String lectureSubmit(@PathVariable int courseId,
-                       @PathVariable int lectureId) {
+                         @PathVariable int lectureId) {
         return "redirect:/course/{courseId}/test?type=medium&lectureId={lectureId}";
     }
 
-    @RequestMapping(value = "/final", method = RequestMethod.GET)
-    String finalPage() {
+    @RequestMapping(value = "{courseId}/final", method = RequestMethod.GET)
+    String finalPage(@PathVariable int courseId,
+                     Model model) {
+        model.addAttribute("course", courseRepository.findOne(courseId));
         return "course/final";
+    }
+
+    @RequestMapping(value = "{courseId}/final", method = RequestMethod.POST)
+    String finalSubmit(HttpSession session,
+                       @PathVariable int courseId,
+                       @RequestParam Integer rating) {
+        User user = (User) session.getAttribute("user");
+        Course course = courseRepository.findOne(courseId);
+        UserCourse userCourse = userCourseRepository.findByUserAndCourse(user, course);
+        userCourse.setEndDate(new Date());
+        userCourse.setRating(rating);
+        userCourseRepository.save(userCourse);
+        return "redirect:/";
     }
 
     private Integer convertToInt(String s) {

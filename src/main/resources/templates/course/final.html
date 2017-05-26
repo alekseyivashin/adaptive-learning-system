@@ -3,25 +3,24 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Конец курса</title>
-    <link rel="stylesheet" th:href="@{../styles/bootstrap.min.css}" href="../../static/styles/bootstrap.min.css"/>
-    <link rel="stylesheet" th:href="@{../styles/final.css}" href="../../static/styles/final.css"/>
+    <link rel="stylesheet" th:href="@{/styles/bootstrap.min.css}" href="../../static/styles/bootstrap.min.css"/>
+    <link rel="stylesheet" th:href="@{/styles/final.css}" href="../../static/styles/final.css"/>
 </head>
 <body>
 <div th:replace="fragments/header :: header"></div>
 <main>
     <div class="final-container">
         <h3 class="final-title">Поздравляем с успешным завершением курса!</h3>
-        <h5>Ваша оценка 4.3</h5>
-        <form class="form-horizontal">
+        <form class="form-horizontal" method="post" th:action="@{/course/} + ${course.getId()} + @{/final}">
             <div class="select-list">
                 <label for="select" class="control-label">Оцените пройденный курс</label>
                 <div>
-                    <select class="form-control" id="select">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
+                    <select class="form-control" id="select" th:name="rating">
+                        <option th:value="1">1</option>
+                        <option th:value="2">2</option>
+                        <option th:value="3">3</option>
+                        <option th:value="4">4</option>
+                        <option th:value="5">5</option>
                     </select>
                 </div>
             </div>

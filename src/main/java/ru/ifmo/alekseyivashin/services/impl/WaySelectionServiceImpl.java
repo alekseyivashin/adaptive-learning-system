@@ -4,9 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ru.ifmo.alekseyivashin.models.*;
 import ru.ifmo.alekseyivashin.repositories.TestRepository;
-import ru.ifmo.alekseyivashin.services.CourseService;
+import ru.ifmo.alekseyivashin.repositories.UserThemeRepository;
 import ru.ifmo.alekseyivashin.services.TestService;
 import ru.ifmo.alekseyivashin.services.WaySelectionService;
+import ru.ifmo.alekseyivashin.utils.Constants;
 
 import java.util.Comparator;
 
@@ -19,21 +20,24 @@ import java.util.Comparator;
 public class WaySelectionServiceImpl implements WaySelectionService {
 
     private final TestService testService;
-    private final CourseService courseService;
     private final TestRepository testRepository;
+    private final UserThemeRepository userThemeRepository;
 
 
     @Autowired
-    public WaySelectionServiceImpl(TestService testService, CourseService courseService, TestRepository testRepository) {
+    public WaySelectionServiceImpl(TestService testService, TestRepository testRepository, UserThemeRepository userThemeRepository) {
         this.testService = testService;
-        this.courseService = courseService;
         this.testRepository = testRepository;
+        this.userThemeRepository = userThemeRepository;
     }
 
     @Override
     public String selectWay(UserCourse userCourse) {
         if (testRepository.findByUserCourseAndTypeAndLecture(userCourse, TestType.START, null) == null) {
             return "redirect:/course/{courseId}/test?type=start&lectureId=null";
+        }
+        if (isLearningGoalAchieved(userCourse)) {
+            return "redirect:/course/{courseId}/final";
         }
         Lecture lecture = selectLecture(userCourse);
         if (testRepository.findByUserCourseAndTypeAndLecture(userCourse, TestType.MEDIUM, lecture) != null) {
@@ -67,5 +71,10 @@ public class WaySelectionServiceImpl implements WaySelectionService {
         return userTheme.getTheme().getLectures().stream()
                 .min(Comparator.comparingDouble(lecture -> Math.abs(lecture.getLevel() - userLevel))).get();
 
+    }
+
+    private boolean isLearningGoalAchieved(UserCourse userCourse) {
+        return userThemeRepository.findAllByUserCourse(userCourse).stream()
+                .allMatch(userTheme -> userTheme.getUserLevel() > Constants.BORDER_SCORE);
     }
 }

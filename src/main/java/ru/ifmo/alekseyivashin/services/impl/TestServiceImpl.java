@@ -73,55 +73,60 @@ public class TestServiceImpl implements TestService {
                 break;
             case MEDIUM:
                 checkMediumTest(userCourse, userTest, correctTest);
+                testRepository.delete(correctTest);
         }
+        setProgress(userCourse);
     }
 
     private void checkStartTest(UserCourse userCourse, Test userTest, Test correctTest) {
-        double allQuestionsScore = 0;
-        for (int i = 0; i < correctTest.getQuestions().size(); i++) {
-            Question question = correctTest.getQuestions().get(i);
-            int correctAnswers = getCorrectAnswers(question, userTest, i);
-
-            UserTheme userTheme = userThemeRepository.findByUserCourseAndTheme(userCourse, question.getLecture().getTheme());
-
-            double E = 1 / (1 + Math.pow(10, (question.getLevel() - userTheme.getUserLevel()) / 400));
-            double questionScore = (double) correctAnswers / question.getAnswers().size();
-            double newLevel = userTheme.getUserLevel() + Constants.K * (questionScore - E);
-
-            userTheme.setUserLevel(newLevel);
-            userThemeRepository.save(userTheme);
-
-            allQuestionsScore += questionScore;
-        }
+        double allQuestionsScore = updateUserLevels(userCourse, userTest, correctTest);
         userCourse.setStartScore((allQuestionsScore / correctTest.getQuestions().size()) * 100);
         userCourseRepository.save(userCourse);
     }
 
     private void checkMediumTest(UserCourse userCourse, Test userTest, Test correctTest) {
+        updateUserLevels(userCourse, userTest, correctTest);
+    }
+
+    private double updateUserLevels(UserCourse userCourse, Test userTest, Test correctTest) {
+        double allQuestionsScore = 0;
         for (int i = 0; i < correctTest.getQuestions().size(); i++) {
-            Question question = correctTest.getQuestions().get(i);
-            int correctAnswers = getCorrectAnswers(question, userTest, i);
+            Question correctQuestion = correctTest.getQuestions().get(i);
+            Question userQuestion = userTest.getQuestions().get(i);
+            double score = getQuestionScore(userQuestion, correctQuestion);
 
-            UserTheme userTheme = userThemeRepository.findByUserCourseAndTheme(userCourse, question.getLecture().getTheme());
+            UserTheme userTheme = userThemeRepository.findByUserCourseAndTheme(userCourse, correctQuestion.getLecture().getTheme());
 
-            double E = 1 / (1 + Math.pow(10, (question.getLevel() - userTheme.getUserLevel()) / 400));
-            double questionScore = (double) correctAnswers / question.getAnswers().size();
-            double newLevel = userTheme.getUserLevel() + Constants.K * (questionScore - E);
+            double E = 1 / (1 + Math.pow(10, (correctQuestion.getLevel() - userTheme.getUserLevel()) / 400));
+            double newLevel = userTheme.getUserLevel() + Constants.K * (score - E);
 
             userTheme.setUserLevel(newLevel);
             userThemeRepository.save(userTheme);
+
+            allQuestionsScore += score;
         }
+        return allQuestionsScore;
     }
 
-    private int getCorrectAnswers(Question question, Test userTest, int questionIndex) {
-        int correctAnswers = 0;
-        for (int j = 0; j < question.getAnswers().size(); j++) {
-            Answer correctAnswer = question.getAnswers().get(j);
-            Answer userAnswer = userTest.getQuestions().get(questionIndex).getAnswers().get(j);
-            if (correctAnswer.getCorrect().equals(userAnswer.getCorrect())) {
-                correctAnswers++;
-            }
+    private double getQuestionScore(Question userQuestion, Question correctQuestion) {
+        int correctAnswerCount = (int) correctQuestion.getAnswers().stream()
+                .filter(answer -> answer.getCorrect().equals(true))
+                .count();
+        double score = 0;
+        for (int i = 0; i < correctQuestion.getAnswers().size(); i++) {
+            Answer correctAnswer = correctQuestion.getAnswers().get(i);
+            Answer userAnswer = userQuestion.getAnswers().get(i);
+            if (userAnswer.getCorrect().equals(true) && correctAnswer.getCorrect().equals(true)) score++;
+            if (userAnswer.getCorrect().equals(true) && correctAnswer.getCorrect().equals(false)) score--;
         }
-        return correctAnswers;
+        if (score < 0) score = 0;
+        return score / correctAnswerCount;
+    }
+
+    private void setProgress(UserCourse userCourse) {
+        List<UserTheme> userThemes = userThemeRepository.findAllByUserCourse(userCourse);
+        int completeThemesCount = (int) userThemes.stream().mapToDouble(UserTheme::getUserLevel).filter(v -> v > Constants.BORDER_SCORE).count();
+        userCourse.setProgress((double) completeThemesCount / userThemes.size());
+        userCourseRepository.save(userCourse);
     }
 }
