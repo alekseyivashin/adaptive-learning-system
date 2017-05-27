@@ -2,7 +2,6 @@ package ru.ifmo.alekseyivashin.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -10,13 +9,12 @@ import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 import ru.ifmo.alekseyivashin.messages.Message;
-import ru.ifmo.alekseyivashin.models.Keyword;
 import ru.ifmo.alekseyivashin.models.User;
-import ru.ifmo.alekseyivashin.repositories.CourseRepository;
 import ru.ifmo.alekseyivashin.repositories.KeywordRepository;
 import ru.ifmo.alekseyivashin.repositories.UserCourseRepository;
 import ru.ifmo.alekseyivashin.repositories.UserRepository;
@@ -24,11 +22,9 @@ import ru.ifmo.alekseyivashin.services.ApiService;
 import ru.ifmo.alekseyivashin.services.AuthService;
 import ru.ifmo.alekseyivashin.utils.Constants;
 
-import javax.jws.WebParam;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.nio.charset.Charset;
-import java.util.List;
 
 /**
  * Created on : 25.04.2017
@@ -111,12 +107,16 @@ public class UserController {
     }
 
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
-    String profile(Model model, HttpSession session) throws JsonProcessingException {
+    String profile(Model model, HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return "redirect:/";
         }
-        getRecommendation();
+        try {
+            getRecommendation();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         model.addAttribute("userCoursesInProgress", userCourseRepository.getUserCoursesInProgress(user.getId()));
         model.addAttribute("userFinishedCourses", userCourseRepository.getFinishedUserCourses(user.getId()));
         return "profile";
