@@ -9,7 +9,7 @@
 <body>
 <header th:fragment="header">
     <nav class="navbar navbar-default navbar-fixed-top" th:switch="${session.user}">
-        <a class="navbar-brand">READ</a>
+        <a class="navbar-brand">READ </a>
         <div class="container-fluid" th:case="null">
             <ul class="nav navbar-nav">
                 <li><a th:href="@{/}">Главная</a></li>
