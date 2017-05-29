@@ -33,6 +33,9 @@ public class WaySelectionServiceImpl implements WaySelectionService {
 
     @Override
     public String selectWay(UserCourse userCourse) {
+        if (userCourse.getCourse().getThemes().size() == 0) {
+            return "redirect:/course/{courseId}/final";
+        }
         if (testRepository.findByUserCourseAndTypeAndLecture(userCourse, TestType.START, null) == null) {
             return "redirect:/course/{courseId}/test?type=start&lectureId=null";
         }
