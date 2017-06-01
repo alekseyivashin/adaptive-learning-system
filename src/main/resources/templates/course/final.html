@@ -13,9 +13,33 @@
         <h3 class="final-title">Поздравляем с успешным завершением курса!</h3>
         <form class="form-horizontal" method="post" th:action="@{/course/} + ${course.getId()} + @{/final}">
             <div class="select-list">
-                <label for="select" class="control-label">Оцените пройденный курс</label>
+                <label for="rating" class="control-label">Оценка за курс в целом</label>
                 <div>
-                    <select class="form-control" id="select" th:name="rating">
+                    <select class="form-control" id="rating" th:name="rating">
+                        <option th:value="1">1</option>
+                        <option th:value="2">2</option>
+                        <option th:value="3">3</option>
+                        <option th:value="4">4</option>
+                        <option th:value="5">5</option>
+                    </select>
+                </div>
+            </div>
+            <div class="select-list">
+                <label for="accuracy" class="control-label">Точность подбора материала</label>
+                <div>
+                    <select class="form-control" id="accuracy" th:name="accuracy">
+                        <option th:value="1">1</option>
+                        <option th:value="2">2</option>
+                        <option th:value="3">3</option>
+                        <option th:value="4">4</option>
+                        <option th:value="5">5</option>
+                    </select>
+                </div>
+            </div>
+            <div class="select-list">
+                <label for="complexity" class="control-label">Сложность прохождения курса</label>
+                <div>
+                    <select class="form-control" id="complexity" th:name="complexity">
                         <option th:value="1">1</option>
                         <option th:value="2">2</option>
                         <option th:value="3">3</option>

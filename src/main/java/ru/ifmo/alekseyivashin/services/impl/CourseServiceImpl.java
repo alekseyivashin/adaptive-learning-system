@@ -1,7 +1,6 @@
 package ru.ifmo.alekseyivashin.services.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.ifmo.alekseyivashin.models.Course;
 import ru.ifmo.alekseyivashin.models.User;
@@ -13,9 +12,7 @@ import ru.ifmo.alekseyivashin.repositories.UserThemeRepository;
 import ru.ifmo.alekseyivashin.services.CourseService;
 import ru.ifmo.alekseyivashin.utils.Constants;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * Creator: aleks
@@ -54,6 +51,7 @@ public class CourseServiceImpl implements CourseService {
             userTheme.setTheme(theme);
             userTheme.setUserCourse(userCourse);
             userTheme.setUserLevel((double) Constants.START_SCORE);
+            userTheme.setCount(0);
             userThemeRepository.save(userTheme);
         });
 

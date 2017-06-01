@@ -25,6 +25,8 @@ public class UserTheme {
 
     private Double userLevel;
 
+    private Integer count;
+
     public int getId() {
         return id;
     }
@@ -57,4 +59,11 @@ public class UserTheme {
         this.userLevel = userLevel;
     }
 
+    public Integer getCount() {
+        return count;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
+    }
 }

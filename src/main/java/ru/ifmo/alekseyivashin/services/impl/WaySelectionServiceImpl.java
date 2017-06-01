@@ -70,6 +70,8 @@ public class WaySelectionServiceImpl implements WaySelectionService {
         // выбор темы с самым минимальным уровнем знаний
         UserTheme userTheme = userCourse.getUserThemes().stream()
                 .min(Comparator.comparingDouble(UserTheme::getUserLevel)).get();
+        userTheme.setCount(userTheme.getCount() + 1);
+        userThemeRepository.save(userTheme);
         Double userLevel = userTheme.getUserLevel();
         return userTheme.getTheme().getLectures().stream()
                 .min(Comparator.comparingDouble(lecture -> Math.abs(lecture.getLevel() - userLevel))).get();
