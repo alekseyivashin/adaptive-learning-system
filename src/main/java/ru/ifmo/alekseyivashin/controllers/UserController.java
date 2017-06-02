@@ -113,7 +113,7 @@ public class UserController {
             return "redirect:/";
         }
         try {
-            getRecommendation();
+            getRecommendation(user);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -122,9 +122,9 @@ public class UserController {
         return "profile";
     }
 
-    private void getRecommendation() throws JsonProcessingException {
+    private void getRecommendation(User user) throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();
-        String data = apiService.getJsonData();
+        String data = apiService.getJsonData(user.getId());
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);

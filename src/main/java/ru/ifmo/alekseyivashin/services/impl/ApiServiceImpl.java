@@ -48,7 +48,7 @@ public class ApiServiceImpl implements ApiService {
     }
 
     @Override
-    public String getJsonData() throws JsonProcessingException {
+    public String getJsonData(Integer userId) throws JsonProcessingException {
         List<Keyword> keywords = (List<Keyword>) keywordRepository.findAll();
         List<KeywordDTO> keywordDTOs = keywords.stream().map(converterService::keywordToDTO).collect(Collectors.toList());Collectors.toList();
 
@@ -63,6 +63,9 @@ public class ApiServiceImpl implements ApiService {
         ObjectMapper mapper = new ObjectMapper();
         ObjectNode rootNode = mapper.createObjectNode();
 
+        if (userId != null) {
+            rootNode.put("userId", userId);
+        }
         rootNode.putArray("keywords").addAll((ArrayNode) mapper.valueToTree(keywordDTOs));
         rootNode.putArray("users").addAll((ArrayNode) mapper.valueToTree(userDTOs));
         rootNode.putArray("courses").addAll((ArrayNode) mapper.valueToTree(courseDTOs));

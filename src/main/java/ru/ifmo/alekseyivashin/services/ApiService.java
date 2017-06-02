@@ -10,5 +10,5 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface ApiService {
-    String getJsonData() throws JsonProcessingException;
+    String getJsonData(Integer userId) throws JsonProcessingException;
 }

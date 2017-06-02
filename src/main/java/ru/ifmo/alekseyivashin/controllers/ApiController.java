@@ -27,7 +27,7 @@ public class ApiController {
     @ResponseBody
     @RequestMapping(value = "/all", method = RequestMethod.GET, produces = "application/json")
     String getAll() throws JsonProcessingException {
-        return apiService.getJsonData();
+        return apiService.getJsonData(null);
     }
 
 }
