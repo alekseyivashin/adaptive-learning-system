@@ -14,8 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 import ru.ifmo.alekseyivashin.messages.Message;
+import ru.ifmo.alekseyivashin.models.Recommendation;
 import ru.ifmo.alekseyivashin.models.User;
+import ru.ifmo.alekseyivashin.repositories.CourseRepository;
 import ru.ifmo.alekseyivashin.repositories.KeywordRepository;
+import ru.ifmo.alekseyivashin.repositories.RecommendationRepository;
 import ru.ifmo.alekseyivashin.repositories.UserCourseRepository;
 import ru.ifmo.alekseyivashin.repositories.UserRepository;
 import ru.ifmo.alekseyivashin.services.ApiService;
@@ -25,6 +28,9 @@ import ru.ifmo.alekseyivashin.utils.Constants;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.nio.charset.Charset;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created on : 25.04.2017
@@ -41,15 +47,20 @@ public class UserController {
     private final UserRepository userRepository;
     private final KeywordRepository keywordRepository;
     private final ApiService apiService;
+    private final RecommendationRepository recommendationRepository;
+    private final CourseRepository courseRepository;
 
 
     @Autowired
-    public UserController(AuthService authService, UserCourseRepository userCourseRepository, UserRepository userRepository, KeywordRepository keywordRepository, ApiService apiService) {
+    public UserController(AuthService authService, UserCourseRepository userCourseRepository, UserRepository userRepository, KeywordRepository keywordRepository, ApiService apiService, RecommendationRepository recommendationRepository, CourseRepository courseRepository) {
         this.authService = authService;
         this.userCourseRepository = userCourseRepository;
         this.userRepository = userRepository;
         this.keywordRepository = keywordRepository;
         this.apiService = apiService;
+        this.recommendationRepository = recommendationRepository;
+
+        this.courseRepository = courseRepository;
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
@@ -112,17 +123,34 @@ public class UserController {
         if (user == null) {
             return "redirect:/";
         }
+        List<Recommendation> recommendations = new ArrayList<>();
         try {
-            getRecommendation(user);
+            recommendations = getRecommendation(user);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        model.addAttribute("recommendations", recommendations);
         model.addAttribute("userCoursesInProgress", userCourseRepository.getUserCoursesInProgress(user.getId()));
         model.addAttribute("userFinishedCourses", userCourseRepository.getFinishedUserCourses(user.getId()));
         return "profile";
     }
 
-    private void getRecommendation(User user) throws JsonProcessingException {
+    private List<Recommendation> getRecommendation(User user) throws JsonProcessingException {
+        String response = sendRequest(user);
+        String[] courseIdsStr = response.split(",");
+        List<Recommendation> recommendations = new ArrayList<>();
+        for (String courseIdStr: courseIdsStr) {
+            Recommendation recommendation = new Recommendation();
+            recommendation.setUser(user);
+            recommendation.setCourse(courseRepository.findOne(Integer.parseInt(courseIdStr)));
+            recommendation.setDateTime(new Timestamp(System.currentTimeMillis()));
+            recommendations.add(recommendation);
+        }
+        recommendationRepository.save(recommendations);
+        return recommendations;
+    }
+
+    private String sendRequest(User user) throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();
         String data = apiService.getJsonData(user.getId());
 
@@ -136,5 +164,6 @@ public class UserController {
         String response = restTemplate.postForObject(Constants.NODE_URL, entity, String.class);
 
         System.out.println(response);
+        return response;
     }
 }

@@ -18,9 +18,7 @@
                 <a th:href="@{/course/} + ${course.getId()} + @{/welcome}" class="list-group-item">
                     <h4 class="list-group-item-heading" th:text="${course.getName()}"></h4>
                     <span class="badge" th:text="'Учеников: ' + ${course.getUserCount()}"></span>
-                    <p class="list-group-item-text course-description" th:text="${course.getDescription()}">Краткое
-                        описние курса. Думаю, оно всё равно нужно
-                        Краткое описние курса. Думаю, оно всё равно нужно</p>
+                    <p class="list-group-item-text course-description" th:text="${course.getDescription()}"></p>
                 </a>
             </li>
         </ul>

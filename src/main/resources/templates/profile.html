@@ -47,12 +47,11 @@
         <div class="recommendations">
             <h2 class="courses-title">Рекомендованные Вам курсы</h2>
             <ul class="list-group recommendations__list">
-                <li class="recommendations__list__item" th:each="userCourse : ${userFinishedCourses}">
-                    <a href="#" class="list-group-item">
-                        <h4 th:text="${userCourse.getCourse().getName()}"></h4>
-                        <span class="badge">Учеников: 14</span>
-                        <p class="list-group-item-text course-description">Краткое описние курса. Думаю, оно всё равно
-                            нужно Краткое описние курса. Думаю, оно всё равно нужно</p>
+                <li class="recommendations__list__item" th:each="r : ${recommendations}">
+                    <a th:href="@{/course/} + ${r.getCourse().getId()} + @{/welcome}" class="list-group-item">
+                        <h4 th:text="${r.getCourse().getName()}"></h4>
+                        <span class="badge" th:text="'Учеников: ' + ${r.getCourse().getUserCount()}"></span>
+                        <p class="list-group-item-text course-description" th:text="${r.getCourse().getDescription()}"></p>
                     </a>
                 </li>
             </ul>
