@@ -161,7 +161,7 @@ public class CourseController {
         ratingEntity.setAccuracy(accuracy);
         ratingEntity.setComplexity(complexity);
         ratingRepository.save(ratingEntity);
-        return "redirect:/";
+        return "redirect:/user/profile";
     }
 
     private Integer convertToInt(String s) {
