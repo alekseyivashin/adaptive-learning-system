@@ -2,6 +2,7 @@ package ru.ifmo.alekseyivashin.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -12,15 +13,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import ru.ifmo.alekseyivashin.messages.Message;
 import ru.ifmo.alekseyivashin.models.Recommendation;
+import ru.ifmo.alekseyivashin.models.RecommendationUseful;
 import ru.ifmo.alekseyivashin.models.User;
-import ru.ifmo.alekseyivashin.repositories.CourseRepository;
-import ru.ifmo.alekseyivashin.repositories.KeywordRepository;
-import ru.ifmo.alekseyivashin.repositories.RecommendationRepository;
-import ru.ifmo.alekseyivashin.repositories.UserCourseRepository;
-import ru.ifmo.alekseyivashin.repositories.UserRepository;
+import ru.ifmo.alekseyivashin.repositories.*;
 import ru.ifmo.alekseyivashin.services.ApiService;
 import ru.ifmo.alekseyivashin.services.AuthService;
 import ru.ifmo.alekseyivashin.utils.Constants;
@@ -49,18 +48,26 @@ public class UserController {
     private final ApiService apiService;
     private final RecommendationRepository recommendationRepository;
     private final CourseRepository courseRepository;
+    private final RecommendationUsefulRepository recommendationUsefulRepository;
 
 
     @Autowired
-    public UserController(AuthService authService, UserCourseRepository userCourseRepository, UserRepository userRepository, KeywordRepository keywordRepository, ApiService apiService, RecommendationRepository recommendationRepository, CourseRepository courseRepository) {
+    public UserController(AuthService authService,
+                          UserCourseRepository userCourseRepository,
+                          UserRepository userRepository,
+                          KeywordRepository keywordRepository,
+                          ApiService apiService,
+                          RecommendationRepository recommendationRepository,
+                          CourseRepository courseRepository,
+                          RecommendationUsefulRepository recommendationUsefulRepository) {
         this.authService = authService;
         this.userCourseRepository = userCourseRepository;
         this.userRepository = userRepository;
         this.keywordRepository = keywordRepository;
         this.apiService = apiService;
         this.recommendationRepository = recommendationRepository;
-
         this.courseRepository = courseRepository;
+        this.recommendationUsefulRepository = recommendationUsefulRepository;
     }
 
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
@@ -129,10 +136,29 @@ public class UserController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        model.addAttribute("recommendationUseful", recommendationUsefulRepository.findByUser(user));
         model.addAttribute("recommendations", recommendations);
         model.addAttribute("userCoursesInProgress", userCourseRepository.getUserCoursesInProgress(user.getId()));
         model.addAttribute("userFinishedCourses", userCourseRepository.getFinishedUserCourses(user.getId()));
         return "profile";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/recommendationUseful", method = RequestMethod.POST)
+    String recommendationUseful(@ModelAttribute("recommendationUseful") Boolean value,
+                                HttpSession session) {
+        User user = (User) session.getAttribute("user");
+
+        RecommendationUseful recommendationUseful = recommendationUsefulRepository.findByUser(user);
+        if (recommendationUseful != null) {
+            recommendationUseful.setValue(value);
+        } else {
+            recommendationUseful = new RecommendationUseful();
+            recommendationUseful.setUser(user);
+            recommendationUseful.setValue(value);
+        }
+        recommendationUsefulRepository.save(recommendationUseful);
+        return "ok";
     }
 
     private List<Recommendation> getRecommendation(User user) throws JsonProcessingException {
