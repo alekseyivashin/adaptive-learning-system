@@ -133,12 +133,6 @@ public class CourseController {
     String finalPage(HttpSession session,
                      @PathVariable int courseId,
                      Model model) {
-        User user = (User) session.getAttribute("user");
-        Course course = courseRepository.findOne(courseId);
-        UserCourse userCourse = userCourseRepository.findByUserAndCourse(user, course);
-
-        if (userCourse.getProgress() != 1.0) return "redirect:/course/{courseId}/select";
-
         model.addAttribute("course", courseRepository.findOne(courseId));
         return "course/final";
     }
