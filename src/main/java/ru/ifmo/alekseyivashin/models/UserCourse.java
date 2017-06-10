@@ -40,7 +40,7 @@ public class UserCourse implements Serializable {
 
     private Double endScore;
 
-    @Min(1)
+    @Min(0)
     @Max(5)
     private Integer rating;
 
