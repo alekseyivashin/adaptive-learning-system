@@ -1,6 +1,7 @@
 package ru.ifmo.alekseyivashin.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
+import ru.ifmo.alekseyivashin.dto.RecommendationDTO;
 import ru.ifmo.alekseyivashin.messages.Message;
 import ru.ifmo.alekseyivashin.models.Recommendation;
 import ru.ifmo.alekseyivashin.models.RecommendationUseful;
@@ -25,6 +27,7 @@ import ru.ifmo.alekseyivashin.utils.Constants;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -155,15 +158,18 @@ public class UserController {
         return "ok";
     }
 
-    private List<Recommendation> getRecommendation(User user) throws JsonProcessingException {
+    private List<Recommendation> getRecommendation(User user) throws IOException {
         String response = sendRequest(user);
-        String[] courseIdsStr = response.split(",");
+
+        ObjectMapper mapper = new ObjectMapper();
+        List<RecommendationDTO> recommendationDTOList = mapper.readValue(response, mapper.getTypeFactory().constructCollectionType(List.class, RecommendationDTO.class));
         List<Recommendation> recommendations = new ArrayList<>();
-        for (String courseIdStr : courseIdsStr) {
+        for (RecommendationDTO dto: recommendationDTOList) {
             Recommendation recommendation = new Recommendation();
             recommendation.setUser(user);
-            recommendation.setCourse(courseRepository.findOne(Integer.parseInt(courseIdStr)));
+            recommendation.setCourse(courseRepository.findOne(dto.getCourseId()));
             recommendation.setDateTime(new Timestamp(System.currentTimeMillis()));
+            recommendation.setRating(dto.getRating());
             recommendations.add(recommendation);
         }
         recommendationRepository.save(recommendations);

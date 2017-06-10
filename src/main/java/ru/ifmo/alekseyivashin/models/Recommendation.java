@@ -32,6 +32,8 @@ public class Recommendation {
 
     private Timestamp dateTime;
 
+    private Double rating;
+
     public int getId() {
         return id;
     }
@@ -62,5 +64,13 @@ public class Recommendation {
 
     public void setDateTime(Timestamp dateTime) {
         this.dateTime = dateTime;
+    }
+
+    public Double getRating() {
+        return rating;
+    }
+
+    public void setRating(Double rating) {
+        this.rating = rating;
     }
 }

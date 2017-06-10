@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.18, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.18, for Linux (x86_64)
 --
 -- Host: 127.0.0.1    Database: als_database
 -- ------------------------------------------------------
--- Server version	5.7.18-log
+-- Server version	5.7.18-0ubuntu0.16.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -222,12 +222,13 @@ CREATE TABLE `recommendations` (
   `user_id` int(11) DEFAULT NULL,
   `course_id` int(11) DEFAULT NULL,
   `date_time` datetime DEFAULT NULL,
+  `rating` double DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `recommendations_fk0` (`user_id`),
   KEY `recommendations_fk1` (`course_id`),
   CONSTRAINT `recommendations_fk0` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `recommendations_fk1` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=178 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=181 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -236,7 +237,6 @@ CREATE TABLE `recommendations` (
 
 LOCK TABLES `recommendations` WRITE;
 /*!40000 ALTER TABLE `recommendations` DISABLE KEYS */;
-INSERT INTO `recommendations` (`id`, `user_id`, `course_id`, `date_time`) VALUES (137,13,2,'2017-06-10 14:54:57'),(138,13,5,'2017-06-10 14:54:57'),(139,13,9,'2017-06-10 14:54:57'),(140,13,10,'2017-06-10 14:54:57'),(141,13,5,'2017-06-10 14:55:14'),(142,13,9,'2017-06-10 14:55:14'),(143,13,11,'2017-06-10 14:55:14'),(144,13,9,'2017-06-10 14:55:27'),(145,13,10,'2017-06-10 14:55:27'),(146,13,11,'2017-06-10 14:55:27'),(147,14,2,'2017-06-10 14:56:58'),(148,14,5,'2017-06-10 14:56:58'),(149,14,6,'2017-06-10 14:56:58'),(150,14,2,'2017-06-10 14:58:14'),(151,14,5,'2017-06-10 14:58:14'),(152,14,6,'2017-06-10 14:58:14'),(153,14,9,'2017-06-10 14:58:14'),(154,14,2,'2017-06-10 14:58:26'),(155,14,5,'2017-06-10 14:58:26'),(156,14,6,'2017-06-10 14:58:26'),(157,15,2,'2017-06-10 14:59:27'),(158,15,9,'2017-06-10 14:59:27'),(159,15,11,'2017-06-10 14:59:27'),(160,15,2,'2017-06-10 14:59:51'),(161,15,7,'2017-06-10 14:59:51'),(162,15,10,'2017-06-10 14:59:51'),(163,15,12,'2017-06-10 14:59:51'),(164,15,14,'2017-06-10 15:00:11'),(165,16,2,'2017-06-10 15:01:04'),(166,16,9,'2017-06-10 15:01:04'),(167,16,11,'2017-06-10 15:01:04'),(168,16,5,'2017-06-10 15:01:27'),(169,16,6,'2017-06-10 15:01:27'),(170,16,9,'2017-06-10 15:01:27'),(171,16,10,'2017-06-10 15:01:27'),(172,16,13,'2017-06-10 15:01:43'),(173,16,14,'2017-06-10 15:01:43'),(174,16,13,'2017-06-10 15:01:56'),(175,16,13,'2017-06-10 15:02:27'),(176,14,14,'2017-06-10 15:03:43'),(177,14,14,'2017-06-10 15:06:25');
 /*!40000 ALTER TABLE `recommendations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -485,4 +485,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-10 18:07:26
+-- Dump completed on 2017-06-10 19:01:33
