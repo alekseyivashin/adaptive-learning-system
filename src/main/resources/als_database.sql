@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.18, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.18, for Linux (x86_64)
 --
 -- Host: 127.0.0.1    Database: als_database
 -- ------------------------------------------------------
--- Server version	5.7.18-log
+-- Server version	5.7.18-0ubuntu0.16.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -56,7 +56,6 @@ CREATE TABLE `courses` (
   `description` varchar(4000) DEFAULT NULL,
   `rating` float DEFAULT '0',
   `user_count` int(11) DEFAULT '0',
-  `level` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
@@ -68,7 +67,7 @@ CREATE TABLE `courses` (
 
 LOCK TABLES `courses` WRITE;
 /*!40000 ALTER TABLE `courses` DISABLE KEYS */;
-INSERT INTO `courses` (`id`, `name`, `description`, `rating`, `user_count`, `level`) VALUES (2,'Введение в JavaScript','Очень интереный курс по JavaScript',0,0,1),(5,'Введение в HTML и CSS','В этом курсе Вы познакомитесь с такими базовыми, но безусловно важными технологиями, как HTML и CSS',0,0,1),(6,'HTML5','В этом курсе Вы познакомитесь с продвинутой технологией HTML5',0,0,2),(7,'Python. Начало','В этом курсе мы разберем множество классных технологий, станем гуру программирования (нет), а также будем пробовать светоч среди технологий в образовании - адаптивное обучение!\nУдачи, и да прибудет с вами Python! И адаптивное обучение конечно.',0,0,1),(8,'Python. Продолжение','Этот курс продолжение предыдущего, будет интересно, заходите!',0,0,2),(9,'Основы jQuery','Этот курс обучит вас очень важной библиотеке для web-разработки.',0,0,2);
+INSERT INTO `courses` (`id`, `name`, `description`, `rating`, `user_count`) VALUES (2,'Введение в JavaScript','Очень интереный курс по JavaScript',0,0),(5,'Введение в HTML и CSS','В этом курсе Вы познакомитесь с такими базовыми, но безусловно важными технологиями, как HTML и CSS',0,0),(6,'HTML5','В этом курсе Вы познакомитесь с продвинутой технологией HTML5',0,0),(7,'Python. Начало','В этом курсе мы разберем множество классных технологий, станем гуру программирования (нет), а также будем пробовать светоч среди технологий в образовании - адаптивное обучение!\nУдачи, и да прибудет с вами Python! И адаптивное обучение конечно.',1,3),(8,'Python. Продолжение','Этот курс продолжение предыдущего, будет интересно, заходите!',0,0),(9,'Основы jQuery','Этот курс обучит вас очень важной библиотеке для web-разработки.',0,3);
 /*!40000 ALTER TABLE `courses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -124,32 +123,6 @@ LOCK TABLES `keywords` WRITE;
 /*!40000 ALTER TABLE `keywords` DISABLE KEYS */;
 INSERT INTO `keywords` (`id`, `name`) VALUES (6,'back-end'),(3,'css'),(5,'front-end'),(2,'html'),(4,'html5'),(1,'javascript'),(9,'jquery'),(8,'python'),(7,'web');
 /*!40000 ALTER TABLE `keywords` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `learning_contents`
---
-
-DROP TABLE IF EXISTS `learning_contents`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `learning_contents` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `theme_id` int(11) NOT NULL,
-  `content` varchar(4000) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `learning_contents_fk0` (`theme_id`),
-  CONSTRAINT `learning_contents_fk0` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `learning_contents`
---
-
-LOCK TABLES `learning_contents` WRITE;
-/*!40000 ALTER TABLE `learning_contents` DISABLE KEYS */;
-/*!40000 ALTER TABLE `learning_contents` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -224,7 +197,7 @@ CREATE TABLE `rating` (
   PRIMARY KEY (`id`),
   KEY `rating_fk0` (`user_course`),
   CONSTRAINT `rating_fk0` FOREIGN KEY (`user_course`) REFERENCES `users_courses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -253,7 +226,7 @@ CREATE TABLE `recommendations` (
   KEY `recommendations_fk1` (`course_id`),
   CONSTRAINT `recommendations_fk0` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `recommendations_fk1` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -263,6 +236,32 @@ CREATE TABLE `recommendations` (
 LOCK TABLES `recommendations` WRITE;
 /*!40000 ALTER TABLE `recommendations` DISABLE KEYS */;
 /*!40000 ALTER TABLE `recommendations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `recommendations_useful`
+--
+
+DROP TABLE IF EXISTS `recommendations_useful`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `recommendations_useful` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `value` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `recommendations_useful_fk0` (`user_id`),
+  CONSTRAINT `recommendations_useful_fk0` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `recommendations_useful`
+--
+
+LOCK TABLES `recommendations_useful` WRITE;
+/*!40000 ALTER TABLE `recommendations_useful` DISABLE KEYS */;
+/*!40000 ALTER TABLE `recommendations_useful` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -282,7 +281,7 @@ CREATE TABLE `tests` (
   KEY `tests_fk1` (`user_course_id`),
   CONSTRAINT `tests_fk0` FOREIGN KEY (`lecture_id`) REFERENCES `lectures` (`id`),
   CONSTRAINT `tests_fk1` FOREIGN KEY (`user_course_id`) REFERENCES `users_courses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -310,7 +309,7 @@ CREATE TABLE `tests_questions` (
   KEY `tests_questions_fk1` (`test_id`),
   CONSTRAINT `tests_questions_fk0` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`),
   CONSTRAINT `tests_questions_fk1` FOREIGN KEY (`test_id`) REFERENCES `tests` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -369,7 +368,7 @@ CREATE TABLE `user_themes` (
   KEY `user_themes_fk1` (`theme_id`),
   CONSTRAINT `user_themes_fk0` FOREIGN KEY (`user_course_id`) REFERENCES `users_courses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `user_themes_fk1` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -429,7 +428,7 @@ CREATE TABLE `users_courses` (
   KEY `users_courses_fk1` (`course_id`),
   CONSTRAINT `users_courses_fk0` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
   CONSTRAINT `users_courses_fk1` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -480,4 +479,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-02 21:05:29
+-- Dump completed on 2017-06-10 13:36:40

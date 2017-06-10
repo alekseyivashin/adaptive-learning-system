@@ -152,6 +152,7 @@ public class CourseController {
 
         userCourse.setEndDate(new Date());
         userCourse.setRating(rating);
+        userCourse.setProgress(1.0);
         userCourseRepository.save(userCourse);
 
         Rating ratingEntity = new Rating();
