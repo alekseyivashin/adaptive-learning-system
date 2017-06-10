@@ -56,12 +56,12 @@
                     </a>
                 </li>
             </ul>
-            <h2 class="courses-title">Были ли Вам полезны эти рекоммендации?</h2>
-            <form id="useful_form" action="javascript:void(null);" method="post" onsubmit="sendUseful()">
+            <h2 id="useful_title" class="courses-title" th:if="${recommendationUseful == null}">Были ли Вам полезны эти рекоммендации?</h2>
+            <form id="useful_form" action="javascript:void(null);" method="post" onsubmit="sendUseful()" th:if="${recommendationUseful == null}">
                 <label for="yes-useful">Да</label>
-                <input id="yes-useful" type="radio" name="recommendationUseful" value="1" th:checked="${recommendationUseful != null} ? ${recommendationUseful.value == true} : true"/>
+                <input id="yes-useful" type="radio" name="recommendationUseful" value="1" checked="checked" />
                 <label for="no-useful">Нет</label>
-                <input id="no-useful" type="radio" name="recommendationUseful" value="0" th:checked="${recommendationUseful != null} ? ${recommendationUseful.value == false} : false"/>
+                <input id="no-useful" type="radio" name="recommendationUseful" value="0" />
                 <input type="submit" value="Отправить"/>
             </form>
         </div>
@@ -81,6 +81,8 @@
                 }
             }
         });
+        $("#useful_form").hide();
+        $("#useful_title").hide();
     }
 </script>
 </body>

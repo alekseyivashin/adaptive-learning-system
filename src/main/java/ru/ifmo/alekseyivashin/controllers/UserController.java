@@ -2,7 +2,6 @@ package ru.ifmo.alekseyivashin.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -149,14 +148,9 @@ public class UserController {
                                 HttpSession session) {
         User user = (User) session.getAttribute("user");
 
-        RecommendationUseful recommendationUseful = recommendationUsefulRepository.findByUser(user);
-        if (recommendationUseful != null) {
-            recommendationUseful.setValue(value);
-        } else {
-            recommendationUseful = new RecommendationUseful();
-            recommendationUseful.setUser(user);
-            recommendationUseful.setValue(value);
-        }
+        RecommendationUseful recommendationUseful = new RecommendationUseful();
+        recommendationUseful.setUser(user);
+        recommendationUseful.setValue(value);
         recommendationUsefulRepository.save(recommendationUseful);
         return "ok";
     }
@@ -165,7 +159,7 @@ public class UserController {
         String response = sendRequest(user);
         String[] courseIdsStr = response.split(",");
         List<Recommendation> recommendations = new ArrayList<>();
-        for (String courseIdStr: courseIdsStr) {
+        for (String courseIdStr : courseIdsStr) {
             Recommendation recommendation = new Recommendation();
             recommendation.setUser(user);
             recommendation.setCourse(courseRepository.findOne(Integer.parseInt(courseIdStr)));
