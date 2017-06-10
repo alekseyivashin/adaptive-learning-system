@@ -3,22 +3,19 @@
 $(document).ready(function () {
     $('.courses').show();
     $('.recommendations').hide();
-    $('.question').hide();
 
     $('.recommendTab').click(function () {
         $('.active').removeClass('active');
-        $('.recommendations').addClass('active');
+        $('.recommendTab').addClass('active');
         $('.courses').hide();
         $('.recommendations').show();
-        $('.question').show();
     });
 
     $('.coursesTab').click(function () {
         $('.active').removeClass('active');
-        $('.courses').addClass('active');
+        $('.coursesTab').addClass('active');
         $('.courses').show();
         $('.recommendations').hide();
-        $('.question').hide();
     });
 });
 
