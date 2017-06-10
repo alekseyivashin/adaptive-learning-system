@@ -3,18 +3,9 @@ package ru.ifmo.alekseyivashin.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import ru.ifmo.alekseyivashin.models.Course;
-import ru.ifmo.alekseyivashin.models.Lecture;
-import ru.ifmo.alekseyivashin.models.Rating;
-import ru.ifmo.alekseyivashin.models.Test;
-import ru.ifmo.alekseyivashin.models.User;
-import ru.ifmo.alekseyivashin.models.UserCourse;
+import ru.ifmo.alekseyivashin.models.*;
 import ru.ifmo.alekseyivashin.repositories.CourseRepository;
 import ru.ifmo.alekseyivashin.repositories.LectureRepository;
 import ru.ifmo.alekseyivashin.repositories.RatingRepository;
@@ -46,7 +37,13 @@ public class CourseController {
 
 
     @Autowired
-    public CourseController(UserCourseRepository userCourseRepository, CourseRepository courseRepository, CourseService courseService, WaySelectionService waySelectionService, TestService testService, LectureRepository lectureRepository, RatingRepository ratingRepository) {
+    public CourseController(UserCourseRepository userCourseRepository,
+                            CourseRepository courseRepository,
+                            CourseService courseService,
+                            WaySelectionService waySelectionService,
+                            TestService testService,
+                            LectureRepository lectureRepository,
+                            RatingRepository ratingRepository) {
         this.userCourseRepository = userCourseRepository;
         this.courseRepository = courseRepository;
         this.courseService = courseService;
@@ -133,8 +130,15 @@ public class CourseController {
     }
 
     @RequestMapping(value = "{courseId}/final", method = RequestMethod.GET)
-    String finalPage(@PathVariable int courseId,
+    String finalPage(HttpSession session,
+                     @PathVariable int courseId,
                      Model model) {
+        User user = (User) session.getAttribute("user");
+        Course course = courseRepository.findOne(courseId);
+        UserCourse userCourse = userCourseRepository.findByUserAndCourse(user, course);
+
+        if (userCourse.getProgress() != 1.0) return "redirect:/course/{courseId}/select";
+
         model.addAttribute("course", courseRepository.findOne(courseId));
         return "course/final";
     }

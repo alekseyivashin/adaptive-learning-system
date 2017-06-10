@@ -14,7 +14,6 @@ public class CourseDTO {
 
     private Integer id;
     private String name;
-    private Integer level;
     private Float rating;
     private Integer userCount;
     private List<Keyword> keywords;
@@ -33,14 +32,6 @@ public class CourseDTO {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Integer getLevel() {
-        return level;
-    }
-
-    public void setLevel(Integer level) {
-        this.level = level;
     }
 
     public Float getRating() {
@@ -72,7 +63,6 @@ public class CourseDTO {
         return "CourseDTO{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", level=" + level +
                 ", rating=" + rating +
                 ", userCount=" + userCount +
                 ", keywords=" + keywords +

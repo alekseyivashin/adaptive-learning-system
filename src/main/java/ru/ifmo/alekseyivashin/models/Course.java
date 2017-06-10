@@ -29,11 +29,6 @@ public class Course {
 
     private String description;
 
-    @NotNull
-    @Min(1)
-    @Max(2)
-    private Integer level;
-
     private Float rating;
 
     private Integer userCount;
@@ -72,14 +67,6 @@ public class Course {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
     }
 
     public Float getRating() {

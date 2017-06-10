@@ -44,7 +44,6 @@ public class ConverterServiceImpl implements ConverterService {
         CourseDTO courseDTO = new CourseDTO();
         courseDTO.setId(course.getId());
         courseDTO.setName(course.getName());
-        courseDTO.setLevel(course.getLevel());
         courseDTO.setRating(course.getRating());
         courseDTO.setUserCount(course.getUserCount());
         courseDTO.setKeywords(course.getKeywords());
