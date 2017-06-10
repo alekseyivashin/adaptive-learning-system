@@ -11,8 +11,8 @@
 <main>
     <div class="profile">
         <ul class="nav nav-tabs">
-            <li role="presentation" class="active tab"><a href="#" class="toCourses">Курсы</a></li>
-            <li role="presentation" class="tab"><a href="#" class="toRecommendations">Рекомендации</a></li>
+            <li role="presentation" class="active coursesTab"><a href="#" class="toCourses">Курсы</a></li>
+            <li role="presentation" class="tab recommendTab"><a href="#" class="toRecommendations">Рекомендации</a></li>
         </ul>
         <div class="courses">
             <div class="courses__process">
@@ -45,6 +45,19 @@
             </div>
         </div>
         <div class="recommendations">
+            <div id="useful_form" class="question">
+                <h4 id="useful_title" class="courses-title" th:if="${recommendationUseful == null}">Считаете ли Вы такие
+                    рекомендации полезными?</h4>
+                <form action="javascript:void(null);" method="post" onsubmit="sendUseful()"
+                      th:if="${recommendationUseful == null}">
+                    <input id="yes-useful" type="radio" class="radio" name="recommendationUseful" value="1"
+                           checked="checked"/>
+                    <label for="yes-useful" class="radioLabel">Да</label> <br/>
+                    <input id="no-useful" type="radio" class="radio" name="recommendationUseful" value="0"/>
+                    <label for="no-useful" class="radioLabel">Нет</label> <br/>
+                    <input type="submit" class="btn btn-primary recommendAnswer" value="Отправить"/>
+                </form>
+            </div>
             <h2 class="courses-title">Рекомендованные Вам курсы</h2>
             <ul class="list-group recommendations__list">
                 <li class="recommendations__list__item" th:each="r : ${recommendations}">
@@ -56,14 +69,6 @@
                     </a>
                 </li>
             </ul>
-            <h2 id="useful_title" class="courses-title" th:if="${recommendationUseful == null}">Были ли Вам полезны эти рекоммендации?</h2>
-            <form id="useful_form" action="javascript:void(null);" method="post" onsubmit="sendUseful()" th:if="${recommendationUseful == null}">
-                <label for="yes-useful">Да</label>
-                <input id="yes-useful" type="radio" name="recommendationUseful" value="1" checked="checked" />
-                <label for="no-useful">Нет</label>
-                <input id="no-useful" type="radio" name="recommendationUseful" value="0" />
-                <input type="submit" value="Отправить"/>
-            </form>
         </div>
     </div>
 </main>
@@ -71,11 +76,11 @@
 <script th:src="@{../js/profile.js}" src="../static/js/profile.js"></script>
 <script>
     function sendUseful() {
-        $.ajax( {
+        $.ajax({
             type: "POST",
             url: "/user/recommendationUseful",
             data: $('#useful_form').serialize(),
-            success: function(data) {
+            success: function (data) {
                 if (data == "ok") {
                     alert("Ваше мнение сохранено, спасибо!");
                 }

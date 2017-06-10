@@ -3,12 +3,22 @@
 $(document).ready(function () {
     $('.courses').show();
     $('.recommendations').hide();
+    $('.question').hide();
 
-    $('.tab').click(function () {
+    $('.recommendTab').click(function () {
         $('.active').removeClass('active');
-        $(this).closest('li').addClass('active');
-        $('.courses').toggle();
-        $('.recommendations').toggle();
+        $('.recommendations').addClass('active');
+        $('.courses').hide();
+        $('.recommendations').show();
+        $('.question').show();
+    });
+
+    $('.coursesTab').click(function () {
+        $('.active').removeClass('active');
+        $('.courses').addClass('active');
+        $('.courses').show();
+        $('.recommendations').hide();
+        $('.question').hide();
     });
 });
 

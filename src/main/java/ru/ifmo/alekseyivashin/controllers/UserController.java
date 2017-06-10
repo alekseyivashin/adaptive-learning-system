@@ -85,7 +85,7 @@ public class UserController {
         if (!bindingResult.hasErrors()) {
             Message message = authService.signUp(user);
             if (!message.getStatus().equals(Message.Status.ERROR)) {
-                return "redirect:/";
+                return "redirect:/user/signin";
             } else {
                 model.addAttribute("error", message.getMessage());
             }
