@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.18, for Linux (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.18, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: als_database
 -- ------------------------------------------------------
--- Server version	5.7.18-0ubuntu0.16.04.1
+-- Server version	5.7.18-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -58,7 +58,7 @@ CREATE TABLE `courses` (
   `user_count` int(11) DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,7 +67,7 @@ CREATE TABLE `courses` (
 
 LOCK TABLES `courses` WRITE;
 /*!40000 ALTER TABLE `courses` DISABLE KEYS */;
-INSERT INTO `courses` (`id`, `name`, `description`, `rating`, `user_count`) VALUES (2,'Введение в JavaScript','Очень интереный курс по JavaScript',0,0),(5,'Введение в HTML и CSS','В этом курсе Вы познакомитесь с такими базовыми, но безусловно важными технологиями, как HTML и CSS',0,0),(6,'HTML5','В этом курсе Вы познакомитесь с продвинутой технологией HTML5',0,0),(7,'Python. Начало','В этом курсе мы разберем множество классных технологий, станем гуру программирования (нет), а также будем пробовать светоч среди технологий в образовании - адаптивное обучение!\nУдачи, и да прибудет с вами Python! И адаптивное обучение конечно.',1,3),(8,'Python. Продолжение','Этот курс продолжение предыдущего, будет интересно, заходите!',0,0),(9,'Основы jQuery','Этот курс обучит вас очень важной библиотеке для web-разработки.',0,3);
+INSERT INTO `courses` (`id`, `name`, `description`, `rating`, `user_count`) VALUES (2,'Введение в JavaScript','После этого блока в вашем арсенале появится новый язык программирования. Изучим синтаксис и важные особенности JavaScript, которые отличают его от других языков: замыкания, контекст вызова функции, прототипы и прототипное наследование. А так же промисы, которые позволят делать асинхронный код более организованным и простым.',4.4,5),(5,'Введение в HTML и CSS','В рамках этого курса мы изучим семантику HTML-тегов, CSS-свойства для оформления текста на странице. Погрузимся во все тонкости блочной модели и позиционирования. Научимся применять каскад и наследование в CSS. И как итог полученных знаний, вы сверстаете простой макет страницы с нуля.',3.5,2),(6,'HTML5','Познакомимся с новыми возможностями HTML5. Узнаем какие новые элементы появились в стандарте и как их правильно использовать. Потренируемся вставлять на страницу аудио и видео, подключать и использовать нестандартные шрифты и векторные изображения.',3.5,2),(7,'Python. Начало','В этом курсе мы разберем множество классных технологий, станем гуру программирования (нет), а также будем пробовать светоч среди технологий в образовании - адаптивное обучение!\nУдачи, и да прибудет с вами Python! И адаптивное обучение конечно.',1,5),(9,'Основы jQuery','Этот курс обучит вас очень важной библиотеке для web-разработки.',1.6,5),(10,'Основы Django','В этом курсе мы начнём изучать Django. На сегодняшний день Django является основным фреймворком языка Python для разработки веб-сайтов, веб-сервисов и веб-приложений. Он позволяет программисту работать в максимально удобных условиях, благодаря чему создание сайта проходит в сжатые сроки, а качество конечного продукта остется на высоком уровне.',3,2),(11,'Блог на Django','Этот курс поможет Вам написать собственный блог на Django.',4,2),(12,'Введение в базы данных','Курс предназначен для тех, у кого нет существенного практического опыта в разработке приложений баз данных. Мы рассмотрим основные этапы в создании приложения, включая создание схемы БД, написание SQL запросов и организацию эффективного взаимодействия между бизнес логикой и базой данных. Разбросаем грабли в ассортименте, попрыгаем по ним и выясним, как их обходить.',5,2),(13,'Разработка баз данных в СУБД MySQL','На этом курсе Вы овладеете основными приемами и методами эффективной работы с сервером MySQL 5.',4,1),(14,'Разработка баз данных в СУБД MongoDB','Курс дает представление об основах СУБД MongoDB и методах разработки приложений, хранящих и обрабатывающих данные на его основе. Рассматриваются базовые возможности сохранения, извлечения и поиска документов (CRUD) и способы формирования поисковых запросов.',4,2);
 /*!40000 ALTER TABLE `courses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,9 +85,9 @@ CREATE TABLE `courses_keywords` (
   PRIMARY KEY (`id`),
   KEY `courses_keywords_fk0` (`course_id`),
   KEY `courses_keywords_fk1` (`keyword_id`),
-  CONSTRAINT `courses_keywords_fk0` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`),
-  CONSTRAINT `courses_keywords_fk1` FOREIGN KEY (`keyword_id`) REFERENCES `keywords` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
+  CONSTRAINT `courses_keywords_fk0` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `courses_keywords_fk1` FOREIGN KEY (`keyword_id`) REFERENCES `keywords` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=80 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,7 +96,7 @@ CREATE TABLE `courses_keywords` (
 
 LOCK TABLES `courses_keywords` WRITE;
 /*!40000 ALTER TABLE `courses_keywords` DISABLE KEYS */;
-INSERT INTO `courses_keywords` (`id`, `course_id`, `keyword_id`) VALUES (1,2,1),(2,2,5),(3,2,7),(4,5,2),(5,5,3),(6,5,5),(7,5,7),(8,6,2),(9,6,4),(10,6,3),(11,6,5),(12,6,7),(13,7,8),(14,7,6),(15,7,7),(16,8,8),(17,8,6),(18,8,7),(19,9,1),(20,9,9),(21,9,5),(22,9,7);
+INSERT INTO `courses_keywords` (`id`, `course_id`, `keyword_id`) VALUES (23,7,8),(24,7,6),(25,7,10),(26,7,11),(27,7,12),(28,10,8),(29,10,6),(30,10,10),(31,10,7),(32,10,13),(33,10,14),(34,11,8),(35,11,6),(36,11,10),(37,11,7),(38,11,13),(39,11,5),(40,11,2),(41,11,3),(42,12,17),(43,12,18),(44,12,20),(45,12,6),(46,12,19),(47,13,17),(48,13,18),(49,13,20),(50,13,6),(51,13,21),(52,13,22),(53,14,17),(54,14,20),(55,14,6),(56,14,19),(57,14,22),(58,14,23),(59,2,1),(60,2,7),(61,2,5),(62,2,10),(63,2,15),(64,5,7),(65,5,5),(66,5,16),(67,5,2),(68,5,3),(69,6,7),(70,6,5),(71,6,16),(72,6,4),(73,6,2),(74,9,1),(75,9,7),(76,9,5),(77,9,14),(78,9,9),(79,9,10);
 /*!40000 ALTER TABLE `courses_keywords` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -112,7 +112,7 @@ CREATE TABLE `keywords` (
   `name` varchar(50) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -121,7 +121,7 @@ CREATE TABLE `keywords` (
 
 LOCK TABLES `keywords` WRITE;
 /*!40000 ALTER TABLE `keywords` DISABLE KEYS */;
-INSERT INTO `keywords` (`id`, `name`) VALUES (6,'back-end'),(3,'css'),(5,'front-end'),(2,'html'),(4,'html5'),(1,'javascript'),(9,'jquery'),(8,'python'),(7,'web');
+INSERT INTO `keywords` (`id`, `name`) VALUES (6,'back-end'),(3,'CSS'),(13,'Django'),(14,'framework'),(5,'front-end'),(2,'HTML'),(4,'HTML5'),(1,'JavaScript'),(9,'jQuery'),(23,'MongoDB'),(21,'MySQL'),(19,'NoSQL'),(8,'Python'),(18,'SQL'),(7,'web'),(17,'базы данных'),(16,'вёрстка'),(12,'ООП'),(10,'программирование'),(20,'проектирование'),(11,'структуры данных'),(22,'СУБД'),(15,'функциональное программирование');
 /*!40000 ALTER TABLE `keywords` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -197,7 +197,7 @@ CREATE TABLE `rating` (
   PRIMARY KEY (`id`),
   KEY `rating_fk0` (`user_course`),
   CONSTRAINT `rating_fk0` FOREIGN KEY (`user_course`) REFERENCES `users_courses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -206,6 +206,7 @@ CREATE TABLE `rating` (
 
 LOCK TABLES `rating` WRITE;
 /*!40000 ALTER TABLE `rating` DISABLE KEYS */;
+INSERT INTO `rating` (`id`, `user_course`, `common`, `accuracy`, `complexity`) VALUES (7,30,4,4,4),(8,31,5,4,5),(9,32,3,4,3),(10,33,5,3,4),(11,34,5,4,2),(12,36,3,4,3),(13,37,3,4,2),(14,38,3,3,5),(15,39,4,4,3),(16,40,4,3,4),(17,41,5,3,3),(18,42,4,3,3),(19,43,4,3,3),(20,44,5,3,4),(21,45,4,3,4);
 /*!40000 ALTER TABLE `rating` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -226,7 +227,7 @@ CREATE TABLE `recommendations` (
   KEY `recommendations_fk1` (`course_id`),
   CONSTRAINT `recommendations_fk0` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `recommendations_fk1` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=178 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -235,6 +236,7 @@ CREATE TABLE `recommendations` (
 
 LOCK TABLES `recommendations` WRITE;
 /*!40000 ALTER TABLE `recommendations` DISABLE KEYS */;
+INSERT INTO `recommendations` (`id`, `user_id`, `course_id`, `date_time`) VALUES (137,13,2,'2017-06-10 14:54:57'),(138,13,5,'2017-06-10 14:54:57'),(139,13,9,'2017-06-10 14:54:57'),(140,13,10,'2017-06-10 14:54:57'),(141,13,5,'2017-06-10 14:55:14'),(142,13,9,'2017-06-10 14:55:14'),(143,13,11,'2017-06-10 14:55:14'),(144,13,9,'2017-06-10 14:55:27'),(145,13,10,'2017-06-10 14:55:27'),(146,13,11,'2017-06-10 14:55:27'),(147,14,2,'2017-06-10 14:56:58'),(148,14,5,'2017-06-10 14:56:58'),(149,14,6,'2017-06-10 14:56:58'),(150,14,2,'2017-06-10 14:58:14'),(151,14,5,'2017-06-10 14:58:14'),(152,14,6,'2017-06-10 14:58:14'),(153,14,9,'2017-06-10 14:58:14'),(154,14,2,'2017-06-10 14:58:26'),(155,14,5,'2017-06-10 14:58:26'),(156,14,6,'2017-06-10 14:58:26'),(157,15,2,'2017-06-10 14:59:27'),(158,15,9,'2017-06-10 14:59:27'),(159,15,11,'2017-06-10 14:59:27'),(160,15,2,'2017-06-10 14:59:51'),(161,15,7,'2017-06-10 14:59:51'),(162,15,10,'2017-06-10 14:59:51'),(163,15,12,'2017-06-10 14:59:51'),(164,15,14,'2017-06-10 15:00:11'),(165,16,2,'2017-06-10 15:01:04'),(166,16,9,'2017-06-10 15:01:04'),(167,16,11,'2017-06-10 15:01:04'),(168,16,5,'2017-06-10 15:01:27'),(169,16,6,'2017-06-10 15:01:27'),(170,16,9,'2017-06-10 15:01:27'),(171,16,10,'2017-06-10 15:01:27'),(172,16,13,'2017-06-10 15:01:43'),(173,16,14,'2017-06-10 15:01:43'),(174,16,13,'2017-06-10 15:01:56'),(175,16,13,'2017-06-10 15:02:27'),(176,14,14,'2017-06-10 15:03:43'),(177,14,14,'2017-06-10 15:06:25');
 /*!40000 ALTER TABLE `recommendations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -252,7 +254,7 @@ CREATE TABLE `recommendations_useful` (
   PRIMARY KEY (`id`),
   KEY `recommendations_useful_fk0` (`user_id`),
   CONSTRAINT `recommendations_useful_fk0` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -261,6 +263,7 @@ CREATE TABLE `recommendations_useful` (
 
 LOCK TABLES `recommendations_useful` WRITE;
 /*!40000 ALTER TABLE `recommendations_useful` DISABLE KEYS */;
+INSERT INTO `recommendations_useful` (`id`, `user_id`, `value`) VALUES (4,13,1),(5,14,1),(6,15,1),(7,16,0);
 /*!40000 ALTER TABLE `recommendations_useful` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -281,7 +284,7 @@ CREATE TABLE `tests` (
   KEY `tests_fk1` (`user_course_id`),
   CONSTRAINT `tests_fk0` FOREIGN KEY (`lecture_id`) REFERENCES `lectures` (`id`),
   CONSTRAINT `tests_fk1` FOREIGN KEY (`user_course_id`) REFERENCES `users_courses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -290,6 +293,7 @@ CREATE TABLE `tests` (
 
 LOCK TABLES `tests` WRITE;
 /*!40000 ALTER TABLE `tests` DISABLE KEYS */;
+INSERT INTO `tests` (`id`, `type`, `user_course_id`, `lecture_id`) VALUES (2,'START',35,NULL);
 /*!40000 ALTER TABLE `tests` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -309,7 +313,7 @@ CREATE TABLE `tests_questions` (
   KEY `tests_questions_fk1` (`test_id`),
   CONSTRAINT `tests_questions_fk0` FOREIGN KEY (`question_id`) REFERENCES `questions` (`id`),
   CONSTRAINT `tests_questions_fk1` FOREIGN KEY (`test_id`) REFERENCES `tests` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -318,6 +322,7 @@ CREATE TABLE `tests_questions` (
 
 LOCK TABLES `tests_questions` WRITE;
 /*!40000 ALTER TABLE `tests_questions` DISABLE KEYS */;
+INSERT INTO `tests_questions` (`id`, `question_id`, `test_id`) VALUES (5,24,2),(6,33,2),(7,43,2),(8,51,2);
 /*!40000 ALTER TABLE `tests_questions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -368,7 +373,7 @@ CREATE TABLE `user_themes` (
   KEY `user_themes_fk1` (`theme_id`),
   CONSTRAINT `user_themes_fk0` FOREIGN KEY (`user_course_id`) REFERENCES `users_courses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `user_themes_fk1` FOREIGN KEY (`theme_id`) REFERENCES `themes` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -377,6 +382,7 @@ CREATE TABLE `user_themes` (
 
 LOCK TABLES `user_themes` WRITE;
 /*!40000 ALTER TABLE `user_themes` DISABLE KEYS */;
+INSERT INTO `user_themes` (`id`, `user_course_id`, `theme_id`, `user_level`, `count`) VALUES (5,35,9,1166.2467504793808,3),(6,35,10,1130.276997717654,2),(7,35,11,1202.3520761917325,3),(8,35,12,1104.6307259144398,3);
 /*!40000 ALTER TABLE `user_themes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -393,7 +399,7 @@ CREATE TABLE `users` (
   `password` varchar(200) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -402,7 +408,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` (`id`, `name`, `password`) VALUES (1,'aleks','aEiLP1r7VjU='),(2,'Maria','MRjVZjTLY2Y='),(3,'Tom','ZcUjGxW+Res='),(4,'Pamela','fRawB5Cy2qo='),(5,'Hulk','dYFPC2Ij6jox7dFQwZpCiA==');
+INSERT INTO `users` (`id`, `name`, `password`) VALUES (13,'Maria','MRjVZjTLY2Y='),(14,'Aleks','FL1Ingo4TRQ='),(15,'Pamela','fRawB5Cy2qo='),(16,'Alena','xblaEfoOxzg=');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -426,9 +432,9 @@ CREATE TABLE `users_courses` (
   PRIMARY KEY (`id`),
   KEY `users_courses_fk0` (`user_id`),
   KEY `users_courses_fk1` (`course_id`),
-  CONSTRAINT `users_courses_fk0` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
-  CONSTRAINT `users_courses_fk1` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+  CONSTRAINT `users_courses_fk0` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `users_courses_fk1` FOREIGN KEY (`course_id`) REFERENCES `courses` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -437,7 +443,7 @@ CREATE TABLE `users_courses` (
 
 LOCK TABLES `users_courses` WRITE;
 /*!40000 ALTER TABLE `users_courses` DISABLE KEYS */;
-INSERT INTO `users_courses` (`id`, `user_id`, `course_id`, `start_date`, `end_date`, `start_score`, `end_score`, `rating`, `progress`) VALUES (1,1,5,'2017-05-06','2017-05-07',15,70,3,1),(2,1,6,'2017-05-07','2017-05-17',43.70000076293945,90,4,1),(3,1,7,'2017-05-01','2017-05-04',34.79999923706055,99.0999984741211,5,1),(4,1,8,'2017-05-04','2017-05-07',9.899999618530273,50,2,1),(5,2,2,'2017-05-05','2017-05-17',61.20000076293945,81,3,1),(6,2,5,'2017-05-02','2017-05-07',35.900001525878906,55.20000076293945,5,1),(7,2,6,'2017-05-05','2017-05-17',80.0999984741211,34,2,1),(8,2,7,'2017-05-02','2017-05-08',71.30000305175781,97.80000305175781,2,1),(9,2,8,'2017-05-04','2017-05-08',79,96.4000015258789,5,1),(10,3,2,'2017-05-04','2017-05-17',6.400000095367432,69,5,1),(11,3,5,'2017-05-01','2017-05-17',13.199999809265137,76,3,1),(12,3,7,'2017-05-17','2017-05-17',33,45,4,1),(13,3,8,'2017-05-17','2017-05-17',28,100,3,1),(14,4,2,'2017-05-04','2017-05-17',60,80,5,1),(15,4,5,'2017-05-05','2017-05-17',67,99,5,1),(16,4,6,'2017-05-02','2017-05-17',12,56,5,1),(17,4,8,'2017-05-19','2017-05-17',44,74,4,1),(18,5,2,'2017-05-03','2017-05-17',23,87,2,1),(19,5,5,'2017-05-06','2017-05-17',34,45,3,1),(20,5,7,'2017-05-04','2017-05-17',1,94,2,1);
+INSERT INTO `users_courses` (`id`, `user_id`, `course_id`, `start_date`, `end_date`, `start_score`, `end_score`, `rating`, `progress`) VALUES (30,13,6,'2017-06-10','2017-06-10',NULL,NULL,4,1),(31,13,2,'2017-06-10','2017-06-10',NULL,NULL,5,1),(32,13,5,'2017-06-10','2017-06-10',NULL,NULL,3,1),(33,13,9,'2017-06-10','2017-06-10',NULL,NULL,5,1),(34,13,11,'2017-06-10','2017-06-10',NULL,NULL,5,1),(35,14,7,'2017-06-10',NULL,0,NULL,NULL,0.5),(36,14,10,'2017-06-10','2017-06-10',NULL,NULL,3,1),(37,14,11,'2017-06-10','2017-06-10',NULL,NULL,3,1),(38,14,9,'2017-06-10','2017-06-10',NULL,NULL,3,1),(39,14,2,'2017-06-10','2017-06-10',NULL,NULL,4,1),(40,15,13,'2017-06-10','2017-06-10',NULL,NULL,4,1),(41,15,12,'2017-06-10','2017-06-10',NULL,NULL,5,1),(42,15,14,'2017-06-10','2017-06-10',NULL,NULL,4,1),(43,16,2,'2017-06-10','2017-06-10',NULL,NULL,4,1),(44,16,12,'2017-06-10','2017-06-10',NULL,NULL,5,1),(45,16,14,'2017-06-10','2017-06-10',NULL,NULL,4,1);
 /*!40000 ALTER TABLE `users_courses` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -457,7 +463,7 @@ CREATE TABLE `users_keywords` (
   KEY `users_keywords_fk1` (`keyword_id`),
   CONSTRAINT `users_keywords_fk0` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `users_keywords_fk1` FOREIGN KEY (`keyword_id`) REFERENCES `keywords` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -466,7 +472,7 @@ CREATE TABLE `users_keywords` (
 
 LOCK TABLES `users_keywords` WRITE;
 /*!40000 ALTER TABLE `users_keywords` DISABLE KEYS */;
-INSERT INTO `users_keywords` (`id`, `user_id`, `keyword_id`) VALUES (3,2,2),(4,2,3),(5,2,5),(6,2,7),(7,3,3),(8,3,5),(9,3,7),(10,4,1),(11,4,2),(12,4,5),(13,4,7);
+INSERT INTO `users_keywords` (`id`, `user_id`, `keyword_id`) VALUES (38,13,3),(39,13,5),(40,13,2),(41,13,4),(42,13,1),(43,13,16),(44,13,10),(45,14,6),(46,14,14),(47,14,8),(48,14,12),(49,14,10),(50,14,11),(51,15,23),(52,15,21),(53,15,19),(54,15,18),(55,15,7),(56,15,17),(57,15,12),(58,15,10),(59,15,22),(60,16,1),(61,16,9),(62,16,23),(63,16,21),(64,16,19),(65,16,18),(66,16,7),(67,16,17),(68,16,10),(69,16,22),(70,16,15);
 /*!40000 ALTER TABLE `users_keywords` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -479,4 +485,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2017-06-10 13:36:40
+-- Dump completed on 2017-06-10 18:07:26
