@@ -79,7 +79,7 @@ public class ConverterServiceImpl implements ConverterService {
     public RecommendationDTO recommendationToDTO(Recommendation recommendation) {
         RecommendationDTO recommendationDTO = new RecommendationDTO();
         recommendationDTO.setUserId(recommendation.getUser().getId());
-        recommendationDTO.setCourseId(recommendation.getUser().getId());
+        recommendationDTO.setCourseId(recommendation.getCourse().getId());
         recommendationDTO.setRating(recommendation.getRating());
         return recommendationDTO;
     }
