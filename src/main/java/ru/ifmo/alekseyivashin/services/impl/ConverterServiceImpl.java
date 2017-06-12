@@ -4,10 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import ru.ifmo.alekseyivashin.dto.*;
-import ru.ifmo.alekseyivashin.models.Course;
-import ru.ifmo.alekseyivashin.models.Keyword;
-import ru.ifmo.alekseyivashin.models.User;
-import ru.ifmo.alekseyivashin.models.UserCourse;
+import ru.ifmo.alekseyivashin.models.*;
 import ru.ifmo.alekseyivashin.repositories.UserCourseRepository;
 import ru.ifmo.alekseyivashin.services.ConverterService;
 
@@ -76,5 +73,14 @@ public class ConverterServiceImpl implements ConverterService {
         keywordDTO.setId(keyword.getId());
         keywordDTO.setName(keyword.getName());
         return keywordDTO;
+    }
+
+    @Override
+    public RecommendationDTO recommendationToDTO(Recommendation recommendation) {
+        RecommendationDTO recommendationDTO = new RecommendationDTO();
+        recommendationDTO.setUserId(recommendation.getUser().getId());
+        recommendationDTO.setCourseId(recommendation.getUser().getId());
+        recommendationDTO.setRating(recommendation.getRating());
+        return recommendationDTO;
     }
 }

@@ -2,10 +2,7 @@ package ru.ifmo.alekseyivashin.services;
 
 import org.springframework.stereotype.Service;
 import ru.ifmo.alekseyivashin.dto.*;
-import ru.ifmo.alekseyivashin.models.Course;
-import ru.ifmo.alekseyivashin.models.Keyword;
-import ru.ifmo.alekseyivashin.models.User;
-import ru.ifmo.alekseyivashin.models.UserCourse;
+import ru.ifmo.alekseyivashin.models.*;
 
 /**
  * Created on : 10.05.2017
@@ -21,4 +18,6 @@ public interface ConverterService {
     UserCourseParentDTO userCourseToDTO(User user);
 
     KeywordDTO keywordToDTO(Keyword keyword);
+
+    RecommendationDTO recommendationToDTO(Recommendation recommendation);
 }

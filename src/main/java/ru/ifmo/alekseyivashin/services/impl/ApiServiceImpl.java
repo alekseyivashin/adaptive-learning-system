@@ -5,18 +5,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import ru.ifmo.alekseyivashin.dto.CourseDTO;
-import ru.ifmo.alekseyivashin.dto.KeywordDTO;
-import ru.ifmo.alekseyivashin.dto.UserCourseParentDTO;
-import ru.ifmo.alekseyivashin.dto.UserDTO;
+import ru.ifmo.alekseyivashin.dto.*;
 import ru.ifmo.alekseyivashin.models.Course;
 import ru.ifmo.alekseyivashin.models.Keyword;
+import ru.ifmo.alekseyivashin.models.Recommendation;
 import ru.ifmo.alekseyivashin.models.User;
-import ru.ifmo.alekseyivashin.repositories.CourseRepository;
-import ru.ifmo.alekseyivashin.repositories.KeywordRepository;
-import ru.ifmo.alekseyivashin.repositories.UserCourseRepository;
-import ru.ifmo.alekseyivashin.repositories.UserRepository;
+import ru.ifmo.alekseyivashin.repositories.*;
 import ru.ifmo.alekseyivashin.services.ApiService;
 import ru.ifmo.alekseyivashin.services.ConverterService;
 
@@ -33,24 +29,27 @@ public class ApiServiceImpl implements ApiService {
 
     private final ConverterService converterService;
     private final UserRepository userRepository;
-    private final UserCourseRepository userCourseRepository;
     private final CourseRepository courseRepository;
     private final KeywordRepository keywordRepository;
+    private final RecommendationRepository recommendationRepository;
 
 
     @Autowired
-    public ApiServiceImpl(ConverterService converterService, UserRepository userRepository, UserCourseRepository userCourseRepository, CourseRepository courseRepository, KeywordRepository keywordRepository) {
+    public ApiServiceImpl(ConverterService converterService, UserRepository userRepository, CourseRepository courseRepository, KeywordRepository keywordRepository, RecommendationRepository recommendationRepository) {
         this.converterService = converterService;
         this.userRepository = userRepository;
-        this.userCourseRepository = userCourseRepository;
         this.courseRepository = courseRepository;
         this.keywordRepository = keywordRepository;
+        this.recommendationRepository = recommendationRepository;
     }
 
     @Override
     public String getJsonData(Integer userId) throws JsonProcessingException {
+        List<Recommendation> recommendations = (List<Recommendation>) recommendationRepository.findAll();
+        List<RecommendationDTO> recommendationDTOs = recommendations.stream().map(converterService::recommendationToDTO).collect(Collectors.toList());
+
         List<Keyword> keywords = (List<Keyword>) keywordRepository.findAll();
-        List<KeywordDTO> keywordDTOs = keywords.stream().map(converterService::keywordToDTO).collect(Collectors.toList());Collectors.toList();
+        List<KeywordDTO> keywordDTOs = keywords.stream().map(converterService::keywordToDTO).collect(Collectors.toList());
 
         List<User> users = (List<User>) userRepository.findAll();
         List<UserDTO> userDTOs = users.stream().map(converterService::userToDTO).collect(Collectors.toList());
@@ -70,6 +69,7 @@ public class ApiServiceImpl implements ApiService {
         rootNode.putArray("users").addAll((ArrayNode) mapper.valueToTree(userDTOs));
         rootNode.putArray("courses").addAll((ArrayNode) mapper.valueToTree(courseDTOs));
         rootNode.putArray("userCourses").addAll((ArrayNode) mapper.valueToTree(userCourseDTOs));
+        rootNode.putArray("recommendations").addAll((ArrayNode) mapper.valueToTree(recommendationDTOs));
 
         return mapper.writeValueAsString(rootNode);
     }
