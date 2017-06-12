@@ -11,174 +11,28 @@
 <main>
     <div class="container">
         <h2>Создание курса</h2>
-        <form>
+        <form action="#" th:action="@{/admin/createCourse}" th:object="${course}" method="post">
             <div class="main-description">
                 <section class="textarea">
                     <label for="name" class="control-label">Название</label>
-                    <textarea class="form-control name" rows="1" id="name"></textarea>
+                    <textarea class="form-control name" rows="1" id="name" th:field="*{name}"></textarea>
+                    <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name error</p>
                 </section>
                 <section class="textarea">
                     <label for="description" class="control-label">Описание</label>
-                    <textarea class="form-control description" rows="3" id="description"></textarea>
+                    <textarea class="form-control description" rows="3" id="description" th:field="*{description}"></textarea>
+                    <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}">Description error</p>
                 </section>
             </div>
             <div class="keywords-container">
                 <p class="keyword-title">Ключевые слова</p>
                 <section class="keywords">
-                    <!--<div class="answers" th:each="keyword : ${keywordsList}">-->
-                    <!--<label>-->
-                    <!--<input type="checkbox" class="answers__item"-->
-                    <!--th:value="${keyword.getId()}"-->
-                    <!--th:field="*{keywords}"-->
-                    <!--th:text="${keyword.getName()}"/><Br/>-->
-                    <!--</label>-->
-                    <!--</div>-->
-                    <div class="answers">
+                    <div class="answers" th:each="keyword : ${keywordsList}">
                         <label>
-                            <input type="checkbox" class="answers__item" value="6" id="keywords1"
-                                   name="keywords">back-end<input
-                                type="hidden" name="_keywords" value="on"><br>
-                        </label>
-                    </div>
-                    <div class="answers">
-                        <label>
-                            <input type="checkbox" class="answers__item" value="3" id="keywords2"
-                                   name="keywords">CSS<input type="hidden" name="_keywords" value="on"><br>
-                        </label>
-                    </div>
-                    <div class="answers">
-                        <label>
-                            <input type="checkbox" class="answers__item" value="13" id="keywords3"
-                                   name="keywords">Django<input
-                                type="hidden" name="_keywords" value="on"><br>
-                        </label>
-                    </div>
-                    <div class="answers">
-                        <label>
-                            <input type="checkbox" class="answers__item" value="14" id="keywords4" name="keywords">framework<input
-                                type="hidden" name="_keywords" value="on"><br>
-                        </label>
-                    </div>
-                    <div class="answers">
-                        <label>
-                            <input type="checkbox" class="answers__item" value="5" id="keywords5"
-                                   name="keywords">front-end<input
-                                type="hidden" name="_keywords" value="on"><br>
-                        </label>
-                    </div>
-                    <div class="answers">
-                        <label>
-                            <input type="checkbox" class="answers__item" value="2" id="keywords6"
-                                   name="keywords">HTML<input type="hidden" name="_keywords" value="on"><br>
-                        </label>
-                    </div>
-                    <div class="answers">
-                        <label>
-                            <input type="checkbox" class="answers__item" value="4" id="keywords7"
-                                   name="keywords">HTML5<input type="hidden" name="_keywords" value="on"><br>
-                        </label>
-                    </div>
-                    <div class="answers">
-                        <label>
-                            <input type="checkbox" class="answers__item" value="1" id="keywords8" name="keywords">JavaScript<input
-                                type="hidden" name="_keywords" value="on"><br>
-                        </label>
-                    </div>
-                    <div class="answers">
-                        <label>
-                            <input type="checkbox" class="answers__item" value="9" id="keywords9"
-                                   name="keywords">jQuery<input
-                                type="hidden" name="_keywords" value="on"><br>
-                        </label>
-                    </div>
-                    <div class="answers">
-                        <label>
-                            <input type="checkbox" class="answers__item" value="23" id="keywords10"
-                                   name="keywords">MongoDB<input
-                                type="hidden" name="_keywords" value="on"><br>
-                        </label>
-                    </div>
-                    <div class="answers">
-                        <label>
-                            <input type="checkbox" class="answers__item" value="21" id="keywords11"
-                                   name="keywords">MySQL<input
-                                type="hidden" name="_keywords" value="on"><br>
-                        </label>
-                    </div>
-                    <div class="answers">
-                        <label>
-                            <input type="checkbox" class="answers__item" value="19" id="keywords12"
-                                   name="keywords">NoSQL<input
-                                type="hidden" name="_keywords" value="on"><br>
-                        </label>
-                    </div>
-                    <div class="answers">
-                        <label>
-                            <input type="checkbox" class="answers__item" value="8" id="keywords13"
-                                   name="keywords">Python<input
-                                type="hidden" name="_keywords" value="on"><br>
-                        </label>
-                    </div>
-                    <div class="answers">
-                        <label>
-                            <input type="checkbox" class="answers__item" value="18" id="keywords14"
-                                   name="keywords">SQL<input type="hidden" name="_keywords" value="on"><br>
-                        </label>
-                    </div>
-                    <div class="answers">
-                        <label>
-                            <input type="checkbox" class="answers__item" value="7" id="keywords15"
-                                   name="keywords">web<input type="hidden" name="_keywords" value="on"><br>
-                        </label>
-                    </div>
-                    <div class="answers">
-                        <label>
-                            <input type="checkbox" class="answers__item" value="17" id="keywords16" name="keywords">базы
-                            данных<input type="hidden" name="_keywords" value="on"><br>
-                        </label>
-                    </div>
-                    <div class="answers">
-                        <label>
-                            <input type="checkbox" class="answers__item" value="16" id="keywords17"
-                                   name="keywords">вёрстка<input
-                                type="hidden" name="_keywords" value="on"><br>
-                        </label>
-                    </div>
-                    <div class="answers">
-                        <label>
-                            <input type="checkbox" class="answers__item" value="12" id="keywords18"
-                                   name="keywords">ООП<input type="hidden" name="_keywords" value="on"><br>
-                        </label>
-                    </div>
-                    <div class="answers">
-                        <label>
-                            <input type="checkbox" class="answers__item" value="10" id="keywords19" name="keywords">программирование<input
-                                type="hidden" name="_keywords" value="on"><br>
-                        </label>
-                    </div>
-                    <div class="answers">
-                        <label>
-                            <input type="checkbox" class="answers__item" value="20" id="keywords20" name="keywords">проектирование<input
-                                type="hidden" name="_keywords" value="on"><br>
-                        </label>
-                    </div>
-                    <div class="answers">
-                        <label>
-                            <input type="checkbox" class="answers__item" value="11" id="keywords21" name="keywords">структуры
-                            данных<input type="hidden" name="_keywords" value="on"><br>
-                        </label>
-                    </div>
-                    <div class="answers">
-                        <label>
-                            <input type="checkbox" class="answers__item" value="22" id="keywords22"
-                                   name="keywords">СУБД<input
-                                type="hidden" name="_keywords" value="on"><br>
-                        </label>
-                    </div>
-                    <div class="answers">
-                        <label>
-                            <input type="checkbox" class="answers__item" value="15" id="keywords23" name="keywords">функциональное
-                            программирование<input type="hidden" name="_keywords" value="on"><br>
+                            <input type="checkbox" class="answers__item"
+                                   th:value="${keyword.getId()}"
+                                   th:field="*{keywords}"
+                                   th:text="${keyword.getName()}"/><Br/>
                         </label>
                     </div>
                 </section>

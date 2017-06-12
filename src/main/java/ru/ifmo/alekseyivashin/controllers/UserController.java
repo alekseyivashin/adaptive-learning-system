@@ -82,7 +82,6 @@ public class UserController {
     @RequestMapping(value = "/signup", method = RequestMethod.POST)
     String signupForm(Model model,
                       @ModelAttribute("user") @Valid User user,
-//                      @RequestParam(value = "keywordsIds", required = false) int[] keywordsIds,
                       BindingResult bindingResult) {
         System.out.println(user);
         if (!bindingResult.hasErrors()) {
