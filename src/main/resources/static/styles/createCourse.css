@@ -1,0 +1,98 @@
+@charset "UTF-8";
+main {
+  margin: 100px auto 50px;
+  width: 1200px;
+  color: #2c3e50; }
+
+.container {
+  width: 680px;
+  margin: auto; }
+
+.main-description, .keywords-container, .add-container {
+  width: 650px;
+  margin: auto auto 20px;
+  padding: 15px;
+  border: 1px solid #ecf0f1;
+  border-radius: 5px; }
+
+section.textarea {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: baseline; }
+  section.textarea label {
+    font-size: 20px;
+    color: #18bc9c; }
+
+.keyword-title {
+  font-size: 20px;
+  color: #18bc9c; }
+
+.name, .description {
+  width: 500px; }
+
+.keywords {
+  width: 400px;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; }
+
+.answers {
+  display: block;
+  width: 50%; }
+
+.add-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around; }
+
+.create {
+  display: block;
+  width: 240px;
+  margin: auto; }
+
+label {
+  font: 16px helvetica;
+  line-height: 18px;
+  position: relative;
+  display: block;
+  margin-bottom: 20px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none; }
+
+input[type='checkbox'] {
+  margin-right: 20px;
+  display: inline-block;
+  vertical-align: middle; }
+
+input[type='checkbox']:after {
+  font-size: 0;
+  font-family: "times new roman";
+  line-height: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  width: 22px;
+  height: 22px;
+  content: "✔";
+    content--webkit-transition: all 0.1s linear;
+      content--webkit-transition--moz-transition: all 0.1s linear;
+        content--webkit-transition--moz-transition-transition: all 0.1s linear;
+  text-align: center;
+  color: #fff;
+  border: 1px solid #333;
+  border-radius: 2px;
+  background-color: #fff;
+  box-sizing: border-box; }
+
+input[type='checkbox']:checked:after {
+  font-size: 18px;
+  background-color: #2c3e50; }
+
+/*# sourceMappingURL=createCourse.css.map */
